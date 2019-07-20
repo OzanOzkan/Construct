@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.10)
+project (ProjectO01_Rapture VERSION 1.0 LANGUAGES CXX)
+
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
+set(SRC_DIR "${PROJECT_SOURCE_DIR}/Code")
+set(SDK_DIR "${PROJECT_SOURCE_DIR}/SDKs")
+
+add_subdirectory(Code)
