@@ -13,11 +13,11 @@ public:
 	// ~ISystemInterface
 
 	virtual void Update() override;
-	//virtual SGlobalEnvironment* getGlobalEnvironment() override { return &m_env; }
+	virtual SEnvironment* GetEnvironment() override { return &m_env; }
 
 	void CreateModuleInstance(const EModule& moduleName);
 
 private:
-	SGlobalEnvironment m_env;
+	SEnvironment m_env;
 	bool m_isQuit = false;
 };

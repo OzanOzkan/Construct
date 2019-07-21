@@ -2,6 +2,7 @@
 
 #include "Log.h"
 #include <IRenderer.h>
+#include <IInput.h>
 #include <Platform.h>
 
 #include <string>
@@ -17,14 +18,17 @@ extern "C"
 	}
 }
 
+/////////////////////////////////////////////////
 CSystem::CSystem()
 {
 }
 
+/////////////////////////////////////////////////
 CSystem::~CSystem()
 {
 }
 
+/////////////////////////////////////////////////
 void CSystem::InitializeModule()
 {
 	m_env.pSystem = this;
@@ -32,9 +36,8 @@ void CSystem::InitializeModule()
 	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
 	m_env.pLog = logger.release();
 
-	gEnv = &m_env;
-
 	CreateModuleInstance(EModule::eM_RENDERER);
+	CreateModuleInstance(EModule::eM_INPUT);
 
 	while (!m_isQuit)
 	{
@@ -42,11 +45,14 @@ void CSystem::InitializeModule()
 	}
 }
 
+/////////////////////////////////////////////////
 void CSystem::Update()
 {
-	gEnv->pRenderer->Update();
+	GetEnvironment()->pRenderer->Update();
+	GetEnvironment()->pInput->Update();
 }
 
+/////////////////////////////////////////////////
 void CSystem::CreateModuleInstance(const EModule & moduleName)
 {
 	switch (moduleName)
@@ -54,19 +60,38 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	case EModule::eM_RENDERER:
 	{
 		auto lib = LoadExternalLibrary("Renderer.dll");
-		typedef IRenderer*(*FNPTR)(SGlobalEnvironment&);
+		typedef IRenderer*(*FNPTR)(SEnvironment* env);
 		FNPTR CreateModuleInterface = (FNPTR)GetProcAddress(lib, "CreateModuleInterface");
 
 		if (!CreateModuleInterface) {
-			gEnv->pLog->Log("Cannot find Renderer.dll");
+			GetEnvironment()->pLog->Log("Cannot find Renderer.dll");
 		}
 		else
 		{
-			if (IRenderer* pRenderer = CreateModuleInterface(m_env))
+			if (m_env.pRenderer = CreateModuleInterface(&m_env))
 			{
-				std::string logText = { "Module Renderer: " };
-				logText += (gEnv->pRenderer->TestRendererModule() ? "OK" : "FAIL");
-				gEnv->pLog->Log(logText.c_str());
+				std::string logText = { "Module: Renderer: " };
+				logText += (GetEnvironment()->pRenderer->TestRendererModule() ? "OK" : "FAIL");
+				GetEnvironment()->pLog->Log(logText.c_str());
+			}
+
+		}
+	}
+	break;
+	case EModule::eM_INPUT:
+	{
+		auto lib = LoadExternalLibrary("Input.dll");
+		typedef IInput*(*FNPTR)(SEnvironment* env);
+		FNPTR CreateInputInterface = (FNPTR)GetProcAddress(lib, "CreateInputInterface");
+
+		if (!CreateInputInterface) {
+			GetEnvironment()->pLog->Log("Cannot find Input.dll");
+		}
+		else
+		{
+			if (m_env.pInput = CreateInputInterface(&m_env))
+			{
+				GetEnvironment()->pLog->Log("Module: Input: OK");
 			}
 
 		}

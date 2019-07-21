@@ -4,9 +4,10 @@ project (Common VERSION 1.0 LANGUAGES CXX)
 
 file(GLOB ROOT_SRC
   "IRenderer.h"
-  "ISystem.h"
-  "IModule.h"
+  "IInput.h"
   "ILog.h"
+  "IModule.h"
+  "ISystem.h"
   "Platform.h"
 )
 

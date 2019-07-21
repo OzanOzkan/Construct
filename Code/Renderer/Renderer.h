@@ -6,16 +6,20 @@
 
 #include <memory>
 
-class CRenderer : public IRenderer
+class CRenderer : public IRenderer, public IWindowEventListener
 {
 public:
-	CRenderer(SGlobalEnvironment &env);
+	CRenderer(SEnvironment* env);
 	virtual ~CRenderer();
 
-	// ISystemInterface
+	// IModule
 	virtual void InitializeModule() override;
 	virtual void Update() override;
-	// ~ISystemInterface
+	// ~IModule
+
+	// IWindowEventListener
+	virtual void onWindowEvent(const int& key, const int& action) override;
+	// ~IWindowEventListener
 
 	virtual bool TestRendererModule() override { return true; }
 
@@ -24,4 +28,5 @@ private:
 
 private:
 	std::unique_ptr<CWindow> m_window;
+	SEnvironment* m_pEnv;
 };

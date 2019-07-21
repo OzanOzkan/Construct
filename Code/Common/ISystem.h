@@ -8,12 +8,14 @@
 class ISystem;
 class IRenderer;
 class ILog;
+class IInput;
 
-struct SGlobalEnvironment
+struct SEnvironment
 {
 	ISystem*		pSystem;
 	IRenderer*		pRenderer;
 	ILog*			pLog;
+	IInput*			pInput;
 };
 
 extern "C"
@@ -30,8 +32,8 @@ public:
 	virtual void InitializeModule() = 0;
 	virtual void Update() = 0;
 	// ~ISystemInterface
-
-	//virtual SGlobalEnvironment* getGlobalEnvironment() = 0;
+	
+	virtual SEnvironment* GetEnvironment() = 0;
 };
 
-extern SGlobalEnvironment* gEnv;
+//extern SGlobalEnvironment* gEnv;

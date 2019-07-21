@@ -13,4 +13,4 @@
 //struct SGlobalEnvironment* gEnv = nullptr;
 
 #include "ISystem.h"
-struct SGlobalEnvironment* gEnv = nullptr;
+//struct SGlobalEnvironment* gEnv = nullptr;
