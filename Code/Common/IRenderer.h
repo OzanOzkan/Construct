@@ -1,12 +1,7 @@
 #pragma once
 
+#include "Core.h"
 #include "IModule.h"
-
-#include <Windows.h>
-
-#define EXTERN_LIBRARY_EXPORT __declspec(dllexport)
-#define EXTERN_LIBRARY_IMPORT __declspec(dllimport)
-#define LoadExternalLibrary(libname) :: LoadLibrary(libname)
 
 class IRenderer : IModule
 {
@@ -23,5 +18,5 @@ public:
 
 extern "C"
 {
-	EXTERN_LIBRARY_EXPORT IRenderer* CreateModuleInterface(SEnvironment *env);
+	API_EXPORT IRenderer* CreateModuleInterface(SEnvironment *env);
 }

@@ -1,9 +1,7 @@
 #pragma once
 
+#include "Core.h"
 #include "IModule.h"
-
-#define EXTERN_LIBRARY_EXPORT __declspec(dllexport)
-#define EXTERN_LIBRARY_IMPORT __declspec(dllimport)
 
 class ISystem;
 class IRenderer;
@@ -20,7 +18,7 @@ struct SEnvironment
 
 extern "C"
 {
-	EXTERN_LIBRARY_EXPORT ISystem* CreateSystemInterface();
+	API_EXPORT ISystem* CreateSystemInterface();
 }
 
 class ISystem : public IModule
@@ -35,5 +33,3 @@ public:
 	
 	virtual SEnvironment* GetEnvironment() = 0;
 };
-
-//extern SGlobalEnvironment* gEnv;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project (ProjectO01_Rapture VERSION 1.0 LANGUAGES CXX)
+project (ProjectO01_Construct VERSION 1.0 LANGUAGES CXX)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)

@@ -1,12 +1,20 @@
 #pragma once
 
+#include "Core.h"
 #include "IModule.h"
 
-#include <Windows.h>
+#include <set>
 
-#define EXTERN_LIBRARY_EXPORT __declspec(dllexport)
-#define EXTERN_LIBRARY_IMPORT __declspec(dllimport)
-#define LoadExternalLibrary(libname) :: LoadLibrary(libname)
+struct SInputEvent
+{
+
+};
+
+class InputEventListener
+{
+public:
+	virtual void onInputEvent(const SInputEvent& event) = 0;
+};
 
 class IInput : public IModule
 {
@@ -18,10 +26,17 @@ public:
 	virtual void Update() = 0;
 	// ~IModule
 
-	virtual void IsKeyPressed() = 0;
+	virtual void RegisterEventListener(InputEventListener* listener) = 0;
+	virtual void RemoveEventListener(InputEventListener* listener) = 0;
+	
+	virtual void PostInputEvent(const SInputEvent& event) = 0;
+
+	//virtual void IsKeyDown (const int& key) = 0;
+	//virtual void IsMouseButtonDown(const int& button) = 0;
+	//virtual void GetMousePosition() = 0;
 };
 
 extern "C"
 {
-	EXTERN_LIBRARY_EXPORT IInput* CreateInputInterface(SEnvironment *env);
+	API_EXPORT IInput* CreateInputInterface(SEnvironment *env);
 }

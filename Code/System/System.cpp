@@ -3,14 +3,16 @@
 #include "Log.h"
 #include <IRenderer.h>
 #include <IInput.h>
-#include <Platform.h>
+#include <Core.h>
+
+#include "Window/WindowManager.h"
 
 #include <string>
 #include <memory>
 
 extern "C"
 {
-	EXTERN_LIBRARY_EXPORT ISystem* CreateSystemInterface()
+	API_EXPORT ISystem* CreateSystemInterface()
 	{
 		std::unique_ptr<CSystem> pSystem = std::make_unique<CSystem>();
 
@@ -36,6 +38,10 @@ void CSystem::InitializeModule()
 	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
 	m_env.pLog = logger.release();
 
+	m_windowManager = std::make_unique<CWindowManager>();
+	m_windowManager->initWindow();
+	m_windowManager->addEventListener(this);
+
 	CreateModuleInstance(EModule::eM_RENDERER);
 	CreateModuleInstance(EModule::eM_INPUT);
 
@@ -50,6 +56,8 @@ void CSystem::Update()
 {
 	GetEnvironment()->pRenderer->Update();
 	GetEnvironment()->pInput->Update();
+
+	m_windowManager->onUpdate();
 }
 
 /////////////////////////////////////////////////
@@ -98,4 +106,12 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	}
 	break;
 	}
+}
+
+void CSystem::onWindowEvent(const SWindowEvent & event)
+{
+	std::string logMsg = "CSystem::onWindowEvent(): ";
+	if (event.event_type == EWindowEventType::eWE_KEY_PRESSED) logMsg += " eWE_KEY_PRESSED";
+
+	GetEnvironment()->pLog->Log(logMsg.c_str());
 }

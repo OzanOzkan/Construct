@@ -3,7 +3,7 @@
 #include <Windows.h>
 #define LoadExternalLibrary(libname) :: LoadLibrary(libname)
 
-#include <ISystem.h>
+#include <System/ISystem.h>
 
 int main()
 {
@@ -22,6 +22,8 @@ int main()
 		}
 
 	}
+
+	std::getchar();
 
 	return EXIT_SUCCESS;
 }

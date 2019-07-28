@@ -6,7 +6,7 @@
 
 extern "C"
 {
-	EXTERN_LIBRARY_EXPORT IInput* CreateInputInterface(SEnvironment *env)
+	API_EXPORT IInput* CreateInputInterface(SEnvironment *env)
 	{
 		std::unique_ptr<CInput> pInput = std::make_unique<CInput>(env);
 
@@ -32,9 +32,38 @@ void CInput::InitializeModule()
 
 void CInput::Update()
 {
+
 }
 
-void CInput::IsKeyPressed()
+void CInput::RegisterEventListener(InputEventListener* listener)
+{
+	m_listeners.insert(listener);
+}
+
+void CInput::RemoveEventListener(InputEventListener* listener)
+{
+	m_listeners.erase(listener);
+}
+
+void CInput::PostInputEvent(const SInputEvent & event)
+{
+	for (auto listener : m_listeners)
+	{
+		listener->onInputEvent(event);
+	}
+}
+
+void CInput::onWindowEvent(const SWindowEvent & event)
 {
 
 }
+
+//void CInput::IsKeyDown(const int& key)
+//{
+//
+//}
+//
+//void CInput::IsMouseButtonDown(const int& button)
+//{
+//
+//}

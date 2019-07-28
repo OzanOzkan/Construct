@@ -1,8 +1,12 @@
 #pragma once
 
-#include <ISystem.h>
+#include <System/ISystem.h>
+#include "Window/WindowManager.h"
+#include <System/IWindowEventListener.h>
 
-class CSystem : public ISystem {
+#include <memory>
+
+class CSystem : public ISystem, IWindowEventListener {
 
 public:
 	CSystem();
@@ -20,4 +24,9 @@ public:
 private:
 	SEnvironment m_env;
 	bool m_isQuit = false;
+
+	std::unique_ptr<CWindowManager> m_windowManager = nullptr;
+
+	// Inherited via IWindowEventListener
+	virtual void onWindowEvent(const SWindowEvent & event) override;
 };
