@@ -1,3 +1,8 @@
 # Ignore folders
 bin
 SDKs
+Tools
+
+#Ignore files
+*.exe
+*.dll
