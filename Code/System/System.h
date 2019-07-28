@@ -18,6 +18,7 @@ public:
 
 	virtual void Update() override;
 	virtual SEnvironment* GetEnvironment() override { return &m_env; }
+	virtual void RegisterWindowEvents(IWindowEventListener* listener) override;
 
 	void CreateModuleInstance(const EModule& moduleName);
 

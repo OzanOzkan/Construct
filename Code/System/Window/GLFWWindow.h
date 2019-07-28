@@ -14,9 +14,9 @@ public:
 	CGLFWWindow(const int& height, const int& width, TEventCallbackFn callbackFn);
 	virtual ~CGLFWWindow();
 
-	void onWindowEvent(const int& key, const int& action, const double& xpos, const double& ypos);
 	void closeWindow();
 	void onUpdate();
+	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }
 
 private:
 	GLFWwindow * m_pWindow;

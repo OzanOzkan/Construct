@@ -61,6 +61,12 @@ void CSystem::Update()
 }
 
 /////////////////////////////////////////////////
+void CSystem::RegisterWindowEvents(IWindowEventListener * listener)
+{
+	m_windowManager->addEventListener(listener);
+}
+
+/////////////////////////////////////////////////
 void CSystem::CreateModuleInstance(const EModule & moduleName)
 {
 	switch (moduleName)
@@ -99,6 +105,7 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 		{
 			if (m_env.pInput = CreateInputInterface(&m_env))
 			{
+				m_env.pInput->InitializeModule();
 				GetEnvironment()->pLog->Log("Module: Input: OK");
 			}
 

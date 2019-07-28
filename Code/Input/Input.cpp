@@ -27,7 +27,7 @@ CInput::~CInput()
 
 void CInput::InitializeModule()
 {
-
+	m_pEnv->pSystem->RegisterWindowEvents(this);
 }
 
 void CInput::Update()
@@ -55,7 +55,7 @@ void CInput::PostInputEvent(const SInputEvent & event)
 
 void CInput::onWindowEvent(const SWindowEvent & event)
 {
-
+	m_pEnv->pLog->Log("CInput::onWindowEvent");
 }
 
 //void CInput::IsKeyDown(const int& key)

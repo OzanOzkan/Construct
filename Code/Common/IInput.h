@@ -5,6 +5,11 @@
 
 #include <set>
 
+enum class EKey
+{
+	eKI_DUMMY = 0
+};
+
 struct SInputEvent
 {
 
