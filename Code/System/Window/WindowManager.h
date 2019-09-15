@@ -4,25 +4,25 @@
 #include <set>
 #include <functional>
 
-#include <System/IWindowEventListener.h>
+#include <System/IWindowManager.h>
 
 #include "GLFWWindow.h"
 
-class CWindowManager
+class CWindowManager : public IWindowManager
 {
 public:
 	CWindowManager() {};
 	virtual ~CWindowManager() {};
 
-	void setSize(const int& height, const int& width);
-	void initWindow();
+	// IWindowManager
+	virtual void initWindow() override;
+	virtual void setWindowSize(const int& height, const int& width) override;
+	virtual void onUpdate() override;
 
-	void addEventListener(IWindowEventListener* listener);
-	void removeEventListener(IWindowEventListener* listener);
-
-	void onUpdate();
-
-	void onWindowEvent(const SWindowEvent& event);
+	virtual void registerWindowEvents(IWindowEventListener* listener) override;
+	virtual void unregisterWindowEvents(IWindowEventListener* listener) override;
+	virtual void onWindowEvent(const SWindowEvent& event) override;
+	// ~IWindowManager
 
 private:
 	void notifyListeners(const SWindowEvent& event);

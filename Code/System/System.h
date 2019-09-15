@@ -16,9 +16,12 @@ public:
 	virtual void InitializeModule() override;
 	// ~ISystemInterface
 
+	// Inherited via IWindowEventListener
+	virtual void onWindowEvent(const SWindowEvent & event) override;
+
 	virtual void Update() override;
 	virtual SEnvironment* GetEnvironment() override { return &m_env; }
-	virtual void RegisterWindowEvents(IWindowEventListener* listener) override;
+	virtual IWindowManager* GetWindowManager() const { return m_windowManager.get(); }
 
 	void CreateModuleInstance(const EModule& moduleName);
 
@@ -26,8 +29,5 @@ private:
 	SEnvironment m_env;
 	bool m_isQuit = false;
 
-	std::unique_ptr<CWindowManager> m_windowManager = nullptr;
-
-	// Inherited via IWindowEventListener
-	virtual void onWindowEvent(const SWindowEvent & event) override;
+	std::unique_ptr<IWindowManager> m_windowManager = nullptr;
 };

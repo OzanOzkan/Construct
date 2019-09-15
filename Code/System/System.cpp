@@ -40,7 +40,7 @@ void CSystem::InitializeModule()
 
 	m_windowManager = std::make_unique<CWindowManager>();
 	m_windowManager->initWindow();
-	m_windowManager->addEventListener(this);
+	m_windowManager->registerWindowEvents(this);
 
 	CreateModuleInstance(EModule::eM_RENDERER);
 	CreateModuleInstance(EModule::eM_INPUT);
@@ -58,12 +58,6 @@ void CSystem::Update()
 	GetEnvironment()->pInput->Update();
 
 	m_windowManager->onUpdate();
-}
-
-/////////////////////////////////////////////////
-void CSystem::RegisterWindowEvents(IWindowEventListener * listener)
-{
-	m_windowManager->addEventListener(listener);
 }
 
 /////////////////////////////////////////////////
@@ -117,8 +111,9 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 
 void CSystem::onWindowEvent(const SWindowEvent & event)
 {
-	std::string logMsg = "CSystem::onWindowEvent(): ";
-	if (event.event_type == EWindowEventType::eWE_KEY_PRESSED) logMsg += " eWE_KEY_PRESSED";
-
-	GetEnvironment()->pLog->Log(logMsg.c_str());
+	if (event.event_type == EWindowEventType::eWE_WINDOW_CLOSED)
+	{
+		GetEnvironment()->pLog->Log("CSystem::onWindowEvent(): Window Closed.");
+		m_isQuit = true;
+	}
 }

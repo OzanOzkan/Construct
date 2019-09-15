@@ -14,7 +14,10 @@ enum class EWindowEventType
 struct SWindowEvent
 {
 	EWindowEventType event_type;
+	int buttoncode;
 	int scancode;
+	double x;
+	double y;
 };
 
 class IWindowEventListener

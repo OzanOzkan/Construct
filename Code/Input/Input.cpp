@@ -27,7 +27,7 @@ CInput::~CInput()
 
 void CInput::InitializeModule()
 {
-	m_pEnv->pSystem->RegisterWindowEvents(this);
+	m_pEnv->pSystem->GetWindowManager()->registerWindowEvents(this);
 }
 
 void CInput::Update()

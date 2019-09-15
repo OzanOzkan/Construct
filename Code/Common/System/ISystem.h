@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "IModule.h"
+#include "IWindowManager.h"
 #include "IWindowEventListener.h"
 
 class ISystem;
@@ -16,6 +17,7 @@ struct SEnvironment
 	IRenderer*		pRenderer;
 	ILog*			pLog;
 	IInput*			pInput;
+	IWindowManager* pWindowManager;
 };
 
 extern "C"
@@ -33,7 +35,7 @@ public:
 	virtual void Update() = 0;
 	// ~ISystemInterface
 
-	virtual void RegisterWindowEvents(IWindowEventListener* listener) = 0;
+	virtual IWindowManager* GetWindowManager() const = 0;
 	
 	virtual SEnvironment* GetEnvironment() = 0;
 };

@@ -5,7 +5,7 @@
 #include <iostream>
 
 /////////////////////////////////////////////////
-void CWindowManager::setSize(const int& height, const int& width)
+void CWindowManager::setWindowSize(const int& height, const int& width)
 {
 	m_height = height;
 	m_width = width;
@@ -24,13 +24,13 @@ void CWindowManager::initWindow()
 }
 
 /////////////////////////////////////////////////
-void CWindowManager::addEventListener(IWindowEventListener* listener)
+void CWindowManager::registerWindowEvents(IWindowEventListener* listener)
 {
 	m_eventListeners.insert(listener);
 }
 
 /////////////////////////////////////////////////
-void CWindowManager::removeEventListener(IWindowEventListener* listener)
+void CWindowManager::unregisterWindowEvents(IWindowEventListener* listener)
 {
 	m_eventListeners.erase(listener);
 }

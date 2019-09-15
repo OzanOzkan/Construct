@@ -23,6 +23,7 @@ int main()
 
 	}
 
+	std::cout << "End of program." << std::endl;
 	std::getchar();
 
 	return EXIT_SUCCESS;

@@ -7,8 +7,6 @@
 /////////////////////////////////////////////////
 void KeyboardInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	std::cout << "Key: " << key << " Scancode: " << scancode << " Action: " << action << " Mods:" << mods << std::endl;
-
 	CGLFWWindow* pWindow = reinterpret_cast<CGLFWWindow*>(glfwGetWindowUserPointer(window));
 	SWindowEvent event;
 	
@@ -31,14 +29,34 @@ void KeyboardInputCallback(GLFWwindow* window, int key, int scancode, int action
 void MouseInputCallback(GLFWwindow* window, int button, int action, int mods)
 {
 	CGLFWWindow* pWindow = reinterpret_cast<CGLFWWindow*>(glfwGetWindowUserPointer(window));
-	//pWindow->onWindowEvent(button, action, -1, -1);
+	SWindowEvent event;
+
+	switch (action)
+	{
+	case 0:
+		event.event_type = EWindowEventType::eWE_MOUSE_BUTTON_RELEASED;
+		break;
+	case 1:
+		event.event_type = EWindowEventType::eWE_MOUSE_BUTTON_PRESSED;
+		break;
+	}
+
+	event.buttoncode = button;
+
+	pWindow->GetCallbackFunction()(event);
 }
 
 /////////////////////////////////////////////////
 void MousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 {
 	CGLFWWindow* pWindow = reinterpret_cast<CGLFWWindow*>(glfwGetWindowUserPointer(window));
-	//pWindow->onWindowEvent(-1, -1, xpos, ypos);
+	
+	SWindowEvent event;
+	event.event_type = EWindowEventType::eWE_MOUSE_POSITION_CHANGED;
+	event.x = xpos;
+	event.y = ypos;
+
+	pWindow->GetCallbackFunction()(event);
 }
 
 /////////////////////////////////////////////////
@@ -83,5 +101,11 @@ void CGLFWWindow::onUpdate()
 	glfwPollEvents();
 
 	if (glfwWindowShouldClose(m_pWindow))
+	{
+		SWindowEvent event;
+		event.event_type = EWindowEventType::eWE_WINDOW_CLOSED;
+		GetCallbackFunction()(event);
+
 		closeWindow();
+	}
 }
