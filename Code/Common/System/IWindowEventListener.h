@@ -13,11 +13,11 @@ enum class EWindowEventType
 
 struct SWindowEvent
 {
-	EWindowEventType event_type;
-	int buttoncode;
-	int scancode;
-	double x;
-	double y;
+	EWindowEventType event_type = EWindowEventType::eWE_NONE;
+	int buttoncode = 0;
+	int scancode = 0;
+	double x = 0;
+	double y = 0;
 };
 
 class IWindowEventListener

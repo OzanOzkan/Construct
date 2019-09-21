@@ -1,6 +1,6 @@
 #include "WindowManager.h"
-
 #include "GLFWWindow.h"
+#include <ILog.h>
 
 #include <iostream>
 
@@ -11,16 +11,43 @@ void CWindowManager::setWindowSize(const int& height, const int& width)
 	m_width = width;
 }
 
-/////////////////////////////////////////////////
-void CWindowManager::initWindow()
+CWindowManager::CWindowManager(SEnvironment * env)
+	: m_pEnv(env)
 {
-	m_activeWindow = std::make_unique<CGLFWWindow>(
-		m_height, 
-		m_width, 
-		[this](const SWindowEvent& event) { 
-			onWindowEvent(event);
-		}
-	);
+}
+
+/////////////////////////////////////////////////
+void CWindowManager::initWindow(const EWindowType& windowType)
+{
+	switch (windowType)
+	{
+	case EWindowType::eWT_GLWF:
+	{
+		m_activeWindow = std::make_unique<CGLFWWindow>(m_pEnv);
+		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing GLFW Window");
+	}
+	break;
+	default:
+	{
+		// TODO
+	}
+	break;
+	}
+	
+	if (m_activeWindow)
+	{
+		m_activeWindow.get()->openWindow(
+			m_height,
+			m_width,
+			[this](const SWindowEvent& event) { onWindowEvent(event); }
+		);
+	}
+}
+
+/////////////////////////////////////////////////
+WindowProcAddr CWindowManager::getWindowProcAddress()
+{
+	return m_activeWindow->getWindowProcAddress();
 }
 
 /////////////////////////////////////////////////

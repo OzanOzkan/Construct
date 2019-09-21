@@ -1,24 +1,25 @@
 #pragma once
 
+#include <System/ISystem.h>
+#include <System/IWindow.h>
 #include <System/IWindowEventListener.h>
 
 #include <GLFW/glfw3.h>
 
-#include <functional>
-
-typedef std::function<void(const SWindowEvent&)> TEventCallbackFn;
-
-class CGLFWWindow
+class CGLFWWindow : public IWindow
 {
 public:
-	CGLFWWindow(const int& height, const int& width, TEventCallbackFn callbackFn);
+	CGLFWWindow(SEnvironment* env);
 	virtual ~CGLFWWindow();
 
-	void closeWindow();
-	void onUpdate();
+	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) override;
+	virtual WindowProcAddr getWindowProcAddress() override { return (WindowProcAddr)glfwGetProcAddress; }
+	virtual void closeWindow() override;
+	virtual void onUpdate() override;
 	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }
 
 private:
-	GLFWwindow * m_pWindow;
+	SEnvironment * m_pEnv = nullptr;
+	GLFWwindow * m_pWindow = nullptr;
 	TEventCallbackFn m_callbackFn;
 };

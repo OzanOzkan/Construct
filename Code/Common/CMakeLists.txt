@@ -13,7 +13,7 @@ file(GLOB ROOT_SRC
 file(GLOB SYSTEM_SRC
 	"System/ISystem.h"
 	"System/IEventSystem.h"
-	"System/IWindowManager.h"
+	"System/IWindow.h"
 	"System/IWindowEventListener.h"
 )
 

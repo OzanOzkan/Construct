@@ -1,8 +1,15 @@
 #include "GLFWWindow.h"
 
 #include <IInput.h>
+#include <ILog.h>
 
 #include <iostream>
+
+/////////////////////////////////////////////////
+void FramebufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+	//glViewport(0, 0, width, height);
+} 
 
 /////////////////////////////////////////////////
 void KeyboardInputCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -60,25 +67,35 @@ void MousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 }
 
 /////////////////////////////////////////////////
-CGLFWWindow::CGLFWWindow(const int& height, const int& width, TEventCallbackFn callbackFn)
+CGLFWWindow::CGLFWWindow(SEnvironment * env)
+	: m_pEnv(env)
 {
-	m_callbackFn = callbackFn;
-
-	glfwInit();
-
-	m_pWindow = glfwCreateWindow(height, width, "ProjectO01", nullptr, nullptr);
-
-	glfwMakeContextCurrent(m_pWindow);
-	glfwSetWindowUserPointer(m_pWindow, this);
-	glfwSetKeyCallback(m_pWindow, KeyboardInputCallback);
-	glfwSetMouseButtonCallback(m_pWindow, MouseInputCallback);
-	glfwSetCursorPosCallback(m_pWindow, MousePositionCallback);
 }
 
 /////////////////////////////////////////////////
 CGLFWWindow::~CGLFWWindow()
 {
 	closeWindow();
+}
+
+/////////////////////////////////////////////////
+void CGLFWWindow::openWindow(const int & height, const int & width, TEventCallbackFn callbackFn)
+{
+	m_callbackFn = callbackFn;
+
+	glfwInit();
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	m_pWindow = glfwCreateWindow(height, width, "ProjectO01", nullptr, nullptr);
+	glfwMakeContextCurrent(m_pWindow);
+	glfwSwapInterval(1);
+	glfwSetWindowUserPointer(m_pWindow, this);
+	glfwSetKeyCallback(m_pWindow, KeyboardInputCallback);
+	glfwSetMouseButtonCallback(m_pWindow, MouseInputCallback);
+	glfwSetCursorPosCallback(m_pWindow, MousePositionCallback);
+	glfwSetFramebufferSizeCallback(m_pWindow, FramebufferSizeCallback);
 }
 
 /////////////////////////////////////////////////
@@ -91,14 +108,11 @@ void CGLFWWindow::closeWindow()
 /////////////////////////////////////////////////
 void CGLFWWindow::onUpdate()
 {
-	///* Render here */
-	//glClear(GL_COLOR_BUFFER_BIT);
+	/* Poll for and process events */
+	glfwPollEvents();
 
 	/* Swap front and back buffers */
 	glfwSwapBuffers(m_pWindow);
-
-	/* Poll for and process events */
-	glfwPollEvents();
 
 	if (glfwWindowShouldClose(m_pWindow))
 	{

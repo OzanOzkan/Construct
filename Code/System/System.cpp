@@ -3,9 +3,6 @@
 #include "Log.h"
 #include <IRenderer.h>
 #include <IInput.h>
-#include <Core.h>
-
-#include "Window/WindowManager.h"
 
 #include <string>
 #include <memory>
@@ -38,25 +35,26 @@ void CSystem::InitializeModule()
 	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
 	m_env.pLog = logger.release();
 
-	m_windowManager = std::make_unique<CWindowManager>();
-	m_windowManager->initWindow();
+	m_windowManager = std::make_unique<CWindowManager>(&m_env);
+	m_windowManager->initWindow(EWindowType::eWT_GLWF);
 	m_windowManager->registerWindowEvents(this);
 
 	CreateModuleInstance(EModule::eM_RENDERER);
 	CreateModuleInstance(EModule::eM_INPUT);
 
+	m_windowManager->registerWindowEvents(this);
+
 	while (!m_isQuit)
 	{
-		Update();
+		onUpdate();
 	}
 }
 
 /////////////////////////////////////////////////
-void CSystem::Update()
+void CSystem::onUpdate()
 {
-	GetEnvironment()->pRenderer->Update();
-	GetEnvironment()->pInput->Update();
-
+	m_env.pRenderer->onUpdate();
+	m_env.pInput->onUpdate();
 	m_windowManager->onUpdate();
 }
 
@@ -109,6 +107,19 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	}
 }
 
+/////////////////////////////////////////////////
+void CSystem::unregisterWindowEvents(IWindowEventListener * listener)
+{
+	m_windowManager->unregisterWindowEvents(listener);
+}
+
+/////////////////////////////////////////////////
+void CSystem::registerWindowEvents(IWindowEventListener * listener)
+{
+	m_windowManager->registerWindowEvents(listener);
+}
+
+/////////////////////////////////////////////////
 void CSystem::onWindowEvent(const SWindowEvent & event)
 {
 	if (event.event_type == EWindowEventType::eWE_WINDOW_CLOSED)

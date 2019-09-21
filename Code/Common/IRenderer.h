@@ -3,14 +3,14 @@
 #include "Core.h"
 #include "IModule.h"
 
-class IRenderer : IModule
+class IRenderer : public IModule
 {
 public:
 	virtual ~IRenderer() {}
 
 	// IModule
 	virtual void InitializeModule() = 0;
-	virtual void Update() = 0;
+	virtual void onUpdate() = 0;
 	// ~IModule
 
 	virtual bool TestRendererModule() = 0;

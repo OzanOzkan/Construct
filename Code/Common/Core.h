@@ -9,5 +9,3 @@
 
 #define LoadExternalLibrary(libname) :: LoadLibrary(libname)
 // ~External Library Support
-
-#include "System/ISystem.h"

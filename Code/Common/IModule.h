@@ -13,5 +13,5 @@ public:
 	virtual ~IModule() {}
 
 	virtual void InitializeModule() = 0;
-	virtual void Update() = 0;
+	virtual void onUpdate() = 0;
 };

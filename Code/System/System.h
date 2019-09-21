@@ -1,8 +1,9 @@
 #pragma once
 
+#include <Core.h>
 #include <System/ISystem.h>
-#include "Window/WindowManager.h"
 #include <System/IWindowEventListener.h>
+#include "Window/WindowManager.h"
 
 #include <memory>
 
@@ -16,18 +17,24 @@ public:
 	virtual void InitializeModule() override;
 	// ~ISystemInterface
 
-	// Inherited via IWindowEventListener
-	virtual void onWindowEvent(const SWindowEvent & event) override;
-
-	virtual void Update() override;
 	virtual SEnvironment* GetEnvironment() override { return &m_env; }
-	virtual IWindowManager* GetWindowManager() const { return m_windowManager.get(); }
+	
+	virtual void registerWindowEvents(IWindowEventListener* listener);
+	virtual void unregisterWindowEvents(IWindowEventListener* listener);
+	WindowProcAddr getWindowProcAddress() { return m_windowManager->getWindowProcAddress(); }
 
+private:
 	void CreateModuleInstance(const EModule& moduleName);
+
+	// IWindowEventListener
+	virtual void onWindowEvent(const SWindowEvent & event) override;
+	// ~IWindowEventListener
+
+	virtual void onUpdate() override;
 
 private:
 	SEnvironment m_env;
 	bool m_isQuit = false;
 
-	std::unique_ptr<IWindowManager> m_windowManager = nullptr;
+	std::unique_ptr<CWindowManager> m_windowManager = nullptr;
 };

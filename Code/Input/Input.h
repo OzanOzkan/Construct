@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core.h>
 #include <IInput.h>
 #include <System/ISystem.h>
 #include <System/IWindowEventListener.h>
@@ -12,7 +13,7 @@ public:
 
 	// IModule
 	virtual void InitializeModule() override;
-	virtual void Update() override;
+	virtual void onUpdate() override;
 	// ~IModule
 
 	// IInput

@@ -2,10 +2,11 @@
 
 #include <System/ISystem.h>
 #include <IRenderer.h>
+#include <IInput.h>
 
 #include <memory>
 
-class CRenderer : public IRenderer
+class CRenderer : public IRenderer, IWindowEventListener
 {
 public:
 	CRenderer(SEnvironment* env);
@@ -13,11 +14,19 @@ public:
 
 	// IModule
 	virtual void InitializeModule() override;
-	virtual void Update() override;
+	virtual void onUpdate() override;
 	// ~IModule
 
 	virtual bool TestRendererModule() override { return true; }
 
 private:
+	// Inherited via IWindowEventListener
+	virtual void onWindowEvent(const SWindowEvent & event) override;
+
+private:
 	SEnvironment* m_pEnv;
+
+	double tempMouseX = 0;
+	double tempMouseY = 0;
+	float tempColor = 0.0;
 };

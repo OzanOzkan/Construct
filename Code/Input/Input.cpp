@@ -1,7 +1,9 @@
 #include "Input.h"
 
 #include <ILog.h>
+#include <IRenderer.h>
 
+#include <string>
 #include <memory>
 
 extern "C"
@@ -14,37 +16,44 @@ extern "C"
 	}
 }
 
+/////////////////////////////////////////////////
 CInput::CInput(SEnvironment* env)
 	:m_pEnv(env)
 {
 
 }
 
+/////////////////////////////////////////////////
 CInput::~CInput()
 {
 
 }
 
+/////////////////////////////////////////////////
 void CInput::InitializeModule()
 {
-	m_pEnv->pSystem->GetWindowManager()->registerWindowEvents(this);
+	m_pEnv->pSystem->registerWindowEvents(this);
 }
 
-void CInput::Update()
+/////////////////////////////////////////////////
+void CInput::onUpdate()
 {
 
 }
 
+/////////////////////////////////////////////////
 void CInput::RegisterEventListener(InputEventListener* listener)
 {
 	m_listeners.insert(listener);
 }
 
+/////////////////////////////////////////////////
 void CInput::RemoveEventListener(InputEventListener* listener)
 {
 	m_listeners.erase(listener);
 }
 
+/////////////////////////////////////////////////
 void CInput::PostInputEvent(const SInputEvent & event)
 {
 	for (auto listener : m_listeners)
@@ -53,9 +62,41 @@ void CInput::PostInputEvent(const SInputEvent & event)
 	}
 }
 
+/////////////////////////////////////////////////
 void CInput::onWindowEvent(const SWindowEvent & event)
 {
-	m_pEnv->pLog->Log("CInput::onWindowEvent");
+	switch (event.event_type)
+	{
+	case EWindowEventType::eWE_KEY_PRESSED:
+	{
+		std::string logMsg = "CInput::onWindowEvent(): eWE_KEY_PRESSED: ";
+		logMsg += std::to_string(event.scancode);
+		m_pEnv->pLog->Log(logMsg.c_str());
+	}
+	break;
+	case EWindowEventType::eWE_KEY_RELEASED:
+	{
+		std::string logMsg = "CInput::onWindowEvent(): eWE_KEY_RELEASED: ";
+		logMsg += std::to_string(event.scancode);
+		m_pEnv->pLog->Log(logMsg.c_str());
+	}
+	break;
+	case EWindowEventType::eWE_MOUSE_POSITION_CHANGED:
+	{
+		std::string logMsg = "CInput::onWindowEvent() : eWE_MOUSE_POSITION_CHANGED: ";
+		auto posx = std::to_string(event.x);
+		auto posy = std::to_string(event.y);
+		logMsg += posx + " " + posy;
+
+		m_pEnv->pLog->Log(logMsg.c_str());
+	}
+	break;
+	default:
+	{
+		m_pEnv->pLog->Log("CInput::onWindowEvent(): Unhandled window event.");
+	}
+	break;
+	}
 }
 
 //void CInput::IsKeyDown(const int& key)

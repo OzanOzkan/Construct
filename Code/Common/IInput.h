@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core.h"
+#include "System/ISystem.h"
 #include "IModule.h"
 
 #include <set>
@@ -28,7 +29,7 @@ public:
 
 	// IModule
 	virtual void InitializeModule() = 0;
-	virtual void Update() = 0;
+	virtual void onUpdate() = 0;
 	// ~IModule
 
 	virtual void RegisterEventListener(InputEventListener* listener) = 0;

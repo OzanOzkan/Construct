@@ -4,33 +4,42 @@
 #include <set>
 #include <functional>
 
-#include <System/IWindowManager.h>
+#include <System/ISystem.h>
+#include <System/IWindow.h>
 
 #include "GLFWWindow.h"
 
-class CWindowManager : public IWindowManager
+enum class EWindowType
+{
+	eWT_NONE = 0,
+	eWT_GLWF
+};
+
+class CWindowManager
 {
 public:
-	CWindowManager() {};
+	CWindowManager(SEnvironment* env);
 	virtual ~CWindowManager() {};
 
-	// IWindowManager
-	virtual void initWindow() override;
-	virtual void setWindowSize(const int& height, const int& width) override;
-	virtual void onUpdate() override;
+	void initWindow(const EWindowType& windowType);
+	void setWindowSize(const int& height, const int& width);
+	void onUpdate();
 
-	virtual void registerWindowEvents(IWindowEventListener* listener) override;
-	virtual void unregisterWindowEvents(IWindowEventListener* listener) override;
-	virtual void onWindowEvent(const SWindowEvent& event) override;
-	// ~IWindowManager
+	void registerWindowEvents(IWindowEventListener* listener);
+	void unregisterWindowEvents(IWindowEventListener* listener);
+	void onWindowEvent(const SWindowEvent& event);
+
+	WindowProcAddr getWindowProcAddress();
 
 private:
 	void notifyListeners(const SWindowEvent& event);
 
 private:
+	SEnvironment * m_pEnv;
+
 	int m_height = 800;
 	int m_width = 600;
 
-	std::unique_ptr<CGLFWWindow> m_activeWindow = nullptr;
+	std::unique_ptr<IWindow> m_activeWindow = nullptr;
 	std::set<IWindowEventListener*> m_eventListeners{};
 };
