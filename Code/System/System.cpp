@@ -36,7 +36,7 @@ void CSystem::InitializeModule()
 	m_env.pLog = logger.release();
 
 	m_windowManager = std::make_unique<CWindowManager>(&m_env);
-	m_windowManager->initWindow(EWindowType::eWT_GLWF);
+	m_windowManager->initWindow(EWindowType::eWT_SDL2);
 	m_windowManager->registerWindowEvents(this);
 
 	CreateModuleInstance(EModule::eM_RENDERER);
@@ -53,9 +53,9 @@ void CSystem::InitializeModule()
 /////////////////////////////////////////////////
 void CSystem::onUpdate()
 {
+	m_windowManager->onUpdate();
 	m_env.pRenderer->onUpdate();
 	m_env.pInput->onUpdate();
-	m_windowManager->onUpdate();
 }
 
 /////////////////////////////////////////////////

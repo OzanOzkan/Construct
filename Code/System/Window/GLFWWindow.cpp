@@ -88,7 +88,7 @@ void CGLFWWindow::openWindow(const int & height, const int & width, TEventCallba
 	//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	m_pWindow = glfwCreateWindow(height, width, "ProjectO01", nullptr, nullptr);
+	m_pWindow = glfwCreateWindow(width, height, "ProjectO01", nullptr, nullptr);
 	glfwMakeContextCurrent(m_pWindow);
 	glfwSwapInterval(1);
 	glfwSetWindowUserPointer(m_pWindow, this);

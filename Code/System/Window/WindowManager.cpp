@@ -1,5 +1,6 @@
 #include "WindowManager.h"
 #include "GLFWWindow.h"
+#include "SDLWindow.h"
 #include <ILog.h>
 
 #include <iostream>
@@ -11,6 +12,7 @@ void CWindowManager::setWindowSize(const int& height, const int& width)
 	m_width = width;
 }
 
+/////////////////////////////////////////////////
 CWindowManager::CWindowManager(SEnvironment * env)
 	: m_pEnv(env)
 {
@@ -21,10 +23,16 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 {
 	switch (windowType)
 	{
-	case EWindowType::eWT_GLWF:
+	case EWindowType::eWT_GLFW:
 	{
 		m_activeWindow = std::make_unique<CGLFWWindow>(m_pEnv);
 		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing GLFW Window");
+	}
+	break;
+	case EWindowType::eWT_SDL2:
+	{
+		m_activeWindow = std::make_unique<CSDLWindow>(m_pEnv);
+		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing SDL2 Window");
 	}
 	break;
 	default:

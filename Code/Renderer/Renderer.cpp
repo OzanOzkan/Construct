@@ -36,8 +36,10 @@ CRenderer::~CRenderer()
 /////////////////////////////////////////////////
 void CRenderer::InitializeModule()
 {
-	if (!gladLoadGLLoader((GLADloadproc)m_pEnv->pSystem->getWindowProcAddress()))
+	auto procaddr = m_pEnv->pSystem->getWindowProcAddress();
+	if (!gladLoadGLLoader((GLADloadproc)procaddr))
 		m_pEnv->pLog->Log("CGLFWWindow::openWindow: Failed to load GLAD.");
+
 
 	m_pEnv->pSystem->registerWindowEvents(this);
 
@@ -60,23 +62,92 @@ void CRenderer::InitializeModule()
 /////////////////////////////////////////////////
 void CRenderer::onUpdate()
 {
-	glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f,  0.5f, 0.0f
+	};
 
-#pragma region EXPERIMENTAL
-	float size = 10.0;
-	int x = tempMouseX;
-	int y = 600 - tempMouseY;
-	glColor3f(tempColor, 0.0, 0.0);
-	glBegin(GL_POLYGON);
-	glVertex2f(x + size, y + size);
-	glVertex2f(x - size, y + size);
-	glVertex2f(x - size, y - size);
-	glVertex2f(x + size, y - size);
+	unsigned int VBO;
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
-#pragma region EXPERIMENTAL
-	glEnd();
-	glFlush();
+	unsigned int VAO;
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+	// Shader
+	// Vertex Shader
+	const char* vertexShaderSource = "#version 330 core\n"
+		"layout (location = 0) in vec3 aPos;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+		"}";
+	unsigned int vertexShader;
+	vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+
+	int  success;
+	char infoLog[512];
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		m_pEnv->pLog->Log("CRenderer: Shader: Vertex: Compilation Failed.");
+	}
+	// ~Vertex Shader
+	// Fragment Shader
+	const char* fragmentShaderSource = "#version 330 core\n"
+		"out vec4 FragColor;\n"
+		"\n"
+		"void main()\n"
+		"{\n"
+		"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"}";
+	unsigned int fragmentShader;
+	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		m_pEnv->pLog->Log("CRenderer: Shader: Fragment: Compilation Failed.");
+	}
+	// ~Fragment Shader
+
+	// Shader Program
+	unsigned int shaderProgram;
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		m_pEnv->pLog->Log("CRenderer: Shader: Program: Failed.");
+	}
+
+	glUseProgram(shaderProgram);
+	// ~Shader Program
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+	// ~Shader
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 /////////////////////////////////////////////////
