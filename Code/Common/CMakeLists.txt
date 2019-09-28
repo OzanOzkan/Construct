@@ -15,6 +15,7 @@ file(GLOB SYSTEM_SRC
 	"System/IEventSystem.h"
 	"System/IWindow.h"
 	"System/IWindowEventListener.h"
+	"System/IFileManager.h"
 )
 
 add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC})

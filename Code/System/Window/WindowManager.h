@@ -12,7 +12,8 @@
 enum class EWindowType
 {
 	eWT_NONE = 0,
-	eWT_GLWF
+	eWT_GLFW,
+	eWT_SDL2
 };
 
 class CWindowManager
@@ -37,8 +38,8 @@ private:
 private:
 	SEnvironment * m_pEnv;
 
-	int m_height = 800;
-	int m_width = 600;
+	int m_height = 600;
+	int m_width = 800;
 
 	std::unique_ptr<IWindow> m_activeWindow = nullptr;
 	std::set<IWindowEventListener*> m_eventListeners{};

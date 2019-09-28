@@ -1,5 +1,8 @@
 //#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup").
 
+#include <direct.h>
+#define GetCurrentDir _getcwd
+
 #include <iostream>
 
 #include <Windows.h>
@@ -9,6 +12,13 @@
 
 int main()
 {
+	// Working dir
+	char buff[FILENAME_MAX];
+	GetCurrentDir(buff, FILENAME_MAX);
+	std::string current_working_dir(buff);
+	std::cout << "Dir: " << current_working_dir.c_str() << std::endl;
+	//~Working dir
+
 	auto lib = LoadExternalLibrary("System.dll");
 	typedef ISystem*(*FNPTR)();
 	FNPTR CreateSystemInterface = (FNPTR)GetProcAddress(lib, "CreateSystemInterface");

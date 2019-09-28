@@ -91,6 +91,20 @@ void CInput::onWindowEvent(const SWindowEvent & event)
 		m_pEnv->pLog->Log(logMsg.c_str());
 	}
 	break;
+	case EWindowEventType::eWE_MOUSE_BUTTON_PRESSED:
+	{
+		std::string logMsg = "CInput::onWindowEvent() : eWE_MOUSE_BUTTON_PRESSED: ";
+		logMsg += std::to_string(event.scancode);
+		m_pEnv->pLog->Log(logMsg.c_str());
+	}
+	break;
+	case EWindowEventType::eWE_MOUSE_BUTTON_RELEASED:
+	{
+		std::string logMsg = "CInput::onWindowEvent() : eWE_MOUSE_BUTTON_RELEASED: ";
+		logMsg += std::to_string(event.scancode);
+		m_pEnv->pLog->Log(logMsg.c_str());
+	}
+	break;
 	default:
 	{
 		m_pEnv->pLog->Log("CInput::onWindowEvent(): Unhandled window event.");
