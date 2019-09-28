@@ -43,6 +43,8 @@ public:
 	virtual WindowProcAddr getWindowProcAddress() = 0;
 	// ~Window
 
+	virtual float getTime() const = 0;
+
 	// File Manager
 	virtual IFileManager* getFileManager() = 0;
 };

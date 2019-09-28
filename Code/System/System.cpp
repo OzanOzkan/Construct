@@ -7,6 +7,8 @@
 
 #include <string>
 #include <memory>
+#include <chrono>
+#include <future>
 
 extern "C"
 {
@@ -114,6 +116,12 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 void CSystem::unregisterWindowEvents(IWindowEventListener * listener)
 {
 	m_windowManager->unregisterWindowEvents(listener);
+}
+
+float CSystem::getTime() const
+{
+	return std::chrono::duration_cast<std::chrono::duration<float>>
+		(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 }
 
 /////////////////////////////////////////////////

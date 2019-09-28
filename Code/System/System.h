@@ -20,9 +20,12 @@ public:
 	virtual SEnvironment* GetEnvironment() override { return &m_env; }
 	virtual IFileManager* getFileManager() override { return m_fileManager.get(); }
 	
+	// !Subject to change
 	virtual void registerWindowEvents(IWindowEventListener* listener);
 	virtual void unregisterWindowEvents(IWindowEventListener* listener);
 	WindowProcAddr getWindowProcAddress() { return m_windowManager->getWindowProcAddress(); }
+	virtual float getTime() const override;
+	// ~!Subject to change
 
 private:
 	void CreateModuleInstance(const EModule& moduleName);
