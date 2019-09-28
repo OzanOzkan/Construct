@@ -4,6 +4,8 @@
 #include <IRenderer.h>
 #include <IInput.h>
 
+#include "Shader.h"
+
 #include <memory>
 
 class CRenderer : public IRenderer, IWindowEventListener
@@ -24,7 +26,8 @@ private:
 	virtual void onWindowEvent(const SWindowEvent & event) override;
 
 private:
-	SEnvironment* m_pEnv;
+	SEnvironment * m_pEnv = nullptr;
+	std::unique_ptr<CShader> m_defaultShader = nullptr;
 
 	double tempMouseX = 0;
 	double tempMouseY = 0;

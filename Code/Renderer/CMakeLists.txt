@@ -7,6 +7,8 @@ file(GLOB ROOT_SRC
   "StdAfx.cpp"
   "Renderer.h"
   "Renderer.cpp"
+  "Shader.h"
+  "Shader.cpp"
   "glad.cpp"
 )
 

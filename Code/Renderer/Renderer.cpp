@@ -4,8 +4,8 @@
 #include <ILog.h>
 
 #include <glad/glad.h>
-
 #include <GL/GL.h>
+#include "Shader.h"
 
 #include <string>
 
@@ -50,6 +50,11 @@ void CRenderer::InitializeModule()
 
 	glOrtho(0.0, 800.0, 0.0, 600.0, 0.0, 1.0);
 
+	// Compile default shader
+	m_defaultShader = std::make_unique<CShader>(m_pEnv,
+		"C:/Users/Ozann/Documents/GitHub/ProjectO01/Assets/Shaders/default.vs",
+		"C:/Users/Ozann/Documents/GitHub/ProjectO01/Assets/Shaders/default.fs");
+
 #pragma region EXPERIMENTAL
 	std::string glversiontxt("CRenderer::InitializeModule(): OpenGL Version: ");
 	std::string glversion ((char*)glGetString(GL_VERSION));
@@ -78,74 +83,14 @@ void CRenderer::onUpdate()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	// Shader
-	// Vertex Shader
-	const char* vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-		"}";
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-
-	int  success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		m_pEnv->pLog->Log("CRenderer: Shader: Vertex: Compilation Failed.");
-	}
-	// ~Vertex Shader
-	// Fragment Shader
-	const char* fragmentShaderSource = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}";
-	unsigned int fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		m_pEnv->pLog->Log("CRenderer: Shader: Fragment: Compilation Failed.");
-	}
-	// ~Fragment Shader
-
-	// Shader Program
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		m_pEnv->pLog->Log("CRenderer: Shader: Program: Failed.");
-	}
-
-	glUseProgram(shaderProgram);
-	// ~Shader Program
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-	// ~Shader
-
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	float timeValue = m_pEnv->pSystem->getTime();
+	float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+	
+	m_defaultShader->set4F("vertexColor", 0.0f, greenValue, 0.f, 1.0f);
+	m_defaultShader->use();
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
