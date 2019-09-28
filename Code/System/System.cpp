@@ -1,6 +1,7 @@
 #include "System.h"
 
 #include "Log.h"
+#include "FileManager.h"
 #include <IRenderer.h>
 #include <IInput.h>
 
@@ -34,6 +35,8 @@ void CSystem::InitializeModule()
 
 	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
 	m_env.pLog = logger.release();
+
+	m_fileManager = std::make_unique<CFileManager>(&m_env);
 
 	m_windowManager = std::make_unique<CWindowManager>(&m_env);
 	m_windowManager->initWindow(EWindowType::eWT_SDL2);

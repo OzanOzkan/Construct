@@ -4,6 +4,7 @@
 #include "IModule.h"
 #include "IWindow.h"
 #include "IWindowEventListener.h"
+#include "IFileManager.h"
 
 class ISystem;
 class IRenderer;
@@ -36,7 +37,12 @@ public:
 
 	virtual SEnvironment* GetEnvironment() = 0;
 
+	// Window
 	virtual void registerWindowEvents(IWindowEventListener* listener) = 0;
 	virtual void unregisterWindowEvents(IWindowEventListener* listener) = 0;
 	virtual WindowProcAddr getWindowProcAddress() = 0;
+	// ~Window
+
+	// File Manager
+	virtual IFileManager* getFileManager() = 0;
 };

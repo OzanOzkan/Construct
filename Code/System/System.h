@@ -18,6 +18,7 @@ public:
 	// ~ISystemInterface
 
 	virtual SEnvironment* GetEnvironment() override { return &m_env; }
+	virtual IFileManager* getFileManager() override { return m_fileManager.get(); }
 	
 	virtual void registerWindowEvents(IWindowEventListener* listener);
 	virtual void unregisterWindowEvents(IWindowEventListener* listener);
@@ -36,5 +37,6 @@ private:
 	SEnvironment m_env;
 	bool m_isQuit = false;
 
+	std::unique_ptr<IFileManager> m_fileManager = nullptr;
 	std::unique_ptr<CWindowManager> m_windowManager = nullptr;
 };

@@ -9,6 +9,8 @@ file(GLOB ROOT_SRC
 	"Log.cpp"
 	"System.h"
 	"System.cpp"
+	"FileManager.h"
+	"FileManager.cpp"
 )
 
 file (GLOB EVENTSYSTEM
