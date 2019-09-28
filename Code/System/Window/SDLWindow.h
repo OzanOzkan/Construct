@@ -21,6 +21,9 @@ public:
 	// ~IWindow
 
 private:
+	void handleEvent(const SDL_Event& SDLEvent);
+
+private:
 	SEnvironment * m_pEnv = nullptr;
 	TEventCallbackFn m_callbackFn;
 	bool m_quit = false;

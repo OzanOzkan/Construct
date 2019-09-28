@@ -16,6 +16,8 @@ CSDLWindow::~CSDLWindow()
 /////////////////////////////////////////////////
 void CSDLWindow::openWindow(const int & height, const int & width, TEventCallbackFn callbackFn)
 {
+	m_callbackFn = callbackFn;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_GL_LoadLibrary(NULL);
 
@@ -57,13 +59,62 @@ void CSDLWindow::onUpdate()
 	//Handle events on queue
 	while (SDL_PollEvent(&m_SDLEvent) != 0)
 	{
-		m_pEnv->pLog->Log("SDL Event");
-		//User requests quit
-		if (m_SDLEvent.type == SDL_QUIT)
-		{
-			m_quit = true;
-		}
+		handleEvent(m_SDLEvent);
 	}
 
 	SDL_GL_SwapWindow(m_pSDLWindow);
+}
+
+/////////////////////////////////////////////////
+void CSDLWindow::handleEvent(const SDL_Event & SDLEvent)
+{
+	switch (SDLEvent.type)
+	{
+	case SDL_QUIT:
+	{
+		m_quit = true;
+	}
+	break;
+	case SDL_KEYDOWN:
+	{
+		SWindowEvent windowEvent;
+		windowEvent.event_type = EWindowEventType::eWE_KEY_PRESSED;
+		windowEvent.scancode = SDLEvent.key.keysym.scancode;
+		m_callbackFn(windowEvent);
+	}
+	break;
+	case SDL_KEYUP:
+	{
+		SWindowEvent windowEvent;
+		windowEvent.event_type = EWindowEventType::eWE_KEY_RELEASED;
+		windowEvent.scancode = SDLEvent.key.keysym.scancode;
+		m_callbackFn(windowEvent);
+	}
+	break;
+	case SDL_MOUSEMOTION:
+	{
+		SWindowEvent windowEvent;
+		windowEvent.event_type = EWindowEventType::eWE_MOUSE_POSITION_CHANGED;
+		windowEvent.x = SDLEvent.motion.x;
+		windowEvent.y = SDLEvent.motion.y;
+		m_callbackFn(windowEvent);
+	}
+	break;
+	case SDL_MOUSEBUTTONDOWN:
+	{
+		SWindowEvent windowEvent;
+		windowEvent.event_type = EWindowEventType::eWE_MOUSE_BUTTON_PRESSED;
+		windowEvent.scancode = SDLEvent.button.button;
+		m_callbackFn(windowEvent);
+	}
+	break;
+	case SDL_MOUSEBUTTONUP:
+	{
+		SWindowEvent windowEvent;
+		windowEvent.event_type = EWindowEventType::eWE_MOUSE_BUTTON_RELEASED;
+		windowEvent.scancode = SDLEvent.button.button;
+		m_callbackFn(windowEvent);
+	}
+	break;
+	}
 }
