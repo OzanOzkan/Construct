@@ -27,13 +27,21 @@ file (GLOB WINDOW
 	"Window/SDLWindow.cpp"
 )
 
+file (GLOB ENTITYSYSTEM
+	"EntitySystem/EntitySystem.h"
+	"EntitySystem/EntitySystem.cpp"
+	"EntitySystem/Entity.h"
+	"EntitySystem/Entity.cpp"
+)
+
 include_directories("${SRC_DIR}/Common")
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${EVENTSYSTEM} ${WINDOW})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${EVENTSYSTEM} ${WINDOW} ${ENTITYSYSTEM})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("EventSystem" FILES ${EVENTSYSTEM})
 source_group("Window" FILES ${WINDOW})
+source_group("EntitySystem" FILES ${ENTITYSYSTEM})
 
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glfw-3.3.bin.WIN64/include")
 link_directories("${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017")
