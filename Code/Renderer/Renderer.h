@@ -8,6 +8,8 @@
 
 #include <memory>
 
+#include "TextRenderer/TextRenderer.h"
+
 class CRenderer : public IRenderer, IWindowEventListener
 {
 public:
@@ -32,4 +34,6 @@ private:
 	double tempMouseX = 0;
 	double tempMouseY = 0;
 	float tempColor = 0.0;
+
+	std::unique_ptr<CTextRenderer> testTextRenderer = nullptr;
 };

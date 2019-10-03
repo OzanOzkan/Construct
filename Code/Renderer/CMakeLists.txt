@@ -28,6 +28,7 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glm")
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/GL")
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glad/include")
+include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/stb_image/")
 
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glfw-3.3.bin.WIN64/include")
 link_directories("${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017")
