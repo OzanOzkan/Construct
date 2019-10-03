@@ -1,3 +1,7 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #pragma once
 
 #include "Core.h"
@@ -11,6 +15,7 @@ class IRenderer;
 class ILog;
 class IInput;
 class IWindowEventListener;
+class IEntitySystem;
 
 struct SEnvironment
 {
@@ -18,6 +23,7 @@ struct SEnvironment
 	IRenderer*		pRenderer;
 	ILog*			pLog;
 	IInput*			pInput;
+	IEntitySystem*	pEntitySystem;
 };
 
 extern "C"

@@ -1,10 +1,14 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #pragma once
 
 #include "IEntity.h"
 
 struct SEntitySpawnParams
 {
-
+	std::string entityName = "";
 };
 
 class IEntitySystem

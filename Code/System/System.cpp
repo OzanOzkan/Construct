@@ -1,7 +1,12 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "System.h"
 
 #include "Log.h"
 #include "FileManager.h"
+#include "EntitySystem/EntitySystem.h"
 #include <IRenderer.h>
 #include <IInput.h>
 
@@ -33,6 +38,10 @@ CSystem::~CSystem()
 /////////////////////////////////////////////////
 void CSystem::InitializeModule()
 {
+	/*
+		SUBJECT TO CHANGE: Temporary implementation.
+	*/
+
 	m_env.pSystem = this;
 
 	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
@@ -48,6 +57,11 @@ void CSystem::InitializeModule()
 	CreateModuleInstance(EModule::eM_INPUT);
 
 	m_windowManager->registerWindowEvents(this);
+
+	std::unique_ptr<CEntitySystem> entitySystem = std::make_unique<CEntitySystem>();
+	m_env.pEntitySystem = entitySystem.release();
+
+	CreateModuleInstance(EModule::eM_GAME);
 
 	while (!m_isQuit)
 	{
@@ -66,6 +80,10 @@ void CSystem::onUpdate()
 /////////////////////////////////////////////////
 void CSystem::CreateModuleInstance(const EModule & moduleName)
 {
+	/*
+		SUBJECT TO CHANGE: Temporary function.
+	*/
+	
 	switch (moduleName)
 	{
 	case EModule::eM_RENDERER:
@@ -104,6 +122,25 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 			{
 				m_env.pInput->InitializeModule();
 				GetEnvironment()->pLog->Log("Module: Input: OK");
+			}
+
+		}
+	}
+	break;
+	case EModule::eM_GAME:
+	{
+		auto lib = LoadExternalLibrary("Game.dll");
+		typedef IModule*(*FNPTR)(SEnvironment* env);
+		FNPTR CreateGameModule = (FNPTR)GetProcAddress(lib, "CreateGameModule");
+
+		if (!CreateGameModule) {
+			GetEnvironment()->pLog->Log("Cannot find Game.dll");
+		}
+		else
+		{
+			if (IModule* pModule = CreateGameModule(&m_env))
+			{
+				pModule->InitializeModule();
 			}
 
 		}

@@ -1,13 +1,18 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "EntitySystem.h"
 
 
 /////////////////////////////////////////////////
 IEntity * CEntitySystem::spawnEntity(const SEntitySpawnParams & spawnParams)
 {
-//	std::unique_ptr<CEntity> newEntity = std::make_unique<CEntity>();
-	m_entityList.emplace(std::make_unique<CEntity>());
+	std::shared_ptr<CEntity> pEntity = std::make_shared<CEntity>();
+	pEntity->setName(spawnParams.entityName);
+	m_entityList.emplace(pEntity);
 
-	return nullptr;
+	return pEntity.get();
 }
 
 /////////////////////////////////////////////////
