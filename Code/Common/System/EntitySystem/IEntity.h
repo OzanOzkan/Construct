@@ -7,19 +7,22 @@
 #include "IEntityComponent.h"
 
 #include <string>
+#include <map>
 #include <memory>
+#include <utility>
 
 class IEntity
 {
 public:
 	virtual ~IEntity() {}
 
-	virtual int getID() const = 0;
-	virtual void setName(const std::string& name) = 0;
-	virtual std::string getName() const = 0;
-	virtual void setActive(const bool& isActive) = 0;
-	virtual bool isActive() const = 0;
-	virtual int getComponentCount() const = 0;
+	virtual int getID() const { return m_entityID; }
+	virtual void setName(const std::string& name) { m_entityName = name; }
+	virtual std::string getName() const { return m_entityName; }
+	virtual void setActive(const bool& isActive) { m_isActive = isActive; }
+	virtual bool isActive() const { return m_isActive; }
+	virtual int getComponentCount() const { return m_entityComponents.size(); };
+	virtual void sendEvent(const EEntityEvent& event) = 0;
 
 protected:
 	virtual void addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent) = 0;
@@ -27,9 +30,10 @@ protected:
 
 public:
 	template <typename ComponentType>
-	ComponentType* createEntityComponent(const std::string& componentName) 
+	ComponentType* addEntityComponent(const std::string& componentName) 
 	{ 
 		std::shared_ptr<ComponentType> component = std::make_shared<ComponentType>();
+		component->initComponent(m_pEnv, this);
 		this->addEntityComponentInternal(componentName, component);
 
 		return component.get();
@@ -40,4 +44,11 @@ public:
 	{
 		return static_cast<ComponentType*>(this->getEntityComponentInternal(componentName));
 	}
+
+protected:
+	SEnvironment * m_pEnv = nullptr;
+	int m_entityID = -1;
+	std::string m_entityName = "";
+	bool m_isActive = true;
+	std::map<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents{};
 };

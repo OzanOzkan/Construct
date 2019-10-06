@@ -2,6 +2,7 @@
 * All of the implementations are experimental and subject to change.
 */
 
+#include "StdAfx.h"
 #include "System.h"
 
 #include "Log.h"
@@ -58,7 +59,7 @@ void CSystem::InitializeModule()
 
 	m_windowManager->registerWindowEvents(this);
 
-	std::unique_ptr<CEntitySystem> entitySystem = std::make_unique<CEntitySystem>();
+	std::unique_ptr<CEntitySystem> entitySystem = std::make_unique<CEntitySystem>(&m_env);
 	m_env.pEntitySystem = entitySystem.release();
 
 	CreateModuleInstance(EModule::eM_GAME);
@@ -72,9 +73,12 @@ void CSystem::InitializeModule()
 /////////////////////////////////////////////////
 void CSystem::onUpdate()
 {
+	// Make system event listener.
 	m_windowManager->onUpdate();
 	m_env.pRenderer->onUpdate();
 	m_env.pInput->onUpdate();
+
+	m_env.pEntitySystem->onUpdate();
 }
 
 /////////////////////////////////////////////////
