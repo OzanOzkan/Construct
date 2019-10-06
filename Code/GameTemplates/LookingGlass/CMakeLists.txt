@@ -5,12 +5,20 @@ project (Game VERSION 1.0 LANGUAGES CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 file(GLOB ROOT_SRC
+	"StdAfx.h"
+	"StdAfx.cpp"
 	"Game.h"
 	"Game.cpp"
 )
 
+file(GLOB ENTITY_COMPONENTS
+	"EntityComponents/SpriteRendererEntityComponent.h"
+	"EntityComponents/SpriteRendererEntityComponent.cpp"
+)
+
 include_directories("${SRC_DIR}/Common")
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${ENTITY_COMPONENTS})
 
 source_group(" " FILES ${ROOT_SRC})
+source_group("EntityComponents" FILES ${ENTITY_COMPONENTS})
