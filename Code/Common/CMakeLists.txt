@@ -22,6 +22,7 @@ file(GLOB SYSTEM_ENTITY_SYSTEM_SRC
 	"System/EntitySystem/IEntitySystem.h"
 	"System/EntitySystem/IEntity.h"
 	"System/EntitySystem/IEntityComponent.h"
+	"System/EntitySystem/IEntityBasicTypes.h"
 )
 
 add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC})
