@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "Core.h"
-#include "IModule.h"
+#include "../Core.h"
+#include "../IModule.h"
 #include "IWindow.h"
 #include "IWindowEventListener.h"
 #include "IFileManager.h"

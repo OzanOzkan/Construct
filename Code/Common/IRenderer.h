@@ -6,6 +6,7 @@
 
 #include "Core.h"
 #include "IModule.h"
+#include "System/ISystem.h"
 
 class IRenderer : public IModule
 {
