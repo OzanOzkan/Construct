@@ -8,7 +8,7 @@
 #include "Log.h"
 #include "FileManager.h"
 #include "EntitySystem/EntitySystem.h"
-#include <IRenderer.h>
+#include <Renderer/IRenderer.h>
 #include <IInput.h>
 
 #include <string>
@@ -93,7 +93,7 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	case EModule::eM_RENDERER:
 	{
 		auto lib = LoadExternalLibrary("Renderer.dll");
-		typedef IRenderer*(*FNPTR)(SEnvironment* env);
+		typedef IRenderer*(*FNPTR)(SEnvironment* env, ERenderer renderer);
 		FNPTR CreateModuleInterface = (FNPTR)GetProcAddress(lib, "CreateModuleInterface");
 
 		if (!CreateModuleInterface) {
@@ -101,13 +101,10 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 		}
 		else
 		{
-			if (m_env.pRenderer = CreateModuleInterface(&m_env))
+			if (m_renderer = std::unique_ptr<IRenderer>(CreateModuleInterface(&m_env, ERenderer::eRDR_SDL2)))
 			{
-				std::string logText = { "Module: Renderer: " };
-				logText += (GetEnvironment()->pRenderer->TestRendererModule() ? "OK" : "FAIL");
-				GetEnvironment()->pLog->Log(logText.c_str());
+				m_env.pRenderer = m_renderer.get();
 			}
-
 		}
 	}
 	break;

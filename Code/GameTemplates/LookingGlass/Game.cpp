@@ -30,22 +30,30 @@ void CGame::InitializeModule()
 	SEntitySpawnParams params;
 	params.entityName = "MyFirstEntity";
 	IEntity* pEntity = m_pEnv->pEntitySystem->spawnEntity(params);
-	//pEntity->addEntityComponent<CMyEntityComponent>("mycomponent");
-	pEntity->addEntityComponent<SpriteRendererEntityComponent>("spriterenderer");
 
-	if (pEntity)
-	{
-		std::string entityDebugText = "Entity: " + pEntity->getName() + " created";
-		m_pEnv->pLog->Log(entityDebugText.c_str());
+	//pEntity->addEntityComponent<SpriteRendererEntityComponent>("spriterenderer");
 
-		std::string debugText = pEntity->getName() + " component count: " + std::to_string(pEntity->getComponentCount());
-		m_pEnv->pLog->Log(debugText.c_str());
+	//if (pEntity)
+	//{
+	//	if (SpriteRendererEntityComponent* pComponent = pEntity->getEntityComponent<SpriteRendererEntityComponent>("spriterenderer"))
+	//	{
+	//		pComponent->setFile("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\test.png");
+	//		pComponent->updateComponent();
 
-		if (SpriteRendererEntityComponent* pComponent = pEntity->getEntityComponent<SpriteRendererEntityComponent>("spriterenderer"))
-		{
-			m_pEnv->pLog->Log("pEntity->getEntityComponent(mycomponent) : TRUE");
-		}
-	}
+	//		m_pEnv->pLog->Log("pEntity->getEntityComponent(mycomponent) : TRUE");
+	//	}
+	//}
+
+	SpriteRendererEntityComponent* pMarioRenderer = pEntity->addEntityComponent<SpriteRendererEntityComponent>("mario");
+	pMarioRenderer->setFile("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\mario.png");
+	pMarioRenderer->updateComponent();
+
+	std::string entityDebugText = "Entity: " + pEntity->getName() + " created";
+	m_pEnv->pLog->Log(entityDebugText.c_str());
+
+	std::string debugText = pEntity->getName() + " component count: " + std::to_string(pEntity->getComponentCount());
+	m_pEnv->pLog->Log(debugText.c_str());
+
 
 	m_pEnv->pLog->Log("=========== Game Initialized ===========");
 }

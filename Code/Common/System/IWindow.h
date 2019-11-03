@@ -19,6 +19,7 @@ public:
 
 	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) = 0;
 	virtual WindowProcAddr getWindowProcAddress() = 0;
+	virtual int getWindowId() = 0;
 	virtual void closeWindow() = 0;
 	virtual void onUpdate() = 0;
 };

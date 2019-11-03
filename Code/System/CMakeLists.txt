@@ -5,6 +5,8 @@ project (System VERSION 1.0 LANGUAGES CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 file(GLOB ROOT_SRC
+	"StdAfx.h"
+	"StdAfx.cpp"
 	"Log.h"
 	"Log.cpp"
 	"System.h"

@@ -5,11 +5,20 @@ project (Renderer VERSION 1.0 LANGUAGES CXX)
 file(GLOB ROOT_SRC
   "StdAfx.h"
   "StdAfx.cpp"
-  "Renderer.h"
   "Renderer.cpp"
   "Shader.h"
   "Shader.cpp"
   "glad.cpp"
+)
+
+file (GLOB SDL_RENDERER
+	"SDLRenderer/SDLRenderer.h"
+	"SDLRenderer/SDLRenderer.cpp"
+)
+
+file (GLOB RENDEREROBJECT
+	"RendererObject/Sprite.h"
+	"RendererObject/Sprite.cpp"
 )
 
 file (GLOB TEXTRENDERER
@@ -17,8 +26,10 @@ file (GLOB TEXTRENDERER
   "TextRenderer/TextRenderer.cpp"
 )
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${TEXTRENDERER})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${SDL_RENDERER} ${RENDEREROBJECT} ${TEXTRENDERER})
 
+source_group("SDLRenderer" FILES ${SDL_RENDERER})
+source_group("RendererObject" FILES ${RENDEREROBJECT})
 source_group("TextRenderer" FILES ${TEXTRENDERER})
 
 find_package(OpenGL REQUIRED)
@@ -37,6 +48,12 @@ target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017/
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/freetype-2.10.1/include")
 link_directories("${SDK_DIR}/freetype-2.10.1/bin")
 target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/freetype-2.10.1/bin/freetype.lib")
+
+#SDL2-2.0.10
+include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/SDL2-2.0.10/include")
+link_directories("${SDK_DIR}/SDL2-2.0.10/lib/x64")
+target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2.lib")
+target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2_image.lib")
 
 
 # Precompiled header

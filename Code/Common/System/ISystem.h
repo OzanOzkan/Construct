@@ -47,6 +47,7 @@ public:
 	virtual void registerWindowEvents(IWindowEventListener* listener) = 0;
 	virtual void unregisterWindowEvents(IWindowEventListener* listener) = 0;
 	virtual WindowProcAddr getWindowProcAddress() = 0;
+	virtual int getWindowId() = 0;
 	// ~Window
 
 	virtual float getTime() const = 0;

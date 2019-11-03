@@ -2,8 +2,14 @@
 
 #include <System/EntitySystem/IEntity.h>
 #include <System/EntitySystem/IEntityBasicTypes.h>
-#include <IRenderer.h>
+#include <Renderer/IRenderer.h>
 #include <ILog.h>
+
+/////////////////////////////////////////////////
+void SpriteRendererEntityComponent::Init()
+{
+
+}
 
 /////////////////////////////////////////////////
 unsigned int SpriteRendererEntityComponent::getEventMask() const
@@ -25,7 +31,22 @@ void SpriteRendererEntityComponent::onEvent(const EEntityEvent & event)
 }
 
 /////////////////////////////////////////////////
+void SpriteRendererEntityComponent::updateComponent()
+{
+	SSpriteCreateParams params;
+	params.spriteFile = m_spriteFile;
+	params.posX = 10;
+	params.posY = 10;
+	params.w = 70;
+	params.h = 100;
+
+	m_pSprite = getEnvironment()->pRenderer->CreateSprite(params);
+	m_pSprite->setRenderActive(true);
+
+}
+
+/////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdate()
 {
-	getEnvironment()->pLog->Log("SpriteRendererEntityComponent::onEntityUpdate()");
+	m_pSprite->setPosition(m_pSprite->getPosX() + 0.01f, m_pSprite->getPosY() + 0.01f);
 }

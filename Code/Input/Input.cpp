@@ -5,7 +5,7 @@
 #include "Input.h"
 
 #include <ILog.h>
-#include <IRenderer.h>
+#include <Renderer/IRenderer.h>
 
 #include <string>
 #include <memory>

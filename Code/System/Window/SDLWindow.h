@@ -19,6 +19,7 @@ public:
 	// IWindow
 	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) override;
 	virtual WindowProcAddr getWindowProcAddress() override { return (WindowProcAddr)SDL_GL_GetProcAddress; }
+	virtual int getWindowId() override { return SDL_GetWindowID(m_pSDLWindow); }
 	virtual void closeWindow() override;
 	virtual void onUpdate() override;
 	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }

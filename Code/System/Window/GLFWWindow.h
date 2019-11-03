@@ -18,6 +18,7 @@ public:
 
 	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) override;
 	virtual WindowProcAddr getWindowProcAddress() override { return (WindowProcAddr)glfwGetProcAddress; }
+	virtual int getWindowId() override { return -1; }
 	virtual void closeWindow() override;
 	virtual void onUpdate() override;
 	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }

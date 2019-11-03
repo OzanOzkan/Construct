@@ -35,6 +35,7 @@ public:
 	void onWindowEvent(const SWindowEvent& event);
 
 	WindowProcAddr getWindowProcAddress();
+	int getWindowId();
 
 private:
 	void notifyListeners(const SWindowEvent& event);

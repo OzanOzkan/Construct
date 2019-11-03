@@ -63,6 +63,12 @@ WindowProcAddr CWindowManager::getWindowProcAddress()
 }
 
 /////////////////////////////////////////////////
+int CWindowManager::getWindowId()
+{
+	return m_activeWindow->getWindowId();
+}
+
+/////////////////////////////////////////////////
 void CWindowManager::registerWindowEvents(IWindowEventListener* listener)
 {
 	m_eventListeners.insert(listener);
