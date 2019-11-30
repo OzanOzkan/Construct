@@ -5,15 +5,15 @@
 #include "EntitySystem.h"
 
 
-CEntitySystem::CEntitySystem(SEnvironment * env)
-	: m_pEnv(env)
+CEntitySystem::CEntitySystem(ISystem * systemContext)
+	: m_pSystem(systemContext)
 {
 }
 
 /////////////////////////////////////////////////
 IEntity * CEntitySystem::spawnEntity(const SEntitySpawnParams & spawnParams)
 {
-	std::shared_ptr<CEntity> pEntity = std::make_shared<CEntity>(m_pEnv);
+	std::shared_ptr<CEntity> pEntity = std::make_shared<CEntity>(m_pSystem);
 	pEntity->setName(spawnParams.entityName);
 	m_entityList.emplace(pEntity);
 

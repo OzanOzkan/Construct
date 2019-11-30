@@ -11,8 +11,8 @@
 #include <algorithm>
 
 /////////////////////////////////////////////////
-CFileManager::CFileManager(SEnvironment * env)
-	: m_pEnv(env)
+CFileManager::CFileManager(ISystem* systemContext)
+	: m_pSystem(systemContext)
 {
 }
 
@@ -32,7 +32,7 @@ std::string CFileManager::readFile(const std::string & file)
 	}
 	catch (std::ifstream::failure e)
 	{
-		m_pEnv->pLog->Log("FileManager::readFile: FILE_NOT_SUCCESFULLY_READ");
+		GetSystem()->GetLogger()->Log("FileManager::readFile: FILE_NOT_SUCCESFULLY_READ");
 	}
 	
 	return content;

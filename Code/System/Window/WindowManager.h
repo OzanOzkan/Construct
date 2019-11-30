@@ -23,7 +23,7 @@ enum class EWindowType
 class CWindowManager
 {
 public:
-	CWindowManager(SEnvironment* env);
+	CWindowManager(ISystem* systemContext);
 	virtual ~CWindowManager() {};
 
 	void initWindow(const EWindowType& windowType);
@@ -38,10 +38,11 @@ public:
 	int getWindowId();
 
 private:
+	ISystem * GetSystem() { return m_pSystem; }
 	void notifyListeners(const SWindowEvent& event);
 
 private:
-	SEnvironment * m_pEnv;
+	ISystem * m_pSystem;
 
 	int m_height = 600;
 	int m_width = 800;

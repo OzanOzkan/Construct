@@ -10,12 +10,14 @@
 class CFileManager : public IFileManager
 {
 public:
-	CFileManager(SEnvironment* env);
-	virtual ~CFileManager() {}
+	CFileManager(ISystem* systemContext);
 
-	virtual std::string readFile(const std::string& file) override;
-	virtual void writeFile(const std::string& file, const std::string& data) override;
+	std::string readFile(const std::string& file) override;
+	void writeFile(const std::string& file, const std::string& data) override;
 
 private:
-	SEnvironment * m_pEnv;
+	ISystem * GetSystem() { return m_pSystem; }
+
+private:
+	ISystem* m_pSystem;
 };

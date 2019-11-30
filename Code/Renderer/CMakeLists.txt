@@ -6,9 +6,6 @@ file(GLOB ROOT_SRC
   "StdAfx.h"
   "StdAfx.cpp"
   "Renderer.cpp"
-  "Shader.h"
-  "Shader.cpp"
-  "glad.cpp"
 )
 
 file (GLOB SDL_RENDERER
@@ -17,20 +14,15 @@ file (GLOB SDL_RENDERER
 )
 
 file (GLOB RENDEREROBJECT
-	"RendererObject/Sprite.h"
-	"RendererObject/Sprite.cpp"
+	"SDLRenderer/RendererObject/Sprite.h"
+	"SDLRenderer/RendererObject/Sprite.cpp"
+	"SDLRenderer/RendererObject/Text.h"
+	"SDLRenderer/RendererObject/Text.cpp"
 )
-
-file (GLOB TEXTRENDERER
-  "TextRenderer/TextRenderer.h"
-  "TextRenderer/TextRenderer.cpp"
-)
-
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${SDL_RENDERER} ${RENDEREROBJECT} ${TEXTRENDERER})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${SDL_RENDERER} ${RENDEREROBJECT})
 
 source_group("SDLRenderer" FILES ${SDL_RENDERER})
-source_group("RendererObject" FILES ${RENDEREROBJECT})
-source_group("TextRenderer" FILES ${TEXTRENDERER})
+source_group("SDLRenderer\\RendererObject" FILES ${RENDEREROBJECT})
 
 find_package(OpenGL REQUIRED)
 include_directories("${SRC_DIR}/Common" ${OPENGL_INCLUDE_DIRS})
@@ -54,7 +46,7 @@ include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/SDL2-2.0.10/include")
 link_directories("${SDK_DIR}/SDL2-2.0.10/lib/x64")
 target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2.lib")
 target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2_image.lib")
-
+target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2_ttf.lib")
 
 # Precompiled header
 #set(PCH_FILE "$(IntDir)$(TargetName).pch")

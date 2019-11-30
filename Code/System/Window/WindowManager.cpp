@@ -17,8 +17,8 @@ void CWindowManager::setWindowSize(const int& height, const int& width)
 }
 
 /////////////////////////////////////////////////
-CWindowManager::CWindowManager(SEnvironment * env)
-	: m_pEnv(env)
+CWindowManager::CWindowManager(ISystem * systemContext)
+	: m_pSystem(systemContext)
 {
 }
 
@@ -29,14 +29,14 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 	{
 	case EWindowType::eWT_GLFW:
 	{
-		m_activeWindow = std::make_unique<CGLFWWindow>(m_pEnv);
-		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing GLFW Window");
+		m_activeWindow = std::make_unique<CGLFWWindow>(m_pSystem);
+		GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing GLFW Window");
 	}
 	break;
 	case EWindowType::eWT_SDL2:
 	{
-		m_activeWindow = std::make_unique<CSDLWindow>(m_pEnv);
-		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing SDL2 Window");
+		m_activeWindow = std::make_unique<CSDLWindow>(m_pSystem);
+		GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing SDL2 Window");
 	}
 	break;
 	default:

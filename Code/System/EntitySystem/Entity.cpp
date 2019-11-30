@@ -5,9 +5,9 @@
 #include "Entity.h"
 
 /////////////////////////////////////////////////
-CEntity::CEntity(SEnvironment * env)
+CEntity::CEntity(ISystem * systemContext)
 {
-	m_pEnv = env;
+	m_pSystem = systemContext;
 }
 
 /////////////////////////////////////////////////

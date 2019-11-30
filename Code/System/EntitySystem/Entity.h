@@ -11,14 +11,16 @@
 class CEntity : public IEntity
 {
 public:
-	CEntity(SEnvironment* env);
-	virtual ~CEntity() {}
+	CEntity(ISystem* systemContext);
 	
 	// IEntity
-	virtual void sendEvent(const EEntityEvent& event) override;
+	void sendEvent(const EEntityEvent& event) override;
 	// ~IEntity
 
 protected:
-	virtual void addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent) override;
-	virtual IEntityComponent* getEntityComponentInternal(const std::string& componentName) override;
+	void addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent) override;
+	IEntityComponent* getEntityComponentInternal(const std::string& componentName) override;
+
+private:
+	ISystem * GetSystem() { return m_pSystem; }
 };

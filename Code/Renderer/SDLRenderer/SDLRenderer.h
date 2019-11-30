@@ -5,33 +5,40 @@
 #include <Renderer/IRenderObject.h>
 
 #include <SDL.h>
-#include <SDL_image.h>
 
 #include <queue>
 #include <map>
 #include <set>
 
+class CText;
+
 class CSDLRenderer : public IRenderer
 {
 public:
-	CSDLRenderer(SEnvironment* env);
-	virtual ~CSDLRenderer() {}
+	CSDLRenderer(ISystem* systemContext);
 
 	// Inherited via IRenderer
-	virtual void InitializeModule() override;
-	virtual void onUpdate() override;
+	void InitializeModule() override;
+	void onUpdate() override;
+	// ~IRenderer
 
-	virtual int LoadTexture(const std::string& filePath) override;
-	virtual void UnloadTexture(const int& textureId) override;
+	// RenderObject
+	IRendererObject* CreateRenderObject(const SRenderObjectCreateParams& params) override;
+	void RemoveRenderObject(IRendererObject* pRenderObject) override;
+	// RenderObject
 
-	virtual ISprite* CreateSprite(const SSpriteCreateParams& params) override;
-	virtual void RemoveSprite(ISprite* pSprite) override;
-	//virtual void RenderSprite(const SSpriteRenderParams& params) override;
+	// Texture
+	int LoadTexture(const std::string& filePath) override;
+	void UnloadTexture(const int& textureId) override;
+	// ~Texture
 
 	void doRender();
 
 private:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * GetSystem() { return m_pSystem; }
+
+private:
+	ISystem * m_pSystem = nullptr;
 	SDL_Window* m_pSDLWindow = nullptr;
 	SDL_Renderer* m_pSDLRenderer = nullptr;
 

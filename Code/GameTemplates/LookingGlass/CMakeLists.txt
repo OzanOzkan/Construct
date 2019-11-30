@@ -14,6 +14,8 @@ file(GLOB ROOT_SRC
 file(GLOB ENTITY_COMPONENTS
 	"EntityComponents/SpriteRendererEntityComponent.h"
 	"EntityComponents/SpriteRendererEntityComponent.cpp"
+	"EntityComponents/TextRendererEntityComponent.h"
+	"EntityComponents/TextRendererEntityComponent.cpp"
 )
 
 include_directories("${SRC_DIR}/Common")

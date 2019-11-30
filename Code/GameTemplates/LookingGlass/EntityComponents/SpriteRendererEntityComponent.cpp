@@ -37,10 +37,10 @@ void SpriteRendererEntityComponent::updateComponent()
 	params.spriteFile = m_spriteFile;
 	params.posX = 10;
 	params.posY = 10;
-	params.w = 70;
-	params.h = 100;
+	params.width = 70;
+	params.height = 100;
 
-	m_pSprite = getEnvironment()->pRenderer->CreateSprite(params);
+	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pSprite->setRenderActive(true);
 
 }

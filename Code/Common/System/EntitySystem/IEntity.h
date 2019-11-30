@@ -33,7 +33,7 @@ public:
 	ComponentType* addEntityComponent(const std::string& componentName) 
 	{ 
 		std::shared_ptr<ComponentType> component = std::make_shared<ComponentType>();
-		component->initComponent(m_pEnv, this);
+		component->initComponent(m_pSystem, this);
 		this->addEntityComponentInternal(componentName, component);
 
 		return component.get();
@@ -46,7 +46,7 @@ public:
 	}
 
 protected:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * m_pSystem = nullptr;
 	int m_entityID = -1;
 	std::string m_entityName = "";
 	bool m_isActive = true;

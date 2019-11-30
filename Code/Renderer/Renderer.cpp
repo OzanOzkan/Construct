@@ -11,7 +11,7 @@
 /////////////////////////////////////////////////
 extern "C"
 {
-	API_EXPORT IRenderer* CreateModuleInterface(SEnvironment *env, ERenderer renderer)
+	API_EXPORT IRenderer* CreateModuleInterface(ISystem * systemContext, ERenderer renderer)
 	{
 		IRenderer* pRenderer = nullptr;
 
@@ -19,13 +19,13 @@ extern "C"
 		{
 		case ERenderer::eRDR_SDL2:
 		{
-			pRenderer = new CSDLRenderer(env);
+			pRenderer = new CSDLRenderer(systemContext);
 		}
 		break;
 		}
 
 		pRenderer->InitializeModule();
 
-		return std::move(pRenderer);
+		return pRenderer;
 	}
 }

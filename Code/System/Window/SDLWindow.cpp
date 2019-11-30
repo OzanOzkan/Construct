@@ -7,13 +7,8 @@
 #include <ILog.h>
 
 /////////////////////////////////////////////////
-CSDLWindow::CSDLWindow(SEnvironment * env)
-	: m_pEnv(env)
-{
-}
-
-/////////////////////////////////////////////////
-CSDLWindow::~CSDLWindow()
+CSDLWindow::CSDLWindow(ISystem * systemContext)
+	: m_pSystem(systemContext)
 {
 }
 
@@ -36,7 +31,7 @@ void CSDLWindow::openWindow(const int & height, const int & width, TEventCallbac
 	m_pSDLWindow = SDL_CreateWindow("Construct (SDL2)", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	if (!m_pSDLWindow)
 	{
-		m_pEnv->pLog->Log("CSDLWindow::openWindow: Failed to create SDL window.");
+		GetSystem()->GetLogger()->Log("CSDLWindow::openWindow: Failed to create SDL window.");
 		return;
 	}
 

@@ -71,8 +71,8 @@ void MousePositionCallback(GLFWwindow* window, double xpos, double ypos)
 }
 
 /////////////////////////////////////////////////
-CGLFWWindow::CGLFWWindow(SEnvironment * env)
-	: m_pEnv(env)
+CGLFWWindow::CGLFWWindow(ISystem * systemContext)
+	: m_pSystem(systemContext)
 {
 }
 

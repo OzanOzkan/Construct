@@ -6,30 +6,31 @@
 #include "Game.h"
 
 #include "EntityComponents/SpriteRendererEntityComponent.h"
+#include "EntityComponents/TextRendererEntityComponent.h"
 
 extern "C"
 {
-	API_EXPORT IModule* CreateGameModule(SEnvironment* env)
+	API_EXPORT IModule* CreateGameModule(ISystem* systemContext)
 	{
-		std::unique_ptr<CGame> pGame = std::make_unique<CGame>(env);
+		CGame* pGame = new CGame(systemContext);
 
-		return pGame.release();
+		return pGame;
 	}
 }
 
-CGame::CGame(SEnvironment* env)
-	: m_pEnv(env)
+CGame::CGame(ISystem* systemContext)
+	: m_pSystem(systemContext)
 {
 
 }
 
 void CGame::InitializeModule()
 {
-	m_pEnv->pLog->Log("=========== Initializing Game ===========");
+	GetSystem()->GetLogger()->Log("=========== Initializing Game ===========");
 
 	SEntitySpawnParams params;
 	params.entityName = "MyFirstEntity";
-	IEntity* pEntity = m_pEnv->pEntitySystem->spawnEntity(params);
+	IEntity* pEntity = GetSystem()->GetEntitySystem()->spawnEntity(params);
 
 	//pEntity->addEntityComponent<SpriteRendererEntityComponent>("spriterenderer");
 
@@ -48,12 +49,18 @@ void CGame::InitializeModule()
 	pMarioRenderer->setFile("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\mario.png");
 	pMarioRenderer->updateComponent();
 
+	TextRendererEntityComponent* pTextRenderer = pEntity->addEntityComponent<TextRendererEntityComponent>("myText");
+	pTextRenderer->setText("Test 123 Ozan");
+	pTextRenderer->setFont("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\Fonts\\SYSTEM.TTF");
+	pTextRenderer->setFontSize(24);
+	pTextRenderer->updateComponent();
+
 	std::string entityDebugText = "Entity: " + pEntity->getName() + " created";
-	m_pEnv->pLog->Log(entityDebugText.c_str());
+	GetSystem()->GetLogger()->Log(entityDebugText.c_str());
 
 	std::string debugText = pEntity->getName() + " component count: " + std::to_string(pEntity->getComponentCount());
-	m_pEnv->pLog->Log(debugText.c_str());
+	GetSystem()->GetLogger()->Log(debugText.c_str());
 
 
-	m_pEnv->pLog->Log("=========== Game Initialized ===========");
+	GetSystem()->GetLogger()->Log("=========== Game Initialized ===========");
 }

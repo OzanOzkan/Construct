@@ -14,20 +14,20 @@
 class CEntitySystem : public IEntitySystem
 {
 public:
-	CEntitySystem(SEnvironment* env);
+	CEntitySystem(ISystem* systemContext);
 
 	// IEntitySystem
-	virtual IEntity* spawnEntity(const SEntitySpawnParams& spawnParams) override;
-	virtual void removeEntity(IEntity* pEntity) override;
-	virtual int getEntityCount() const override;
-	virtual void addEntityEventListener(IEntity* pEntity) override;
-	virtual void removeEntityEventListener(IEntity* pEntity) override;
+	IEntity* spawnEntity(const SEntitySpawnParams& spawnParams) override;
+	void removeEntity(IEntity* pEntity) override;
+	int getEntityCount() const override;
+	void addEntityEventListener(IEntity* pEntity) override;
+	void removeEntityEventListener(IEntity* pEntity) override;
 	// ~IEntitySystem
 
-	virtual void onUpdate() override;
+	void onUpdate() override;
 
 private:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * m_pSystem = nullptr;
 	std::set<std::shared_ptr<CEntity>> m_entityList = {};
 	std::set<IEntity*> m_eventListeners = {};
 };

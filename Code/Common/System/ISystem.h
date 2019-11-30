@@ -10,26 +10,14 @@
 #include "IWindowEventListener.h"
 #include "IFileManager.h"
 
+#include <memory>
+
 class ISystem;
 class IRenderer;
 class ILog;
 class IInput;
 class IWindowEventListener;
 class IEntitySystem;
-
-struct SEnvironment
-{
-	ISystem*		pSystem;
-	IRenderer*		pRenderer;
-	ILog*			pLog;
-	IInput*			pInput;
-	IEntitySystem*	pEntitySystem;
-};
-
-extern "C"
-{
-	API_EXPORT ISystem* CreateSystemInterface();
-}
 
 class ISystem : public IModule
 {
@@ -41,7 +29,7 @@ public:
 	virtual void onUpdate() = 0;
 	// ~ISystemInterface
 
-	virtual SEnvironment* GetEnvironment() = 0;
+	//virtual SEnvironment* GetEnvironment() = 0;
 
 	// Window
 	virtual void registerWindowEvents(IWindowEventListener* listener) = 0;
@@ -54,4 +42,10 @@ public:
 
 	// File Manager
 	virtual IFileManager* getFileManager() = 0;
+
+	// Modules
+	virtual IRenderer* GetRenderer() = 0;
+	virtual ILog* GetLogger() = 0;
+	virtual IInput* GetInput() = 0;
+	virtual IEntitySystem* GetEntitySystem() = 0;
 };

@@ -23,18 +23,18 @@ public:
 	virtual void updateComponent() = 0;
 
 protected:
-	SEnvironment * getEnvironment() { return m_pEnv; }
+	ISystem * GetSystem() { return m_pSystem; }
 
 private:
 	friend class IEntity;
-	virtual void initComponent(SEnvironment* pEnv, IEntity* pEntity) {
-		m_pEnv = pEnv;
+	virtual void initComponent(ISystem* systemContext, IEntity* pEntity) {
+		m_pSystem = systemContext;
 		m_pEntity = pEntity;
 		Init();
 	}
 
 protected:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * m_pSystem = nullptr;
 	IEntity * m_pEntity = nullptr;
 	bool m_isActive = true;
 };

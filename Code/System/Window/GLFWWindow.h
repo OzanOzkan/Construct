@@ -13,7 +13,7 @@
 class CGLFWWindow : public IWindow
 {
 public:
-	CGLFWWindow(SEnvironment* env);
+	CGLFWWindow(ISystem* systemContext);
 	virtual ~CGLFWWindow();
 
 	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) override;
@@ -24,7 +24,10 @@ public:
 	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }
 
 private:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * GetSystem() { return m_pSystem; }
+
+private:
+	ISystem * m_pSystem = nullptr;
 	GLFWwindow * m_pWindow = nullptr;
 	TEventCallbackFn m_callbackFn;
 };

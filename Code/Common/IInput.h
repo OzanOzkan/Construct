@@ -45,8 +45,3 @@ public:
 	//virtual void IsMouseButtonDown(const int& button) = 0;
 	//virtual void GetMousePosition() = 0;
 };
-
-extern "C"
-{
-	API_EXPORT IInput* CreateInputInterface(SEnvironment *env);
-}

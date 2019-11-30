@@ -20,20 +20,10 @@ extern "C"
 {
 	API_EXPORT ISystem* CreateSystemInterface()
 	{
-		std::unique_ptr<CSystem> pSystem = std::make_unique<CSystem>();
+		ISystem* pSystem = new CSystem();
 
-		return pSystem.release();
+		return pSystem;
 	}
-}
-
-/////////////////////////////////////////////////
-CSystem::CSystem()
-{
-}
-
-/////////////////////////////////////////////////
-CSystem::~CSystem()
-{
 }
 
 /////////////////////////////////////////////////
@@ -43,14 +33,10 @@ void CSystem::InitializeModule()
 		SUBJECT TO CHANGE: Temporary implementation.
 	*/
 
-	m_env.pSystem = this;
+	m_pLogger = std::make_unique<CLog>();
+	m_fileManager = std::make_unique<CFileManager>(this);
 
-	std::unique_ptr<CLog> logger = std::make_unique<CLog>();
-	m_env.pLog = logger.release();
-
-	m_fileManager = std::make_unique<CFileManager>(&m_env);
-
-	m_windowManager = std::make_unique<CWindowManager>(&m_env);
+	m_windowManager = std::make_unique<CWindowManager>(this);
 	m_windowManager->initWindow(EWindowType::eWT_SDL2);
 	m_windowManager->registerWindowEvents(this);
 
@@ -59,8 +45,7 @@ void CSystem::InitializeModule()
 
 	m_windowManager->registerWindowEvents(this);
 
-	std::unique_ptr<CEntitySystem> entitySystem = std::make_unique<CEntitySystem>(&m_env);
-	m_env.pEntitySystem = entitySystem.release();
+	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
 
 	CreateModuleInstance(EModule::eM_GAME);
 
@@ -75,10 +60,10 @@ void CSystem::onUpdate()
 {
 	// Make system event listener.
 	m_windowManager->onUpdate();
-	m_env.pRenderer->onUpdate();
-	m_env.pInput->onUpdate();
+	GetRenderer()->onUpdate();
+	GetInput()->onUpdate();
 
-	m_env.pEntitySystem->onUpdate();
+	GetEntitySystem()->onUpdate();
 }
 
 /////////////////////////////////////////////////
@@ -93,57 +78,45 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	case EModule::eM_RENDERER:
 	{
 		auto lib = LoadExternalLibrary("Renderer.dll");
-		typedef IRenderer*(*FNPTR)(SEnvironment* env, ERenderer renderer);
+		typedef IRenderer*(*FNPTR)(ISystem* systemContext, ERenderer renderer);
 		FNPTR CreateModuleInterface = (FNPTR)GetProcAddress(lib, "CreateModuleInterface");
 
-		if (!CreateModuleInterface) {
-			GetEnvironment()->pLog->Log("Cannot find Renderer.dll");
-		}
+		if (!CreateModuleInterface)
+			GetLogger()->Log("Cannot find Renderer.dll");
 		else
-		{
-			if (m_renderer = std::unique_ptr<IRenderer>(CreateModuleInterface(&m_env, ERenderer::eRDR_SDL2)))
-			{
-				m_env.pRenderer = m_renderer.get();
-			}
-		}
+			m_pRenderer = std::unique_ptr<IRenderer>(CreateModuleInterface(this, ERenderer::eRDR_SDL2));
 	}
 	break;
 	case EModule::eM_INPUT:
 	{
 		auto lib = LoadExternalLibrary("Input.dll");
-		typedef IInput*(*FNPTR)(SEnvironment* env);
+		typedef IInput*(*FNPTR)(ISystem* systemContext);
 		FNPTR CreateInputInterface = (FNPTR)GetProcAddress(lib, "CreateInputInterface");
 
 		if (!CreateInputInterface) {
-			GetEnvironment()->pLog->Log("Cannot find Input.dll");
+			GetLogger()->Log("Cannot find Input.dll");
 		}
-		else
-		{
-			if (m_env.pInput = CreateInputInterface(&m_env))
-			{
-				m_env.pInput->InitializeModule();
-				GetEnvironment()->pLog->Log("Module: Input: OK");
+		else {
+			if (m_pInput = std::unique_ptr<IInput>(CreateInputInterface(this))) {
+				GetInput()->InitializeModule();
+				GetLogger()->Log("Module: Input: OK");
 			}
-
 		}
 	}
 	break;
 	case EModule::eM_GAME:
 	{
 		auto lib = LoadExternalLibrary("Game.dll");
-		typedef IModule*(*FNPTR)(SEnvironment* env);
+		typedef IModule*(*FNPTR)(ISystem* systemContext);
 		FNPTR CreateGameModule = (FNPTR)GetProcAddress(lib, "CreateGameModule");
 
 		if (!CreateGameModule) {
-			GetEnvironment()->pLog->Log("Cannot find Game.dll");
+			GetLogger()->Log("Cannot find Game.dll");
 		}
-		else
-		{
-			if (IModule* pModule = CreateGameModule(&m_env))
-			{
+		else {
+			if (IModule* pModule = CreateGameModule(this)) {
 				pModule->InitializeModule();
 			}
-
 		}
 	}
 	break;
@@ -173,7 +146,7 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 {
 	if (event.event_type == EWindowEventType::eWE_WINDOW_CLOSED)
 	{
-		GetEnvironment()->pLog->Log("CSystem::onWindowEvent(): Window Closed.");
+		GetLogger()->Log("CSystem::onWindowEvent(): Window Closed.");
 		m_isQuit = true;
 	}
 }

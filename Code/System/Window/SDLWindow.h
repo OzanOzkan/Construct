@@ -13,8 +13,7 @@
 class CSDLWindow : public IWindow
 {
 public:
-	CSDLWindow(SEnvironment* env);
-	virtual ~CSDLWindow();
+	CSDLWindow(ISystem* systemContext);
 
 	// IWindow
 	virtual void openWindow(const int& height, const int& width, TEventCallbackFn callbackFn) override;
@@ -26,10 +25,11 @@ public:
 	// ~IWindow
 
 private:
+	ISystem * GetSystem() { return m_pSystem; }
 	void handleEvent(const SDL_Event& SDLEvent);
 
 private:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * m_pSystem = nullptr;
 	TEventCallbackFn m_callbackFn;
 	bool m_quit = false;
 	SDL_Window * m_pSDLWindow = nullptr;

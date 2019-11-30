@@ -49,12 +49,14 @@
 class CGame : public IModule
 {
 public:
-	CGame(SEnvironment* env);
-	virtual ~CGame() {}
+	CGame(ISystem* systemContext);
 
-	virtual void InitializeModule() override;
-	virtual void onUpdate() override {}
+	void InitializeModule() override;
+	void onUpdate() override {}
 
 private:
-	SEnvironment * m_pEnv = nullptr;
+	ISystem * GetSystem() { return m_pSystem; }
+
+private:
+	ISystem * m_pSystem = nullptr;
 };
