@@ -1,3 +1,7 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #pragma once
 
 #include "Core.h"
@@ -41,8 +45,3 @@ public:
 	//virtual void IsMouseButtonDown(const int& button) = 0;
 	//virtual void GetMousePosition() = 0;
 };
-
-extern "C"
-{
-	API_EXPORT IInput* CreateInputInterface(SEnvironment *env);
-}

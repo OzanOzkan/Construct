@@ -1,3 +1,7 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #pragma once
 
 #include <memory>
@@ -7,7 +11,7 @@
 #include <System/ISystem.h>
 #include <System/IWindow.h>
 
-#include "GLFWWindow.h"
+//#include "GLFWWindow.h"
 
 enum class EWindowType
 {
@@ -19,7 +23,7 @@ enum class EWindowType
 class CWindowManager
 {
 public:
-	CWindowManager(SEnvironment* env);
+	CWindowManager(ISystem* systemContext);
 	virtual ~CWindowManager() {};
 
 	void initWindow(const EWindowType& windowType);
@@ -31,12 +35,15 @@ public:
 	void onWindowEvent(const SWindowEvent& event);
 
 	WindowProcAddr getWindowProcAddress();
+	int getWindowId();
+	int getTicks() { return m_activeWindow->getTicks(); }
 
 private:
+	ISystem * GetSystem() { return m_pSystem; }
 	void notifyListeners(const SWindowEvent& event);
 
 private:
-	SEnvironment * m_pEnv;
+	ISystem * m_pSystem;
 
 	int m_height = 600;
 	int m_width = 800;

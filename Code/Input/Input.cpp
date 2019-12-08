@@ -1,30 +1,28 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "Input.h"
 
 #include <ILog.h>
-#include <IRenderer.h>
+#include <Renderer/IRenderer.h>
 
 #include <string>
 #include <memory>
 
 extern "C"
 {
-	API_EXPORT IInput* CreateInputInterface(SEnvironment *env)
+	API_EXPORT IInput* CreateInputInterface(ISystem* systemContext)
 	{
-		std::unique_ptr<CInput> pInput = std::make_unique<CInput>(env);
+		IInput* pInput = new CInput(systemContext);
 
-		return pInput.release();
+		return pInput;
 	}
 }
 
 /////////////////////////////////////////////////
-CInput::CInput(SEnvironment* env)
-	:m_pEnv(env)
-{
-
-}
-
-/////////////////////////////////////////////////
-CInput::~CInput()
+CInput::CInput(ISystem* systemContext)
+	:m_pSystem(systemContext)
 {
 
 }
@@ -32,7 +30,7 @@ CInput::~CInput()
 /////////////////////////////////////////////////
 void CInput::InitializeModule()
 {
-	m_pEnv->pSystem->registerWindowEvents(this);
+	//GetSystem()->registerWindowEvents(this);
 }
 
 /////////////////////////////////////////////////
@@ -71,14 +69,14 @@ void CInput::onWindowEvent(const SWindowEvent & event)
 	{
 		std::string logMsg = "CInput::onWindowEvent(): eWE_KEY_PRESSED: ";
 		logMsg += std::to_string(event.scancode);
-		m_pEnv->pLog->Log(logMsg.c_str());
+		GetSystem()->GetLogger()->Log(logMsg.c_str());
 	}
 	break;
 	case EWindowEventType::eWE_KEY_RELEASED:
 	{
 		std::string logMsg = "CInput::onWindowEvent(): eWE_KEY_RELEASED: ";
 		logMsg += std::to_string(event.scancode);
-		m_pEnv->pLog->Log(logMsg.c_str());
+		GetSystem()->GetLogger()->Log(logMsg.c_str());
 	}
 	break;
 	case EWindowEventType::eWE_MOUSE_POSITION_CHANGED:
@@ -88,26 +86,26 @@ void CInput::onWindowEvent(const SWindowEvent & event)
 		auto posy = std::to_string(event.y);
 		logMsg += posx + " " + posy;
 
-		m_pEnv->pLog->Log(logMsg.c_str());
+		GetSystem()->GetLogger()->Log(logMsg.c_str());
 	}
 	break;
 	case EWindowEventType::eWE_MOUSE_BUTTON_PRESSED:
 	{
 		std::string logMsg = "CInput::onWindowEvent() : eWE_MOUSE_BUTTON_PRESSED: ";
 		logMsg += std::to_string(event.scancode);
-		m_pEnv->pLog->Log(logMsg.c_str());
+		GetSystem()->GetLogger()->Log(logMsg.c_str());
 	}
 	break;
 	case EWindowEventType::eWE_MOUSE_BUTTON_RELEASED:
 	{
 		std::string logMsg = "CInput::onWindowEvent() : eWE_MOUSE_BUTTON_RELEASED: ";
 		logMsg += std::to_string(event.scancode);
-		m_pEnv->pLog->Log(logMsg.c_str());
+		GetSystem()->GetLogger()->Log(logMsg.c_str());
 	}
 	break;
 	default:
 	{
-		m_pEnv->pLog->Log("CInput::onWindowEvent(): Unhandled window event.");
+		GetSystem()->GetLogger()->Log("CInput::onWindowEvent(): Unhandled window event.");
 	}
 	break;
 	}

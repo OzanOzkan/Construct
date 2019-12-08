@@ -1,5 +1,9 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "WindowManager.h"
-#include "GLFWWindow.h"
+//#include "GLFWWindow.h"
 #include "SDLWindow.h"
 #include <ILog.h>
 
@@ -13,8 +17,8 @@ void CWindowManager::setWindowSize(const int& height, const int& width)
 }
 
 /////////////////////////////////////////////////
-CWindowManager::CWindowManager(SEnvironment * env)
-	: m_pEnv(env)
+CWindowManager::CWindowManager(ISystem * systemContext)
+	: m_pSystem(systemContext)
 {
 }
 
@@ -23,16 +27,16 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 {
 	switch (windowType)
 	{
-	case EWindowType::eWT_GLFW:
-	{
-		m_activeWindow = std::make_unique<CGLFWWindow>(m_pEnv);
-		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing GLFW Window");
-	}
-	break;
+	//case EWindowType::eWT_GLFW:
+	//{
+	//	m_activeWindow = std::make_unique<CGLFWWindow>(m_pSystem);
+	//	GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing GLFW Window");
+	//}
+	//break;
 	case EWindowType::eWT_SDL2:
 	{
-		m_activeWindow = std::make_unique<CSDLWindow>(m_pEnv);
-		m_pEnv->pLog->Log("CWindowManager:initWindow: Initializing SDL2 Window");
+		m_activeWindow = std::make_unique<CSDLWindow>(m_pSystem);
+		GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing SDL2 Window");
 	}
 	break;
 	default:
@@ -56,6 +60,12 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 WindowProcAddr CWindowManager::getWindowProcAddress()
 {
 	return m_activeWindow->getWindowProcAddress();
+}
+
+/////////////////////////////////////////////////
+int CWindowManager::getWindowId()
+{
+	return m_activeWindow->getWindowId();
 }
 
 /////////////////////////////////////////////////

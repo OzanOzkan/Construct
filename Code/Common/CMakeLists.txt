@@ -18,12 +18,28 @@ file(GLOB SYSTEM_SRC
 	"System/IFileManager.h"
 )
 
-add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC})
+file(GLOB SYSTEM_ENTITY_SYSTEM_SRC
+	"System/EntitySystem/IEntitySystem.h"
+	"System/EntitySystem/IEntity.h"
+	"System/EntitySystem/IEntityComponent.h"
+	"System/EntitySystem/IEntityBasicTypes.h"
+)
+
+file (GLOB RENDERER_SRC
+	"Renderer/IRenderer.h"
+	"Renderer/IRenderObject.h"
+)
+
+file (GLOB MATH_SRC
+	"Math/Math.h"
+)
+
+include_directories("${SDK_DIR}/glm/")
+
+add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("System" FILES ${SYSTEM_SRC})
-
-#install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION bin RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)
-
-set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+source_group("System\\EntitySystem" FILES ${SYSTEM_ENTITY_SYSTEM_SRC})
+source_group("Renderer" FILES ${RENDERER_SRC})
+source_group("Math" FILES ${MATH_SRC})

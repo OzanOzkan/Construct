@@ -5,36 +5,51 @@ project (Renderer VERSION 1.0 LANGUAGES CXX)
 file(GLOB ROOT_SRC
   "StdAfx.h"
   "StdAfx.cpp"
-  "Renderer.h"
   "Renderer.cpp"
-  "glad.cpp"
 )
 
-file (GLOB TEXTRENDERER
-  "TextRenderer/TextRenderer.h"
-  "TextRenderer/TextRenderer.cpp"
+file (GLOB SDL_RENDERER
+	"SDLRenderer/SDLRenderer.h"
+	"SDLRenderer/SDLRenderer.cpp"
 )
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${TEXTRENDERER})
+file (GLOB RENDEREROBJECT
+	"SDLRenderer/RendererObject/SDLRendererObject.h"
+	"SDLRenderer/RendererObject/SDLRendererObject.cpp"
+	"SDLRenderer/RendererObject/Sprite.h"
+	"SDLRenderer/RendererObject/Sprite.cpp"
+	"SDLRenderer/RendererObject/Text.h"
+	"SDLRenderer/RendererObject/Text.cpp"
+)
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${SDL_RENDERER} ${RENDEREROBJECT})
 
-source_group("TextRenderer" FILES ${TEXTRENDERER})
+source_group("SDLRenderer" FILES ${SDL_RENDERER})
+source_group("SDLRenderer\\RendererObject" FILES ${RENDEREROBJECT})
 
-find_package(OpenGL REQUIRED)
-include_directories("${SRC_DIR}/Common" ${OPENGL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
+#find_package(OpenGL REQUIRED)
+include_directories("${SRC_DIR}/Common")
+#target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES})
 
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glm")
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/GL")
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glad/include")
+#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/GL")
+#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glad/include")
+#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/stb_image/")
 
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glfw-3.3.bin.WIN64/include")
-link_directories("${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017")
-target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017/glfw3.lib")
+#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glfw-3.3.bin.WIN64/include")
+#link_directories("${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017")
+#target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017/glfw3.lib")
 
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/freetype-2.10.1/include")
-link_directories("${SDK_DIR}/freetype-2.10.1/bin")
-target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/freetype-2.10.1/bin/freetype.lib")
+#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/freetype-2.10.1/include")
+#link_directories("${SDK_DIR}/freetype-2.10.1/bin")
+#target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/freetype-2.10.1/bin/freetype.lib")
 
+#SDL2-2.0.10
+include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/SDL2-2.0.10/include")
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+link_directories("${SDK_DIR}/SDL2-2.0.10/lib/x64")
+	target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2.lib")
+	target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2_image.lib")
+	target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2_ttf.lib")
+endif()
 
 # Precompiled header
 #set(PCH_FILE "$(IntDir)$(TargetName).pch")
