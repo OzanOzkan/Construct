@@ -30,14 +30,16 @@ file (GLOB RENDERER_SRC
 	"Renderer/IRenderObject.h"
 )
 
-add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC})
+file (GLOB MATH_SRC
+	"Math/Math.h"
+)
+
+include_directories("${SDK_DIR}/glm/")
+
+add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("System" FILES ${SYSTEM_SRC})
 source_group("System\\EntitySystem" FILES ${SYSTEM_ENTITY_SYSTEM_SRC})
 source_group("Renderer" FILES ${RENDERER_SRC})
-
-#install(TARGETS ${PROJECT_NAME} LIBRARY DESTINATION bin RUNTIME DESTINATION bin ARCHIVE DESTINATION lib)
-
-set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+source_group("Math" FILES ${MATH_SRC})

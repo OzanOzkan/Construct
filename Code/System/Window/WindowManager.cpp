@@ -3,7 +3,7 @@
 */
 
 #include "WindowManager.h"
-#include "GLFWWindow.h"
+//#include "GLFWWindow.h"
 #include "SDLWindow.h"
 #include <ILog.h>
 
@@ -27,12 +27,12 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 {
 	switch (windowType)
 	{
-	case EWindowType::eWT_GLFW:
-	{
-		m_activeWindow = std::make_unique<CGLFWWindow>(m_pSystem);
-		GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing GLFW Window");
-	}
-	break;
+	//case EWindowType::eWT_GLFW:
+	//{
+	//	m_activeWindow = std::make_unique<CGLFWWindow>(m_pSystem);
+	//	GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing GLFW Window");
+	//}
+	//break;
 	case EWindowType::eWT_SDL2:
 	{
 		m_activeWindow = std::make_unique<CSDLWindow>(m_pSystem);

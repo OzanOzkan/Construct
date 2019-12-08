@@ -22,6 +22,7 @@ public:
 	virtual void closeWindow() override;
 	virtual void onUpdate() override;
 	TEventCallbackFn GetCallbackFunction() { return m_callbackFn; }
+	virtual int getTicks() override { return SDL_GetTicks(); }
 	// ~IWindow
 
 private:

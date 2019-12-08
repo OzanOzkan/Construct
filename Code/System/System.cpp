@@ -16,11 +16,19 @@
 #include <chrono>
 #include <future>
 
+#include <SDL.h>
+
+#ifdef _WIN32
+#else
+#include <dlfcn.h>
+#endif
+
 extern "C"
 {
-	API_EXPORT ISystem* CreateSystemInterface()
+	API_EXPORT ISystem* CreateSystemInterface(std::string libDir)
 	{
-		ISystem* pSystem = new CSystem();
+		ISystem* pSystem = new CSystem(libDir);
+		pSystem->InitializeModule();
 
 		return pSystem;
 	}
@@ -43,11 +51,14 @@ void CSystem::InitializeModule()
 	CreateModuleInstance(EModule::eM_RENDERER);
 	CreateModuleInstance(EModule::eM_INPUT);
 
-	m_windowManager->registerWindowEvents(this);
+	//m_windowManager->registerWindowEvents(this);
 
 	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
 
 	CreateModuleInstance(EModule::eM_GAME);
+
+	m_beginSec = getTime();
+	//m_beginSec = m_windowManager->getTicks();
 
 	while (!m_isQuit)
 	{
@@ -60,10 +71,18 @@ void CSystem::onUpdate()
 {
 	// Make system event listener.
 	m_windowManager->onUpdate();
-	GetRenderer()->onUpdate();
+
 	GetInput()->onUpdate();
 
 	GetEntitySystem()->onUpdate();
+
+	m_avgFps = m_nrOfFrames / ((getTime() - m_beginSec));
+
+	GetRenderer()->onUpdate();
+
+	++m_nrOfFrames;
+
+	updateFPSCounter();
 }
 
 /////////////////////////////////////////////////
@@ -73,6 +92,7 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 		SUBJECT TO CHANGE: Temporary function.
 	*/
 	
+#ifdef _WIN32
 	switch (moduleName)
 	{
 	case EModule::eM_RENDERER:
@@ -121,6 +141,55 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	}
 	break;
 	}
+#else
+	switch (moduleName)
+	{
+	case EModule::eM_RENDERER:
+	{
+		std::string libDir = m_libDir + "/libBokRenderer.so";
+		auto lib = dlopen(libDir.c_str(), RTLD_LAZY);
+        if (!lib) {
+            SDL_Log("CSystem::CreateModuleInstance:EModule::eM_RENDERER: %s", dlerror());
+        }
+
+		typedef IRenderer* (*func_ptr_t)(ISystem*, ERenderer);
+		func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreateModuleInterface");
+		m_pRenderer = std::unique_ptr<IRenderer>(static_cast<IRenderer*>(fptr(this, ERenderer::eRDR_SDL2)));
+
+	}
+	break;
+	case EModule::eM_INPUT:
+	{
+		std::string libDir = m_libDir + "/libBokInput.so";
+		auto lib = dlopen(libDir.c_str(), RTLD_LAZY);
+		if (!lib) {
+			SDL_Log("CSystem::CreateModuleInstance:EModule::eM_INPUT: %s", dlerror());
+		}
+
+		typedef IInput* (*func_ptr_t)(ISystem*);
+		func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreateInputInterface");
+
+		m_pInput = std::unique_ptr<IInput>(static_cast<IInput*>(fptr(this)));
+		m_pInput->InitializeModule();
+	}
+	break;
+	case EModule::eM_GAME:
+	{
+		std::string libDir = m_libDir + "/libBokGame.so";
+        auto lib = dlopen(libDir.c_str(), RTLD_LAZY);
+        if (!lib) {
+            SDL_Log("CSystem::CreateModuleInstance:EModule::eM_GAME: %s", dlerror());
+        }
+
+        typedef IModule* (*func_ptr_t)(ISystem*);
+        func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreateGameModule");
+
+        IModule* pModule = static_cast<IModule*>(fptr(this));
+        pModule->InitializeModule();
+	}
+	break;
+	}
+#endif
 }
 
 /////////////////////////////////////////////////
@@ -148,5 +217,32 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 	{
 		GetLogger()->Log("CSystem::onWindowEvent(): Window Closed.");
 		m_isQuit = true;
+	}
+}
+
+void CSystem::updateFPSCounter()
+{
+	std::string fpsText = std::to_string(static_cast<int>(m_avgFps)) + " FPS";
+
+	if (!m_pFPSText)
+	{
+		STextCreateParams params;
+		params.text = fpsText;
+
+#ifdef _WIN32
+		params.font = "F:\\Development\\ProjectO01\\Assets\\Fonts\\ARIAL.TTF";
+#else
+		params.font = "Fonts/ARIAL.TTF";
+#endif
+		params.fontSize = 50;
+		params.posX = 5;
+		params.posY = 5;
+
+		m_pFPSText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));
+		m_pFPSText->setRenderActive(true);
+	}
+	else
+	{
+		m_pFPSText->setText(fpsText);
 	}
 }

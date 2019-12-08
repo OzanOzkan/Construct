@@ -30,7 +30,7 @@ CInput::CInput(ISystem* systemContext)
 /////////////////////////////////////////////////
 void CInput::InitializeModule()
 {
-	GetSystem()->registerWindowEvents(this);
+	//GetSystem()->registerWindowEvents(this);
 }
 
 /////////////////////////////////////////////////

@@ -46,14 +46,18 @@ void CGame::InitializeModule()
 	//}
 
 	SpriteRendererEntityComponent* pMarioRenderer = pEntity->addEntityComponent<SpriteRendererEntityComponent>("mario");
-	pMarioRenderer->setFile("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\mario.png");
+#ifdef _WIN32
+	pMarioRenderer->setFile("F:\\Development\\ProjectO01\\Assets\\mario.png");
+#else
+	pMarioRenderer->setFile("mario.png");
+#endif
 	pMarioRenderer->updateComponent();
 
-	TextRendererEntityComponent* pTextRenderer = pEntity->addEntityComponent<TextRendererEntityComponent>("myText");
-	pTextRenderer->setText("Test 123 Ozan");
-	pTextRenderer->setFont("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\Fonts\\SYSTEM.TTF");
-	pTextRenderer->setFontSize(24);
-	pTextRenderer->updateComponent();
+	//TextRendererEntityComponent* pTextRenderer = pEntity->addEntityComponent<TextRendererEntityComponent>("myText");
+	//pTextRenderer->setText("Test 123 Ozan");
+	//pTextRenderer->setFont("C:\\Users\\Ozann\\Documents\\GitHub\\ProjectO01\\Assets\\Fonts\\ARIAL.TTF");
+	//pTextRenderer->setFontSize(24);
+	//pTextRenderer->updateComponent();
 
 	std::string entityDebugText = "Entity: " + pEntity->getName() + " created";
 	GetSystem()->GetLogger()->Log(entityDebugText.c_str());

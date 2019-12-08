@@ -2,6 +2,7 @@
 
 #include <ILog.h>
 
+#include "RendererObject/SDLRendererObject.h"
 #include "RendererObject/Sprite.h"
 #include "RendererObject/Text.h"
 
@@ -15,9 +16,23 @@ CSDLRenderer::CSDLRenderer(ISystem * systemContext)
 /////////////////////////////////////////////////
 void CSDLRenderer::InitializeModule()
 {
+	SDL_Log("CSDLRenderer::InitializeModule()");
+
 	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->getWindowId());
-	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED);
-	SDL_RenderSetLogicalSize(m_pSDLRenderer, 800, 600);
+	if(!m_pSDLWindow) SDL_Log("CSDLRenderer::InitializeModule(): Window Failure!");
+
+#ifdef _WIN32
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+#else
+	SDL_DestroyRenderer(SDL_GetRenderer(m_pSDLWindow));
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+	//m_pSDLRenderer = SDL_GetRenderer(m_pSDLWindow);
+#endif
+//    if(!m_pSDLRenderer) {
+//        SDL_Log("CSDLRenderer::InitializeModule(): SDL Renderer creation failed!");
+//        SDL_Log("ERROR: %s", SDL_GetError());
+//    }
+	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 1080, 1920);
 
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
@@ -28,6 +43,7 @@ void CSDLRenderer::InitializeModule()
 /////////////////////////////////////////////////
 void CSDLRenderer::onUpdate()
 {
+    //SDL_Log("CSDLRenderer::onUpdate");
 	doRender();
 }
 
@@ -97,41 +113,27 @@ void CSDLRenderer::UnloadTexture(const int & textureId)
 /////////////////////////////////////////////////
 void CSDLRenderer::doRender()
 {
+ //   SDL_Log("CSDLRenderer::doRender()");
+
+	// Clear SDL renderer.
 	SDL_RenderClear(m_pSDLRenderer);
+
+  //  SDL_Log("ERROR 1: %s", SDL_GetError());
 
 	for (auto& pRenderObjectEntry : m_renderObjectList)
 	{
 		IRendererObject* pRendererObject = pRenderObjectEntry.second.get();
 
+		// Do not render if object render is not active.
 		if (!pRendererObject->isRenderActive())
 			continue;
 
-		SDL_Texture* texture = nullptr;
-
-		SDL_Rect rect;
-		rect.x = pRendererObject->getPosX();
-		rect.y = pRendererObject->getPosY();
-		rect.w = pRendererObject->getWidth();
-		rect.h = pRendererObject->getHeight();
-
-		switch (pRendererObject->getType())
-		{
-		case ERendererObjectType::eRT_SPRITE:
-		{
-			CSprite* pSprite = static_cast<CSprite*>(pRendererObject);
-			texture = pSprite->getTexture();
-		}
-		break;
-		case ERendererObjectType::eRT_TEXT:
-		{
-			CText* pText = static_cast<CText*>(pRendererObject);
-			texture = pText->getTexture();
-		}
-		break;
-		}
-
-		SDL_RenderCopy(m_pSDLRenderer, texture, NULL, &rect);
+		// Load object position, size and texture to SDL Renderer.
+		pRendererObject->RenderCopy();
 	}
 
+	// Present prepared SDL renderer.
 	SDL_RenderPresent(m_pSDLRenderer);
+
+   // SDL_Log("ERROR 2: %s", SDL_GetError());
 }

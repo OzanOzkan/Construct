@@ -26,6 +26,7 @@ public:
 	virtual ~IRendererObject() {}
 	
 	virtual void Load(const SRenderObjectCreateParams& params) = 0;
+	virtual void RenderCopy() = 0;
 
 	void setId(const int& id) { m_id = id; }
 	const int& getId() { return m_id; }

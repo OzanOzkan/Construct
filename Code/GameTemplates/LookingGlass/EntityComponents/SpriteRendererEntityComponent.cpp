@@ -48,5 +48,5 @@ void SpriteRendererEntityComponent::updateComponent()
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdate()
 {
-	m_pSprite->setPosition(m_pSprite->getPosX() + 0.01f, m_pSprite->getPosY() + 0.01f);
+	m_pSprite->setPosition(m_pSprite->getPosX() + 1.f, m_pSprite->getPosY() + 1.f);
 }

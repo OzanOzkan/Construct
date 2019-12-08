@@ -3,6 +3,12 @@ bin
 SDKs
 Tools
 
+# Ignore Android Folders
+.gradle
+.idea
+.cxx
+build
+
 #Ignore files
 *.exe
 *.dll

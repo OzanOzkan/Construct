@@ -10,6 +10,8 @@
 #include <map>
 #include <set>
 
+#include <Math/Math.h>
+
 class CText;
 
 class CSDLRenderer : public IRenderer

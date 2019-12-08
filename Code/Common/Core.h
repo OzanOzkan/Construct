@@ -5,10 +5,24 @@
 #pragma once
 
 // External Library Support
-#include <Windows.h>
-// TODO: Multiplatform support.
-#define API_EXPORT __declspec(dllexport)
-#define API_IMPORT __declspec(dllimport)
 
+// TODO: Multiplatform support.
+
+#ifdef _WIN32
+#define WIN_EXPORT
+#include <Windows.h>
 #define LoadExternalLibrary(libname) :: LoadLibrary(libname)
+
+# ifdef WIN_EXPORT
+#   define API_EXPORT  __declspec( dllexport )
+# else
+#   define API_IMPORT  __declspec( dllimport )
+# endif
+#else
+#include <dlfcn.h>
+# define API_EXPORT
+#define LoadExternalLibrary(libname) :: dlopen(libname, RTLD_LAZY)
+#define GetProc(handle, func) :: dlsym(handle, func)
+#endif
+
 // ~External Library Support

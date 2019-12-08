@@ -36,7 +36,7 @@ void TextRendererEntityComponent::updateComponent()
 	params.fontSize = m_fontSize;
 	params.posX = 5;
 	params.posY = 5;
-	params.width = 300;
+	params.width = 155;
 	params.height = m_fontSize;
 
 	m_pText = static_cast<IText*>(GetSystem()->GetRenderer()->CreateRenderObject(params));

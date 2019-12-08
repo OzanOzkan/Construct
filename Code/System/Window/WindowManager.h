@@ -11,7 +11,7 @@
 #include <System/ISystem.h>
 #include <System/IWindow.h>
 
-#include "GLFWWindow.h"
+//#include "GLFWWindow.h"
 
 enum class EWindowType
 {
@@ -36,6 +36,7 @@ public:
 
 	WindowProcAddr getWindowProcAddress();
 	int getWindowId();
+	int getTicks() { return m_activeWindow->getTicks(); }
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }

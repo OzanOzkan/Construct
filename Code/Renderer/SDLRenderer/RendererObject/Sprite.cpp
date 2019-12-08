@@ -2,12 +2,13 @@
 
 #include <Renderer/IRenderer.h>
 
+/////////////////////////////////////////////////
 CSprite::CSprite(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
-	: m_pRendererContext(pRendererContext)
-	, m_pSDLRenderer(pSDLRenderer)
+	: CSDLRendererObject(pRendererContext, pSDLRenderer)
 {
 }
 
+/////////////////////////////////////////////////
 void CSprite::Load(const SRenderObjectCreateParams& params)
 {
 	const SSpriteCreateParams& spriteParams = static_cast<const SSpriteCreateParams&>(params);
@@ -21,12 +22,20 @@ void CSprite::Load(const SRenderObjectCreateParams& params)
 	setTexture(IMG_LoadTexture(m_pSDLRenderer, m_file.c_str()));
 }
 
+/////////////////////////////////////////////////
+void CSprite::RenderCopy()
+{
+	SDL_Rect rect;
+	rect.x = getPosX();
+	rect.y = getPosY();
+	rect.w = getWidth();
+	rect.h = getHeight();
+
+	SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &rect);
+}
+
+/////////////////////////////////////////////////
 void CSprite::setFile(const std::string & file)
 {
 	m_file = file;
-}
-
-SDL_Texture* CSprite::getTexture()
-{
-	return m_pTexture;
 }

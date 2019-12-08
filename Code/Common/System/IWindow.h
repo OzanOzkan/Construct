@@ -22,4 +22,5 @@ public:
 	virtual int getWindowId() = 0;
 	virtual void closeWindow() = 0;
 	virtual void onUpdate() = 0;
+	virtual int getTicks() = 0;
 };
