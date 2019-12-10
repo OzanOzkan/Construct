@@ -5,6 +5,7 @@
 #pragma once
 
 #include "IEntityComponent.h"
+#include "../../Math/Math.h"
 
 #include <string>
 #include <map>
@@ -22,6 +23,9 @@ public:
 	virtual void setActive(const bool& isActive) { m_isActive = isActive; }
 	virtual bool isActive() const { return m_isActive; }
 	virtual int getComponentCount() const { return m_entityComponents.size(); };
+	virtual void setPosition(const Vector2& position) { m_entityPosition = position; }
+	virtual const Vector2& getPosition() { return m_entityPosition; }
+
 	virtual void sendEvent(const EEntityEvent& event) = 0;
 
 protected:
@@ -51,4 +55,5 @@ protected:
 	std::string m_entityName = "";
 	bool m_isActive = true;
 	std::map<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents{};
+	Vector2 m_entityPosition{ 0.f, 0.f };
 };

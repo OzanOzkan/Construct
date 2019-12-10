@@ -22,10 +22,10 @@ void CSDLRenderer::InitializeModule()
 	if(!m_pSDLWindow) SDL_Log("CSDLRenderer::InitializeModule(): Window Failure!");
 
 #ifdef _WIN32
-	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 #else
 	SDL_DestroyRenderer(SDL_GetRenderer(m_pSDLWindow));
-	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	//m_pSDLRenderer = SDL_GetRenderer(m_pSDLWindow);
 #endif
 //    if(!m_pSDLRenderer) {

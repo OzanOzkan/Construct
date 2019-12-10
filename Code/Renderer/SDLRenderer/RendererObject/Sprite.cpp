@@ -13,23 +13,22 @@ void CSprite::Load(const SRenderObjectCreateParams& params)
 {
 	const SSpriteCreateParams& spriteParams = static_cast<const SSpriteCreateParams&>(params);
 
-	setType(ERendererObjectType::eRT_SPRITE);
-	setFile(spriteParams.spriteFile.c_str());
-	setTexture(IMG_LoadTexture(m_pSDLRenderer, spriteParams.spriteFile.c_str()));
-	setSize(spriteParams.width, spriteParams.height);
-	setPosition(spriteParams.posX, spriteParams.posY);
-
-	setTexture(IMG_LoadTexture(m_pSDLRenderer, m_file.c_str()));
+	m_type			= ERendererObjectType::eRT_SPRITE;
+	m_file			= spriteParams.spriteFile.c_str();
+	m_width			= spriteParams.width;
+	m_height		= spriteParams.height;
+	m_position		= spriteParams.position;
+	m_pSDLTexture	= IMG_LoadTexture(m_pSDLRenderer, m_file.c_str());
 }
 
 /////////////////////////////////////////////////
 void CSprite::RenderCopy()
 {
 	SDL_Rect rect;
-	rect.x = getPosX();
-	rect.y = getPosY();
-	rect.w = getWidth();
-	rect.h = getHeight();
+	rect.x = m_position.x;
+	rect.y = m_position.y;
+	rect.w = m_width;
+	rect.h = m_height;
 
 	SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &rect);
 }

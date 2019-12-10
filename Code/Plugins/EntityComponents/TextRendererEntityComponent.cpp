@@ -1,5 +1,6 @@
 #include "TextRendererEntityComponent.h"
 
+#include <System/EntitySystem/IEntity.h>
 #include <Renderer/IRenderer.h>
 
 /////////////////////////////////////////////////
@@ -34,10 +35,7 @@ void TextRendererEntityComponent::updateComponent()
 	params.text = m_text;
 	params.font = m_font;
 	params.fontSize = m_fontSize;
-	params.posX = 5;
-	params.posY = 5;
-	params.width = 155;
-	params.height = m_fontSize;
+	params.position = getEntity()->getPosition();
 
 	m_pText = static_cast<IText*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pText->setRenderActive(true);
@@ -46,5 +44,5 @@ void TextRendererEntityComponent::updateComponent()
 /////////////////////////////////////////////////
 void TextRendererEntityComponent::onEntityUpdate()
 {
-
+	m_pText->setPosition(getEntity()->getPosition());
 }

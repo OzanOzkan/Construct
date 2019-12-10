@@ -35,10 +35,9 @@ void SpriteRendererEntityComponent::updateComponent()
 {
 	SSpriteCreateParams params;
 	params.spriteFile = m_spriteFile;
-	params.posX = 10;
-	params.posY = 10;
-	params.width = 70;
-	params.height = 100;
+	params.position = getEntity()->getPosition();
+	params.width = 350;
+	params.height = 500;
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pSprite->setRenderActive(true);
@@ -48,5 +47,5 @@ void SpriteRendererEntityComponent::updateComponent()
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdate()
 {
-	m_pSprite->setPosition(m_pSprite->getPosX() + 1.f, m_pSprite->getPosY() + 1.f);
+	m_pSprite->setPosition(getEntity()->getPosition());
 }

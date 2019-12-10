@@ -235,8 +235,7 @@ void CSystem::updateFPSCounter()
 		params.font = "Fonts/ARIAL.TTF";
 #endif
 		params.fontSize = 50;
-		params.posX = 5;
-		params.posY = 5;
+		params.position = Vector2(5.f, 5.f);
 
 		m_pFPSText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));
 		m_pFPSText->setRenderActive(true);

@@ -18,8 +18,5 @@ public:
 
 private:
 	std::string m_spriteFile = "";
-	float m_width = -1;
-	float m_height = -1;
-
 	ISprite* m_pSprite = nullptr;
 };

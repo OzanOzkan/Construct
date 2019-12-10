@@ -40,8 +40,8 @@
     <content url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass">
       <sourceFolder url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass" isTestSource="false" />
     </content>
-    <content url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass/EntityComponents">
-      <sourceFolder url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass/EntityComponents" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass/Player">
+      <sourceFolder url="file://$MODULE_DIR$/../../../GameTemplates/LookingGlass/Player" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../Input">
       <sourceFolder url="file://$MODULE_DIR$/../../../Input" isTestSource="false" />
@@ -112,6 +112,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.cxx" />
       <excludeFolder url="file://$MODULE_DIR$/.externalNativeBuild" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../../Plugins/EntityComponents">
+      <sourceFolder url="file://$MODULE_DIR$/../../../Plugins/EntityComponents" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../../../Renderer">
       <sourceFolder url="file://$MODULE_DIR$/../../../Renderer" isTestSource="false" />
