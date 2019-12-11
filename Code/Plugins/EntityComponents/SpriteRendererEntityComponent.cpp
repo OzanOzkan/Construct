@@ -6,6 +6,15 @@
 #include <ILog.h>
 
 /////////////////////////////////////////////////
+SpriteRendererEntityComponent::SpriteRendererEntityComponent()
+	: m_spriteFile("")
+	, m_height(-1)
+	, m_width(-1)
+	, m_pSprite(nullptr)
+{
+}
+
+/////////////////////////////////////////////////
 void SpriteRendererEntityComponent::Init()
 {
 
@@ -36,16 +45,22 @@ void SpriteRendererEntityComponent::updateComponent()
 	SSpriteCreateParams params;
 	params.spriteFile = m_spriteFile;
 	params.position = getEntity()->getPosition();
-	params.width = 350;
-	params.height = 500;
+	params.width = m_width;
+	params.height = m_height;
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pSprite->setRenderActive(true);
 
 }
 
+void SpriteRendererEntityComponent::setSize(const float & height, const float & width)
+{
+	m_height = height;
+	m_width = width;
+}
+
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdate()
 {
-	m_pSprite->setPosition(getEntity()->getPosition());
+	m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
 }

@@ -2,12 +2,11 @@
 
 #include <System/EntitySystem/IEntityComponent.h>
 #include <EntityComponents/SpriteRendererEntityComponent.h>
-#include "Weapon.h"
 
-class CPlayer : public IEntityComponent
+class CMissile : public IEntityComponent
 {
 public:
-	CPlayer();
+	CMissile();
 
 	// IEntityComponent
 	void Init() override;
@@ -17,7 +16,8 @@ public:
 	// ~IEntityComponent
 
 private:
+	void updateEvent();
+
+private:
 	SpriteRendererEntityComponent * m_pSpriteRendererComponent;
-	CWeapon* m_pWeapon1;
-	CWeapon* m_pWeapon2;
 };

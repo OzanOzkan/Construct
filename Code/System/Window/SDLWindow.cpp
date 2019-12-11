@@ -8,7 +8,7 @@
 
 /////////////////////////////////////////////////
 CSDLWindow::CSDLWindow(ISystem * systemContext)
-	: m_pSystem(systemContext)
+	: CWindow(systemContext)
 {
 }
 
@@ -65,6 +65,9 @@ void CSDLWindow::openWindow(const int & height, const int & width, TEventCallbac
 
 	//// Use v-sync
 	//SDL_GL_SetSwapInterval(1);
+
+	// Get real window size and override if it is already set while window creation.
+	SDL_GetWindowSize(m_pSDLWindow, &m_width, &m_height);
 }
 
 /////////////////////////////////////////////////

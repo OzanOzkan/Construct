@@ -30,12 +30,11 @@ public:
 	ILog* GetLogger() override { return m_pLogger.get(); }
 	IInput* GetInput() override { return m_pInput.get(); }
 	IEntitySystem* GetEntitySystem() override { return m_pEntitySystem.get(); }
+	IWindowManager* GetWindowManager() override { return m_windowManager.get(); }
 	
 	// !Subject to change
 	void registerWindowEvents(IWindowEventListener* listener) override;
 	void unregisterWindowEvents(IWindowEventListener* listener) override;
-	WindowProcAddr getWindowProcAddress() override { return m_windowManager->getWindowProcAddress(); }
-	int getWindowId() override { return m_windowManager->getWindowId(); }
 	float getTime() const override;
 	void updateFPSCounter();
 	// ~!Subject to change

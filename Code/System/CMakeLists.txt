@@ -23,6 +23,8 @@ file (GLOB EVENTSYSTEM
 file (GLOB WINDOW
 	"Window/WindowManager.h"
 	"Window/WindowManager.cpp"
+	"Window/Window.h"
+	"Window/Window.cpp"
 #	"Window/GLFWWindow.h"
 #	"Window/GLFWWindow.cpp"
 	"Window/SDLWindow.h"

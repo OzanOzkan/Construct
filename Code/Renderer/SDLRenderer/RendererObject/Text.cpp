@@ -22,6 +22,8 @@ void CText::Load(const SRenderObjectCreateParams& params)
 	m_width		= textParams.width;
 	m_height	= textParams.height;
 
+	m_pSDLFont = TTF_OpenFont(getFont().c_str(), m_fontSize);
+
 	PrepareText();
 }
 
@@ -48,7 +50,6 @@ void CText::PrepareText()
 {
 	SDL_Color colWhite = { 255, 255, 255 };
 
-	m_pSDLFont = TTF_OpenFont(getFont().c_str(), getFontSize());
 	m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, getText().c_str(), colWhite);
 
 	int w, h;
@@ -60,5 +61,4 @@ void CText::PrepareText()
 	m_pSDLTexture = SDL_CreateTextureFromSurface(m_pSDLRenderer, m_pSDLSurface);
 
 	SDL_FreeSurface(m_pSDLSurface);
-	TTF_CloseFont(m_pSDLFont);
 }

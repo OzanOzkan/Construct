@@ -18,7 +18,7 @@ void CSDLRenderer::InitializeModule()
 {
 	SDL_Log("CSDLRenderer::InitializeModule()");
 
-	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->getWindowId());
+	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->GetWindowManager()->GetWindowId());
 	if(!m_pSDLWindow) SDL_Log("CSDLRenderer::InitializeModule(): Window Failure!");
 
 #ifdef _WIN32

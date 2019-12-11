@@ -14,6 +14,10 @@ file(GLOB ROOT_SRC
 file (GLOB PLAYER_SRC
 	"Player/Player.h"
 	"Player/Player.cpp"
+	"Player/Weapon.h"
+	"Player/Weapon.cpp"
+	"Player/Missile.h"
+	"Player/Missile.cpp"
 )
 
 include_directories("${SRC_DIR}/Common")

@@ -1,13 +1,11 @@
 #pragma once
 
 #include <System/EntitySystem/IEntityComponent.h>
-#include <EntityComponents/SpriteRendererEntityComponent.h>
-#include "Weapon.h"
 
-class CPlayer : public IEntityComponent
+class CWeapon : public IEntityComponent
 {
 public:
-	CPlayer();
+	CWeapon();
 
 	// IEntityComponent
 	void Init() override;
@@ -17,7 +15,8 @@ public:
 	// ~IEntityComponent
 
 private:
-	SpriteRendererEntityComponent * m_pSpriteRendererComponent;
-	CWeapon* m_pWeapon1;
-	CWeapon* m_pWeapon2;
+	void updateEvent();
+
+private:
+	int tempCounter;
 };
