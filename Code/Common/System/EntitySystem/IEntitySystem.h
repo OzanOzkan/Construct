@@ -9,6 +9,7 @@
 struct SEntitySpawnParams
 {
 	std::string entityName = "";
+	Vector2 position{ 0, 0 };
 };
 
 class IEntitySystem

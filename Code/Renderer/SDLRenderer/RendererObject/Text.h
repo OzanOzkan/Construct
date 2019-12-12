@@ -20,4 +20,6 @@ public:
 
 private:
 	std::string m_previousText;
+	TTF_Font* m_pSDLFont;
+	SDL_Surface* m_pSDLSurface;
 };

@@ -15,6 +15,7 @@ IEntity * CEntitySystem::spawnEntity(const SEntitySpawnParams & spawnParams)
 {
 	std::shared_ptr<CEntity> pEntity = std::make_shared<CEntity>(m_pSystem);
 	pEntity->setName(spawnParams.entityName);
+	pEntity->setPosition(spawnParams.position);
 	m_entityList.emplace(pEntity);
 
 	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_INIT);

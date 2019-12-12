@@ -57,15 +57,15 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 }
 
 /////////////////////////////////////////////////
-WindowProcAddr CWindowManager::getWindowProcAddress()
+const int& CWindowManager::GetWindowId()
 {
-	return m_activeWindow->getWindowProcAddress();
+	return m_activeWindow->getWindowId();
 }
 
 /////////////////////////////////////////////////
-int CWindowManager::getWindowId()
+const SWindowSize & CWindowManager::GetWindowSize()
 {
-	return m_activeWindow->getWindowId();
+	return m_activeWindow->getWindowSize();
 }
 
 /////////////////////////////////////////////////

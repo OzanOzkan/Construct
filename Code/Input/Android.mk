@@ -12,7 +12,8 @@ LOCAL_CPPFLAGS += -std=c++17
 LOCAL_C_INCLUDES := $(ENGINE_CODE_PATH)/Common
 
 LOCAL_SRC_FILES := \
-	$(wildcard $(MODULE_DIR)/*.cpp)
+	$(wildcard $(MODULE_DIR)/*.cpp) \
+	$(wildcard $(MODULE_DIR)/SDLInput/*.cpp)
 
 LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES
 LOCAL_CFLAGS += \

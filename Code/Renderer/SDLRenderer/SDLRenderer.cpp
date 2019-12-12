@@ -18,14 +18,14 @@ void CSDLRenderer::InitializeModule()
 {
 	SDL_Log("CSDLRenderer::InitializeModule()");
 
-	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->getWindowId());
+	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->GetWindowManager()->GetWindowId());
 	if(!m_pSDLWindow) SDL_Log("CSDLRenderer::InitializeModule(): Window Failure!");
 
 #ifdef _WIN32
-	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 #else
 	SDL_DestroyRenderer(SDL_GetRenderer(m_pSDLWindow));
-	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_PRESENTVSYNC);
+	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	//m_pSDLRenderer = SDL_GetRenderer(m_pSDLWindow);
 #endif
 //    if(!m_pSDLRenderer) {

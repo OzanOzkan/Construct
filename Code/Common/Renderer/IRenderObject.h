@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Math/Math.h"
+
 #include <string>
 
 enum class ERendererObjectType
@@ -13,8 +15,7 @@ struct SRenderObjectCreateParams
 {
 	virtual ~SRenderObjectCreateParams() {}
 
-	float posX = -1;
-	float posY = -1;
+	Vector2 position{ -1.f, -1.f };
 	float width = -1;
 	float height = -1;
 	ERendererObjectType type = ERendererObjectType::eRT_NONE;
@@ -30,15 +31,14 @@ public:
 
 	void setId(const int& id) { m_id = id; }
 	const int& getId() { return m_id; }
-	void setPosition(const float& x, const float& y) { m_posX = x; m_posY = y; }
+	void setPosition(const Vector2& position) { m_position = position; }
 	void setSize(const float& w, const float& h) { m_width = w; m_height = h; }
 	ERendererObjectType getType() { return m_type; }
 	void setType(ERendererObjectType type) { m_type = type; }
 	void setRenderActive(const bool& isRenderActive) { m_isRenderActive = isRenderActive; }
 	const bool& isRenderActive() { return m_isRenderActive; }
 
-	const float& getPosX() const { return m_posX; }
-	const float& getPosY() const { return m_posY; }
+	const Vector2& getPosition() { return m_position; }
 
 	const float& getWidth() const { return m_width; }
 	const float& getHeight() const { return m_height; }
@@ -47,8 +47,7 @@ protected:
 	int m_id = -1;
 	ERendererObjectType m_type;
 	bool m_isRenderActive = false;
-	float m_posX = -1;
-	float m_posY = -1;
+	Vector2 m_position { 0.f, 0.f };
 	float m_width = -1;
 	float m_height = -1;
 };

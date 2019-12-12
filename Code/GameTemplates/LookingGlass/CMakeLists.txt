@@ -11,16 +11,21 @@ file(GLOB ROOT_SRC
 	"Game.cpp"
 )
 
-file(GLOB ENTITY_COMPONENTS
-	"EntityComponents/SpriteRendererEntityComponent.h"
-	"EntityComponents/SpriteRendererEntityComponent.cpp"
-	"EntityComponents/TextRendererEntityComponent.h"
-	"EntityComponents/TextRendererEntityComponent.cpp"
+file (GLOB PLAYER_SRC
+	"Player/Player.h"
+	"Player/Player.cpp"
+	"Player/Weapon.h"
+	"Player/Weapon.cpp"
+	"Player/Missile.h"
+	"Player/Missile.cpp"
 )
 
 include_directories("${SRC_DIR}/Common")
+include_directories("${SRC_DIR}/Plugins")
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${ENTITY_COMPONENTS})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${PLAYER_SRC})
+
+target_link_libraries(${PROJECT_NAME} Plugins)
 
 source_group(" " FILES ${ROOT_SRC})
-source_group("EntityComponents" FILES ${ENTITY_COMPONENTS})
+source_group("Player" FILES ${PLAYER_SRC})

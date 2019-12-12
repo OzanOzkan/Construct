@@ -6,6 +6,8 @@
 class SpriteRendererEntityComponent : public IEntityComponent
 {
 public:
+	SpriteRendererEntityComponent();
+
 	// IEntityComponent
 	void Init() override;
 	unsigned int getEventMask() const override;
@@ -14,12 +16,12 @@ public:
 	// ~IEntityComponent
 
 	void setFile(const std::string& file) { m_spriteFile = file; }
+	void setSize(const float& height, const float& width);
 	void onEntityUpdate();
 
 private:
-	std::string m_spriteFile = "";
-	float m_width = -1;
-	float m_height = -1;
-
-	ISprite* m_pSprite = nullptr;
+	std::string m_spriteFile;
+	float m_height;
+	float m_width;
+	ISprite* m_pSprite;
 };

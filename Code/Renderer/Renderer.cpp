@@ -13,7 +13,6 @@ extern "C"
 {
 	API_EXPORT IRenderer* CreateModuleInterface(ISystem * systemContext, ERenderer renderer)
 	{
-		//SDL_Log("IRenderer* CreateModuleInterface");
 		IRenderer* pRenderer = nullptr;
 
 		switch (renderer)
