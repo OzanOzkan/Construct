@@ -1,3 +1,7 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "Missile.h"
 
 #include <System/EntitySystem/IEntity.h>
@@ -47,5 +51,5 @@ void CMissile::updateComponent()
 void CMissile::updateEvent()
 {
 	// Move the missile as an entity at each update.
-	getEntity()->setPosition(getEntity()->getPosition() - Vector2(0, 10));
+	getEntity()->setPosition(getEntity()->getPosition() - Vector2(0, 30));
 }

@@ -1,3 +1,7 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "Weapon.h"
 
 #include <ILog.h>
@@ -38,7 +42,7 @@ void CWeapon::updateEvent()
 {
 	++tempCounter;
 
-	if (tempCounter > 20)
+	if (tempCounter > 5)
 	{
 		SEntitySpawnParams params;
 		params.entityName = "Missile";

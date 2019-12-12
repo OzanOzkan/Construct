@@ -104,9 +104,7 @@ void CSDLWindow::onUpdate()
 /////////////////////////////////////////////////
 void CSDLWindow::handleEvent(const SDL_Event & SDLEvent)
 {
-    SDL_Log("CSDLWindow::handleEvent()");
-
-	switch (SDLEvent.type)
+   	switch (SDLEvent.type)
 	{
 	case SDL_QUIT:
 	{

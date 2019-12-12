@@ -4,9 +4,15 @@
 
 #include "Log.h"
 
+#include "SDL.h"
 #include <iostream>
 
 void CLog::Log(const char * text)
 {
+	// Temporary logging.
+#ifdef _WIN32
 	std::cout << text << std::endl;
+#else
+	SDL_Log("%s", text);
+#endif
 }

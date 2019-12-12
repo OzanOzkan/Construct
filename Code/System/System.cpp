@@ -110,18 +110,13 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 	case EModule::eM_INPUT:
 	{
 		auto lib = LoadExternalLibrary("Input.dll");
-		typedef IInput*(*FNPTR)(ISystem* systemContext);
+		typedef IInput*(*FNPTR)(ISystem* systemContext, EInput inputInterface);
 		FNPTR CreateInputInterface = (FNPTR)GetProcAddress(lib, "CreateInputInterface");
 
-		if (!CreateInputInterface) {
+		if (!CreateInputInterface)
 			GetLogger()->Log("Cannot find Input.dll");
-		}
-		else {
-			if (m_pInput = std::unique_ptr<IInput>(CreateInputInterface(this))) {
-				GetInput()->InitializeModule();
-				GetLogger()->Log("Module: Input: OK");
-			}
-		}
+		else
+			m_pInput = std::unique_ptr<IInput>(CreateInputInterface(this, EInput::eINP_SDL2));
 	}
 	break;
 	case EModule::eM_GAME:
@@ -166,11 +161,10 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 			SDL_Log("CSystem::CreateModuleInstance:EModule::eM_INPUT: %s", dlerror());
 		}
 
-		typedef IInput* (*func_ptr_t)(ISystem*);
+		typedef IInput* (*func_ptr_t)(ISystem*, EInput);
 		func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreateInputInterface");
 
-		m_pInput = std::unique_ptr<IInput>(static_cast<IInput*>(fptr(this)));
-		m_pInput->InitializeModule();
+		m_pInput = std::unique_ptr<IInput>(static_cast<IInput*>(fptr(this, EInput::eINP_SDL2)));
 	}
 	break;
 	case EModule::eM_GAME:

@@ -1,6 +1,12 @@
+/* Copyright (C) 2019 Ozan Ozkan
+* All of the implementations are experimental and subject to change.
+*/
+
 #include "Player.h"
 
 #include <System/EntitySystem/IEntity.h>
+#include <IInput.h>
+#include <ILog.h>
 
 #ifdef _WIN32
 #define SPRITE_FILE "F:\\Development\\ProjectO01\\Assets\\Sprites\\PlayerShip.png"
@@ -27,7 +33,7 @@ void CPlayer::Init()
 	m_pSpriteRendererComponent->setActive(true);
 
 	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
-	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 250));
+	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));
 
 	m_pWeapon1 = getEntity()->addEntityComponent<CWeapon>("Weapon1"); // Left weapon
 	m_pWeapon1->setPosition(Vector2(55, 80)); // Relative to ship position
@@ -45,11 +51,17 @@ unsigned int CPlayer::getEventMask() const
 /////////////////////////////////////////////////
 void CPlayer::onEvent(const EEntityEvent & event)
 {
-	
+	// Control spaceship with touch input.
+	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();
+	if (!touchEvents.empty())
+	{
+		STouchEvent touchEvent = touchEvents.front();
+		getEntity()->setPosition(Vector2(touchEvent.position.x - 130, touchEvent.position.y - 400));
+	}
 }
 
 /////////////////////////////////////////////////
 void CPlayer::updateComponent()
 {
-
+	
 }
