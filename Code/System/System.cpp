@@ -58,7 +58,6 @@ void CSystem::InitializeModule()
 	CreateModuleInstance(EModule::eM_GAME);
 
 	m_beginSec = getTime();
-	//m_beginSec = m_windowManager->getTicks();
 
 	while (!m_isQuit)
 	{
@@ -82,7 +81,7 @@ void CSystem::onUpdate()
 
 	++m_nrOfFrames;
 
-	updateFPSCounter();
+	updateSystemInfo();
 }
 
 /////////////////////////////////////////////////
@@ -214,14 +213,15 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 	}
 }
 
-void CSystem::updateFPSCounter()
+void CSystem::updateSystemInfo()
 {
-	std::string fpsText = std::to_string(static_cast<int>(m_avgFps)) + " FPS";
+	std::string systemText = std::to_string(static_cast<int>(m_avgFps)) + " FPS "
+		+ "/ Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount());
 
-	if (!m_pFPSText)
+	if (!m_systemText)
 	{
-		STextCreateParams params;
-		params.text = fpsText;
+		STextParams params;
+		params.text = systemText;
 
 #ifdef _WIN32
 		params.font = "F:\\Development\\ProjectO01\\Assets\\Fonts\\ARIAL.TTF";
@@ -231,11 +231,11 @@ void CSystem::updateFPSCounter()
 		params.fontSize = 50;
 		params.position = Vector2(5.f, 5.f);
 
-		m_pFPSText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));
-		m_pFPSText->setRenderActive(true);
+		m_systemText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));
+		m_systemText->setRenderActive(true);
 	}
 	else
 	{
-		m_pFPSText->setText(fpsText);
+		m_systemText->setText(systemText);
 	}
 }

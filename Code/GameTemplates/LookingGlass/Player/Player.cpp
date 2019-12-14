@@ -8,12 +8,6 @@
 #include <IInput.h>
 #include <ILog.h>
 
-#ifdef _WIN32
-#define SPRITE_FILE "F:\\Development\\ProjectO01\\Assets\\Sprites\\PlayerShip.png"
-#else
-#define SPRITE_FILE "Sprites/PlayerShip.png"
-#endif
-
 /////////////////////////////////////////////////
 CPlayer::CPlayer()
 	: m_pSpriteRendererComponent(nullptr)
@@ -27,8 +21,7 @@ CPlayer::CPlayer()
 void CPlayer::Init()
 {
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("PlayerSprite");
-	m_pSpriteRendererComponent->setFile(SPRITE_FILE);
-	m_pSpriteRendererComponent->setSize(259, 266); // 500, 350
+	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/PlayerShip.png");
 	m_pSpriteRendererComponent->updateComponent();
 	m_pSpriteRendererComponent->setActive(true);
 

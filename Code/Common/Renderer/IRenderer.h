@@ -32,7 +32,7 @@ public:
 	// ~Texture
 
 	// RenderObject
-	virtual IRendererObject* CreateRenderObject(const SRenderObjectCreateParams& params) = 0;
+	virtual IRendererObject* CreateRenderObject(const SRenderObjectParams& params) = 0;
 	virtual void RemoveRenderObject(IRendererObject* pRenderObject) = 0;
 	// ~RenderObject
 };

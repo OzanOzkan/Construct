@@ -13,9 +13,15 @@ public:
 	CSprite(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
 	// ISprite
-	void Load(const SRenderObjectCreateParams& params) override;
+	void Load(const SRenderObjectParams& params) override;
 	void setFile(const std::string& file) override;
 	// ~ISprite
 
 	void RenderCopy() override;
+
+private:
+	bool m_scrollingSprite;
+	float m_scrollOffset;
+	float m_scrollSpeed;
+	SSpriteParams::SSpriteScrollParams::ESpriteScrollDirection m_scrollDirection;
 };

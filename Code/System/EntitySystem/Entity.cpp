@@ -6,6 +6,14 @@
 
 /////////////////////////////////////////////////
 CEntity::CEntity(ISystem * systemContext)
+	: m_entityID (-1)
+	, m_entityName("")
+	, m_isActive(true)
+	, m_entityComponents()
+	, m_entityPosition(0.f, 0.f)
+	, m_isMarkedToDelete(false)
+	, m_timerSet(false)
+	, m_timerSetTime(-1)
 {
 	m_pSystem = systemContext;
 }
@@ -13,6 +21,10 @@ CEntity::CEntity(ISystem * systemContext)
 /////////////////////////////////////////////////
 void CEntity::sendEvent(const EEntityEvent & event)
 {
+	// Handle event for this entity
+	HandleEntityEventInternal(event);
+
+	// Send event to components
 	for (auto pComponentEntry : m_entityComponents)
 	{
 		auto pComponent = pComponentEntry.second;
@@ -21,6 +33,27 @@ void CEntity::sendEvent(const EEntityEvent & event)
 		{
 			pComponent->onEvent(event);
 		}
+	}
+}
+
+/////////////////////////////////////////////////
+void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
+{
+	switch (event)
+	{
+	case EEntityEvent::ENTITY_EVENT_UPDATE:
+	{
+		// Entity timer
+		if (m_timerSet)
+		{
+			if (GetSystem()->getTime() - m_timerSetTime >= m_timerSec)
+			{
+				sendEvent(EEntityEvent::ENTITY_EVENT_TIMER_TICK);
+				m_timerSet = false;
+			}
+		}
+	}
+	break;
 	}
 }
 
@@ -34,4 +67,12 @@ void CEntity::addEntityComponentInternal(const std::string & componentName, std:
 IEntityComponent * CEntity::getEntityComponentInternal(const std::string & componentName)
 {
 	return m_entityComponents[componentName].get();
+}
+
+/////////////////////////////////////////////////
+void CEntity::setTimer(const float& seconds)
+{
+	m_timerSet = true;
+	m_timerSetTime = GetSystem()->getTime();
+	m_timerSec = seconds;
 }

@@ -7,9 +7,9 @@
 
 #include <System/EntitySystem/IEntitySystem.h>
 #include <System/EntitySystem/IEntity.h>
+#include <System/IFileManager.h>
 
 #include "Player/Player.h"
-
 extern "C"
 {
 	API_EXPORT IModule* CreateGameModule(ISystem* systemContext)
@@ -29,6 +29,26 @@ CGame::CGame(ISystem* systemContext)
 void CGame::InitializeModule()
 {
 	GetSystem()->GetLogger()->Log("=========== Initializing Game ===========");
+
+	SWindowSize windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
+
+	// Scrolling background
+	SEntitySpawnParams scrollingBackgroundParams;
+	scrollingBackgroundParams.entityName = "ScrollingBackgroundEntity";
+	scrollingBackgroundParams.position = Vector2(0.f, 0.f);
+	IEntity* pScrollingBackground = GetSystem()->GetEntitySystem()->spawnEntity(scrollingBackgroundParams);
+	
+	SpriteRendererEntityComponent* pScrollingSpriteComp = pScrollingBackground->addEntityComponent<SpriteRendererEntityComponent>("SpriteRenderer");
+	pScrollingSpriteComp->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/background/NebulaRed.png");
+
+	SSpriteParams::SSpriteScrollParams scrollParams;
+	scrollParams.scrollSpeed = 1.f;
+	scrollParams.scrollDirection = SSpriteParams::SSpriteScrollParams::ESpriteScrollDirection::eSPD_DOWN;
+	pScrollingSpriteComp->setScrollParams(scrollParams);
+
+	pScrollingSpriteComp->updateComponent();
+	pScrollingSpriteComp->setActive(true);
+	// ~Scrolling background
 
 	SEntitySpawnParams params;
 	params.entityName = "PlayerEntity";

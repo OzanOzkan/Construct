@@ -21,7 +21,9 @@ public:
 
 private:
 	void updateEvent();
+	void destroyMissile();
 
 private:
 	SpriteRendererEntityComponent * m_pSpriteRendererComponent;
+	SWindowSize m_windowSize;
 };

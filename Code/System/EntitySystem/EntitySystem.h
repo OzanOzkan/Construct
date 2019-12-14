@@ -18,7 +18,7 @@ public:
 
 	// IEntitySystem
 	IEntity* spawnEntity(const SEntitySpawnParams& spawnParams) override;
-	void removeEntity(IEntity* pEntity) override;
+	void destroyEntity(const int& entityId) override;
 	int getEntityCount() const override;
 	void addEntityEventListener(IEntity* pEntity) override;
 	void removeEntityEventListener(IEntity* pEntity) override;
@@ -27,7 +27,10 @@ public:
 	void onUpdate() override;
 
 private:
-	ISystem * m_pSystem = nullptr;
-	std::set<std::shared_ptr<CEntity>> m_entityList = {};
-	std::set<IEntity*> m_eventListeners = {};
+	ISystem * GetSystem() { return m_pSystem; }
+
+private:
+	ISystem * m_pSystem;
+	std::map<int, std::unique_ptr<CEntity>> m_entityList;
+	std::set<IEntity*> m_eventListeners;
 };

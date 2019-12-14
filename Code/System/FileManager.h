@@ -14,6 +14,7 @@ public:
 
 	std::string readFile(const std::string& file) override;
 	void writeFile(const std::string& file, const std::string& data) override;
+	std::string getAssetsDirectory() override;
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }

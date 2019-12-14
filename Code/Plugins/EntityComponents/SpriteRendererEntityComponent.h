@@ -17,11 +17,16 @@ public:
 
 	void setFile(const std::string& file) { m_spriteFile = file; }
 	void setSize(const float& height, const float& width);
-	void onEntityUpdate();
+	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
+	
+private:
+	void onEntityUpdateEvent();
+	void onEntityDestroyEvent();
 
 private:
-	std::string m_spriteFile;
-	float m_height;
 	float m_width;
+	float m_height;
 	ISprite* m_pSprite;
+	std::string m_spriteFile;
+	SSpriteParams::SSpriteScrollParams m_scrollParams;
 };
