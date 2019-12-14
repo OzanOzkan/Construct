@@ -4,29 +4,36 @@
 
 #include "EntitySystem.h"
 
-
+/////////////////////////////////////////////////
 CEntitySystem::CEntitySystem(ISystem * systemContext)
 	: m_pSystem(systemContext)
+	, m_entityList()
+	, m_eventListeners()
 {
 }
 
 /////////////////////////////////////////////////
 IEntity * CEntitySystem::spawnEntity(const SEntitySpawnParams & spawnParams)
 {
-	std::shared_ptr<CEntity> pEntity = std::make_shared<CEntity>(m_pSystem);
+	std::unique_ptr<CEntity> pEntity = std::make_unique<CEntity>(m_pSystem);
+	pEntity->setID(m_entityList.size() > 0 ? m_entityList.rbegin()->first + 1 : 0);
 	pEntity->setName(spawnParams.entityName);
 	pEntity->setPosition(spawnParams.position);
-	m_entityList.emplace(pEntity);
-
 	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_INIT);
 
-	return pEntity.get();
+	return static_cast<IEntity*>(m_entityList.insert(
+		std::make_pair(pEntity->getID(),
+		std::move(pEntity))
+	).first->second.get());
 }
 
 /////////////////////////////////////////////////
-void CEntitySystem::removeEntity(IEntity * pEntity)
+void CEntitySystem::destroyEntity(const int& entityId)
 {
-
+	// Send destroy event to components and mark entity for delete on the next frame.
+	CEntity* pEntity = m_entityList.at(entityId).get();
+	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_DESTROY);
+	pEntity->MarkToDelete();
 }
 
 /////////////////////////////////////////////////
@@ -50,8 +57,18 @@ void CEntitySystem::removeEntityEventListener(IEntity * pEntity)
 /////////////////////////////////////////////////
 void CEntitySystem::onUpdate()
 {
-	for (auto pEntity : m_entityList)
+	auto itr = m_entityList.begin();
+	while (itr != m_entityList.end())
 	{
-		pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_UPDATE);
+		if (itr->second->IsMarkedToDelete())
+		{
+			itr = m_entityList.erase(itr);
+		}
+		else
+		{
+			itr->second->sendEvent(EEntityEvent::ENTITY_EVENT_UPDATE);
+			++itr;
+		}
+			
 	}
 }

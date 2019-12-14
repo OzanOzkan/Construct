@@ -13,7 +13,7 @@ public:
 	void setTexture(SDL_Texture* pTexture) { m_pSDLTexture = pTexture; }
 
 protected:
-	IRenderer * m_pRendererContext = nullptr;
-	SDL_Texture * m_pSDLTexture = nullptr;
-	SDL_Renderer * m_pSDLRenderer = nullptr;
+	IRenderer * m_pRendererContext;
+	SDL_Texture * m_pSDLTexture;
+	SDL_Renderer * m_pSDLRenderer;
 };

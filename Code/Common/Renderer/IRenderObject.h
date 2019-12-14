@@ -11,9 +11,9 @@ enum class ERendererObjectType
 	eRT_TEXT
 };
 
-struct SRenderObjectCreateParams
+struct SRenderObjectParams
 {
-	virtual ~SRenderObjectCreateParams() {}
+	virtual ~SRenderObjectParams() {}
 
 	Vector2 position{ -1.f, -1.f };
 	float width = -1;
@@ -26,7 +26,7 @@ class IRendererObject
 public:
 	virtual ~IRendererObject() {}
 	
-	virtual void Load(const SRenderObjectCreateParams& params) = 0;
+	virtual void Load(const SRenderObjectParams& params) = 0;
 	virtual void RenderCopy() = 0;
 
 	void setId(const int& id) { m_id = id; }
@@ -53,11 +53,27 @@ protected:
 };
 
 /////////// Sprite
-struct SSpriteCreateParams : public SRenderObjectCreateParams
+struct SSpriteParams : public SRenderObjectParams
 {
-	SSpriteCreateParams() { type = ERendererObjectType::eRT_SPRITE; }
+	struct SSpriteScrollParams
+	{
+		enum class ESpriteScrollDirection
+		{
+			eSPD_NONE = 0,
+			eSPD_UP,
+			eSPD_DOWN,
+			eSPD_LEFT,
+			eSPR_RIGHT
+		};
+
+		ESpriteScrollDirection scrollDirection = ESpriteScrollDirection::eSPD_NONE;
+		float scrollSpeed = -1;
+	};
+
+	SSpriteParams() { type = ERendererObjectType::eRT_SPRITE; }
 
 	std::string spriteFile = "";
+	SSpriteScrollParams scrollParams;
 };
 
 class ISprite : public IRendererObject
@@ -71,9 +87,9 @@ protected:
 /////////// ~Sprite
 
 /////////// Text
-struct STextCreateParams : public SRenderObjectCreateParams
+struct STextParams : public SRenderObjectParams
 {
-	STextCreateParams() { type = ERendererObjectType::eRT_TEXT; }
+	STextParams() { type = ERendererObjectType::eRT_TEXT; }
 
 	std::string text = "";
 	std::string font = "";

@@ -13,7 +13,7 @@ class CText : public IText
 public:
 	CText(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
-	void Load(const SRenderObjectCreateParams& params) override;
+	void Load(const SRenderObjectParams& params) override;
 	void RenderCopy() override;
 
 	void PrepareText();

@@ -18,7 +18,8 @@ public:
 	void setFontSize(const int& size) { m_fontSize = size; }
 
 private:
-	void onEntityUpdate();
+	void onEntityUpdateEvent();
+	void onEntityDestroyEvent();
 
 private:
 	std::string m_text = "";

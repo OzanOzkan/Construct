@@ -12,7 +12,7 @@ void TextRendererEntityComponent::Init()
 /////////////////////////////////////////////////
 unsigned int TextRendererEntityComponent::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE;
+	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_DESTROY;
 }
 
 /////////////////////////////////////////////////
@@ -22,7 +22,12 @@ void TextRendererEntityComponent::onEvent(const EEntityEvent & event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
-		onEntityUpdate();
+		onEntityUpdateEvent();
+	}
+	break;
+	case EEntityEvent::ENTITY_EVENT_DESTROY:
+	{
+		onEntityDestroyEvent();
 	}
 	break;
 	}
@@ -31,7 +36,7 @@ void TextRendererEntityComponent::onEvent(const EEntityEvent & event)
 /////////////////////////////////////////////////
 void TextRendererEntityComponent::updateComponent()
 {
-	STextCreateParams params;
+	STextParams params;
 	params.text = m_text;
 	params.font = m_font;
 	params.fontSize = m_fontSize;
@@ -42,7 +47,13 @@ void TextRendererEntityComponent::updateComponent()
 }
 
 /////////////////////////////////////////////////
-void TextRendererEntityComponent::onEntityUpdate()
+void TextRendererEntityComponent::onEntityUpdateEvent()
 {
 	m_pText->setPosition(getEntity()->getPosition());
+}
+
+/////////////////////////////////////////////////
+void TextRendererEntityComponent::onEntityDestroyEvent()
+{
+	GetSystem()->GetRenderer()->RemoveRenderObject(m_pText);
 }

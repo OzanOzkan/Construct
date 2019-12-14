@@ -36,7 +36,7 @@ public:
 	void registerWindowEvents(IWindowEventListener* listener) override;
 	void unregisterWindowEvents(IWindowEventListener* listener) override;
 	float getTime() const override;
-	void updateFPSCounter();
+	void updateSystemInfo();
 	// ~!Subject to change
 
 private:
@@ -64,5 +64,5 @@ private:
 	int m_nrOfFrames = 0;
 	int m_beginSec = 0.f;
 	float m_avgFps = 0.f;
-	IText* m_pFPSText = nullptr;
+	IText* m_systemText = nullptr;
 };

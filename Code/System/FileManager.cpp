@@ -42,3 +42,15 @@ std::string CFileManager::readFile(const std::string & file)
 void CFileManager::writeFile(const std::string & file, const std::string & data)
 {
 }
+
+/////////////////////////////////////////////////
+std::string CFileManager::getAssetsDirectory()
+{
+	// Temporary implementation.
+
+#ifdef _WIN32
+	return "F:/Development/ProjectO01/Assets/";
+#else
+	return "";
+#endif
+}

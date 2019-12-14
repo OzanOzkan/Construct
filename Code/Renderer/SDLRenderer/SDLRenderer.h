@@ -25,7 +25,7 @@ public:
 	// ~IRenderer
 
 	// RenderObject
-	IRendererObject* CreateRenderObject(const SRenderObjectCreateParams& params) override;
+	IRendererObject* CreateRenderObject(const SRenderObjectParams& params) override;
 	void RemoveRenderObject(IRendererObject* pRenderObject) override;
 	// RenderObject
 
@@ -40,10 +40,10 @@ private:
 	ISystem * GetSystem() { return m_pSystem; }
 
 private:
-	ISystem * m_pSystem = nullptr;
-	SDL_Window* m_pSDLWindow = nullptr;
-	SDL_Renderer* m_pSDLRenderer = nullptr;
+	ISystem * m_pSystem;
+	SDL_Window* m_pSDLWindow;
+	SDL_Renderer* m_pSDLRenderer;
 
-	std::map<int, SDL_Texture*> m_loadedTextures{};
-	std::map<int, std::unique_ptr<IRendererObject>> m_renderObjectList{};
+	std::map<int, SDL_Texture*> m_loadedTextures;
+	std::map<int, std::unique_ptr<IRendererObject>> m_renderObjectList; // Todo: ordered map for layers
 };

@@ -10,9 +10,9 @@ CText::CText(IRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
 }
 
 /////////////////////////////////////////////////
-void CText::Load(const SRenderObjectCreateParams& params)
+void CText::Load(const SRenderObjectParams& params)
 {
-	const STextCreateParams& textParams = static_cast<const STextCreateParams&>(params);
+	const STextParams& textParams = static_cast<const STextParams&>(params);
 
 	m_type		= ERendererObjectType::eRT_TEXT;
 	m_text		= textParams.text;
