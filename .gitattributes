@@ -1,0 +1,2 @@
+# Tell GitHub Linguist to ignore Android files.
+Code/Launcher/AndroidLauncher/* linguist-vendored=false
