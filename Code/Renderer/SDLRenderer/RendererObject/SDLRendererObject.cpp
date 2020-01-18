@@ -1,7 +1,7 @@
 #include "SDLRendererObject.h"
 
 /////////////////////////////////////////////////
-CSDLRendererObject::CSDLRendererObject(IRenderer * pRendererContext, SDL_Renderer * pSDLRenderer)
+CSDLRendererObject::CSDLRendererObject(CSDLRenderer * pRendererContext, SDL_Renderer * pSDLRenderer)
 	: m_pRendererContext(pRendererContext)
 	, m_pSDLRenderer(pSDLRenderer)
 	, m_pSDLTexture(nullptr)
@@ -11,6 +11,6 @@ CSDLRendererObject::CSDLRendererObject(IRenderer * pRendererContext, SDL_Rendere
 /////////////////////////////////////////////////
 CSDLRendererObject::~CSDLRendererObject()
 {
-	if(m_pSDLTexture)
-		SDL_DestroyTexture(m_pSDLTexture);
+/*	if(m_pSDLTexture)
+		SDL_DestroyTexture(m_pSDLTexture)*/;
 }

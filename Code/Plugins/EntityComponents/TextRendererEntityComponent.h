@@ -16,6 +16,7 @@ public:
 	void setText(const std::string& text) { m_text = text; }
 	void setFont(const std::string& font) { m_font = font; }
 	void setFontSize(const int& size) { m_fontSize = size; }
+	void setLayerId(const int& layerId) { m_layerId = layerId; }
 
 private:
 	void onEntityUpdateEvent();
@@ -26,4 +27,5 @@ private:
 	std::string m_font = "";
 	int m_fontSize = -1;
 	IText* m_pText = nullptr;
+	int m_layerId = -1;
 };

@@ -20,3 +20,5 @@ add_library (${PROJECT_NAME} STATIC ${ROOT_SRC} ${ENTITY_COMPONENTS})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("EntityComponents" FILES ${ENTITY_COMPONENTS})
+
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

@@ -22,8 +22,8 @@ void CPlayer::Init()
 {
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("PlayerSprite");
 	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/PlayerShip.png");
+	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
-	m_pSpriteRendererComponent->setActive(true);
 
 	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));

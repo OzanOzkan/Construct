@@ -1,7 +1,7 @@
 #include "Text.h"
 
 /////////////////////////////////////////////////
-CText::CText(IRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
+CText::CText(CSDLRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
 	: CSDLRendererObject(pRendererContext, pSDLRenderer)
 	, m_previousText("")
 	, m_pSDLFont(nullptr)
@@ -30,6 +30,9 @@ void CText::Load(const SRenderObjectParams& params)
 /////////////////////////////////////////////////
 void CText::RenderCopy()
 {
+	if (!m_pSDLTexture)
+		return;
+
 	if (m_text.compare(m_previousText) != 0) // Todo: Implement operator==
 	{
 		PrepareText();

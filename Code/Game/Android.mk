@@ -15,9 +15,9 @@ LOCAL_C_INCLUDES += \
 	$(wildcard $(ENGINE_CODE_PATH)/Plugins)
 
 LOCAL_SRC_FILES := \
-	$(wildcard $(MODULE_DIR)/LookingGlass/EntityComponents/*.cpp) \
-	$(wildcard $(MODULE_DIR)/LookingGlass/Player/*.cpp) \
-	$(wildcard $(MODULE_DIR)/LookingGlass/*.cpp)
+	$(wildcard $(MODULE_DIR)/Nebula/Environment/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Nebula/Player/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Nebula/*.cpp)
 
 LOCAL_SHARED_LIBRARIES := BokPlugins
 

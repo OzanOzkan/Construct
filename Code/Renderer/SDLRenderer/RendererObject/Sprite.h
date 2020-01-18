@@ -10,7 +10,7 @@ class CSprite : public ISprite,
 				public CSDLRendererObject
 {
 public:
-	CSprite(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
+	CSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
 	// ISprite
 	void Load(const SRenderObjectParams& params) override;

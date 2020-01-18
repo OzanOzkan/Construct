@@ -48,6 +48,7 @@ void SpriteRendererEntityComponent::onEvent(const EEntityEvent & event)
 void SpriteRendererEntityComponent::updateComponent()
 {
 	SSpriteParams params;
+	params.layerId = m_layerId;
 	params.spriteFile = m_spriteFile;
 	params.position = getEntity()->getPosition();
 	params.width = m_width;

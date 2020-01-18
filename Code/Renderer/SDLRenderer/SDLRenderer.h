@@ -6,11 +6,11 @@
 
 #include <SDL.h>
 
-#include <queue>
 #include <map>
-#include <set>
 
 #include <Math/Math.h>
+
+#include "SDLTextureManager.h"
 
 class CText;
 
@@ -29,10 +29,12 @@ public:
 	void RemoveRenderObject(IRendererObject* pRenderObject) override;
 	// RenderObject
 
-	// Texture
-	int LoadTexture(const std::string& filePath) override;
-	void UnloadTexture(const int& textureId) override;
+	// Texture (Todo: Will be moved to upper Renderer class)
+	int LoadTexture(const std::string& filePath) override { return -1; }
+	void UnloadTexture(const int& textureId) override {}
 	// ~Texture
+
+	CSDLTextureManager* GetTextureManager() { return m_pTextureManager.get(); }
 
 	void doRender();
 
@@ -41,9 +43,10 @@ private:
 
 private:
 	ISystem * m_pSystem;
+	std::unique_ptr<CSDLTextureManager> m_pTextureManager;
 	SDL_Window* m_pSDLWindow;
 	SDL_Renderer* m_pSDLRenderer;
 
-	std::map<int, SDL_Texture*> m_loadedTextures;
-	std::map<int, std::unique_ptr<IRendererObject>> m_renderObjectList; // Todo: ordered map for layers
+	std::multimap<int, int> m_renderLayerMap{};
+	std::map<int, std::unique_ptr<IRendererObject>> m_renderObjectList{};
 };

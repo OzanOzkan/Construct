@@ -55,7 +55,9 @@ void CSystem::InitializeModule()
 
 	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
 
+	GetLogger()->Log("=========== Initializing Game ===========");
 	CreateModuleInstance(EModule::eM_GAME);
+	GetLogger()->Log("=========== Game Initialized ===========");
 
 	m_beginSec = getTime();
 
@@ -191,6 +193,7 @@ void CSystem::unregisterWindowEvents(IWindowEventListener * listener)
 	m_windowManager->unregisterWindowEvents(listener);
 }
 
+/////////////////////////////////////////////////
 float CSystem::getTime() const
 {
 	return std::chrono::duration_cast<std::chrono::duration<float>>
@@ -215,12 +218,13 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 
 void CSystem::updateSystemInfo()
 {
-	std::string systemText = std::to_string(static_cast<int>(m_avgFps)) + " FPS "
+	std::string systemText = "   " + std::to_string(static_cast<int>(m_avgFps)) + " FPS "
 		+ "/ Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount());
 
 	if (!m_systemText)
 	{
 		STextParams params;
+		params.layerId = INT_MAX;
 		params.text = systemText;
 
 #ifdef _WIN32

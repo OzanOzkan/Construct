@@ -1,9 +1,10 @@
 #include "Sprite.h"
 
 #include <Renderer/IRenderer.h>
+#include "../SDLTextureManager.h"
 
 /////////////////////////////////////////////////
-CSprite::CSprite(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
+CSprite::CSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
 	: CSDLRendererObject(pRendererContext, pSDLRenderer)
 	, m_scrollingSprite(false)
 	, m_scrollOffset(0.f)
@@ -16,22 +17,25 @@ CSprite::CSprite(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
 void CSprite::Load(const SRenderObjectParams& params)
 {
 	const SSpriteParams& spriteParams = static_cast<const SSpriteParams&>(params);
+	CSDLTextureManager* pTextureManager = m_pRendererContext->GetTextureManager();
 
 	m_type				= ERendererObjectType::eRT_SPRITE;
-	m_file				= spriteParams.spriteFile.c_str();
-	m_pSDLTexture		= IMG_LoadTexture(m_pSDLRenderer, m_file.c_str());
-
-	int originalWidth, originalHeight;
-	SDL_QueryTexture(m_pSDLTexture, NULL, NULL, &originalWidth, &originalHeight);
-
-	m_width				= spriteParams.width > -1 ? spriteParams.width : originalWidth;
-	m_height			= spriteParams.height > -1 ? spriteParams.height : originalHeight;
-	m_width = spriteParams.width > -1 ? spriteParams.width : originalWidth;
-	m_height = spriteParams.height > -1 ? spriteParams.height : originalHeight;
+	m_file				= spriteParams.spriteFile;
 	m_position			= spriteParams.position;
 	m_scrollingSprite	= (spriteParams.scrollParams.scrollSpeed > -1);
 	m_scrollSpeed		= spriteParams.scrollParams.scrollSpeed;
 	m_scrollDirection	= spriteParams.scrollParams.scrollDirection;
+	m_pSDLTexture		= pTextureManager->GetTexture(pTextureManager->LoadTexture(spriteParams.spriteFile));
+	//m_pSDLTexture		= IMG_LoadTexture(m_pSDLRenderer, m_file.c_str());
+
+	if (m_pSDLTexture)
+	{
+		int originalWidth, originalHeight;
+		SDL_QueryTexture(m_pSDLTexture, NULL, NULL, &originalWidth, &originalHeight);
+
+		m_width = spriteParams.width > -1 ? spriteParams.width : originalWidth;
+		m_height = spriteParams.height > -1 ? spriteParams.height : originalHeight;
+	}
 }
 
 /////////////////////////////////////////////////
@@ -43,6 +47,9 @@ void CSprite::setFile(const std::string & file)
 /////////////////////////////////////////////////
 void CSprite::RenderCopy()
 {
+	if (!m_pSDLTexture)
+		return;
+
 	SDL_Rect originalPosition;
 	originalPosition.x = m_position.x;
 	originalPosition.y = m_position.y;

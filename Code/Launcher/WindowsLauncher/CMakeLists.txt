@@ -13,3 +13,5 @@ add_executable(${PROJECT_NAME} ${ROOT_SRC})
 source_group(" " FILES ${ROOT_SRC})
 
 add_dependencies(${PROJECT_NAME} Renderer)
+
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
