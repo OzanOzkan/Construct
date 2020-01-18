@@ -44,7 +44,7 @@ void CSDLWindow::openWindow(const int & height, const int & width, TEventCallbac
 	}
 
 	//Create window
-	m_pSDLWindow = SDL_CreateWindow( "Construct (SDL2)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN );
+	m_pSDLWindow = SDL_CreateWindow("Construct (SDL2)", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN);
 
 //	if( m_pSDLWindow == NULL )
 //	{

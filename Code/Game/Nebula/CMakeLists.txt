@@ -20,12 +20,22 @@ file (GLOB PLAYER_SRC
 	"Player/Missile.cpp"
 )
 
+file (GLOB ENVIRONMENT_SRC
+	"Environment/EnvironmentController.h"
+	"Environment/EnvironmentController.cpp"
+	"Environment/EnvironmentObject.h"
+	"Environment/EnvironmentObject.cpp"
+	)
+
 include_directories("${SRC_DIR}/Common")
 include_directories("${SRC_DIR}/Plugins")
 
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${PLAYER_SRC})
+add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${PLAYER_SRC} ${ENVIRONMENT_SRC})
 
 target_link_libraries(${PROJECT_NAME} Plugins)
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("Player" FILES ${PLAYER_SRC})
+source_group("Environment" FILES ${ENVIRONMENT_SRC})
+
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

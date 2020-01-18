@@ -14,7 +14,8 @@ enum class ERendererObjectType
 struct SRenderObjectParams
 {
 	virtual ~SRenderObjectParams() {}
-
+	
+	int layerId = 0;
 	Vector2 position{ -1.f, -1.f };
 	float width = -1;
 	float height = -1;
@@ -31,6 +32,8 @@ public:
 
 	void setId(const int& id) { m_id = id; }
 	const int& getId() { return m_id; }
+	void setLayerId(const int& layerId) { m_layerId = layerId; }
+	const int& getLayerId() { return m_layerId; }
 	void setPosition(const Vector2& position) { m_position = position; }
 	void setSize(const float& w, const float& h) { m_width = w; m_height = h; }
 	ERendererObjectType getType() { return m_type; }
@@ -45,6 +48,7 @@ public:
 	
 protected:
 	int m_id = -1;
+	int m_layerId = -1;
 	ERendererObjectType m_type;
 	bool m_isRenderActive = false;
 	Vector2 m_position { 0.f, 0.f };

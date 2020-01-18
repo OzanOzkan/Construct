@@ -11,6 +11,8 @@ file(GLOB ROOT_SRC
 file (GLOB SDL_RENDERER
 	"SDLRenderer/SDLRenderer.h"
 	"SDLRenderer/SDLRenderer.cpp"
+	"SDLRenderer/SDLTextureManager.h"
+	"SDLRenderer/SDLTextureManager.cpp"
 )
 
 file (GLOB RENDEREROBJECT

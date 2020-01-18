@@ -11,7 +11,7 @@ class CText : public IText
 			, public CSDLRendererObject
 {
 public:
-	CText(IRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
+	CText(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
 	void Load(const SRenderObjectParams& params) override;
 	void RenderCopy() override;

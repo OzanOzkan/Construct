@@ -39,6 +39,7 @@ file (GLOB ENTITYSYSTEM
 )
 
 include_directories("${SRC_DIR}/Common")
+include_directories("${SDK_DIR}")
 
 add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${EVENTSYSTEM} ${WINDOW} ${ENTITYSYSTEM})
 
@@ -55,3 +56,5 @@ source_group("EntitySystem" FILES ${ENTITYSYSTEM})
 include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/SDL2-2.0.10/include")
 link_directories("${SDK_DIR}/SDL2-2.0.10/lib/x64")
 target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2.lib")
+
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

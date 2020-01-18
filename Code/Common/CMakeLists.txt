@@ -36,7 +36,7 @@ file (GLOB MATH_SRC
 
 include_directories("${SDK_DIR}/glm/")
 
-#add_library (${PROJECT_NAME} STATIC ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC})
+#add_library (${PROJECT_NAME} INTERFACE)
 add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC})
 
 source_group(" " FILES ${ROOT_SRC})
@@ -45,4 +45,6 @@ source_group("System\\EntitySystem" FILES ${SYSTEM_ENTITY_SYSTEM_SRC})
 source_group("Renderer" FILES ${RENDERER_SRC})
 source_group("Math" FILES ${MATH_SRC})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+#set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
+
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

@@ -18,6 +18,7 @@ public:
 	void setFile(const std::string& file) { m_spriteFile = file; }
 	void setSize(const float& height, const float& width);
 	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
+	void setLayerId(const int& layerId) { m_layerId = layerId; }
 	
 private:
 	void onEntityUpdateEvent();
@@ -29,4 +30,5 @@ private:
 	ISprite* m_pSprite;
 	std::string m_spriteFile;
 	SSpriteParams::SSpriteScrollParams m_scrollParams;
+	int m_layerId = -1;
 };

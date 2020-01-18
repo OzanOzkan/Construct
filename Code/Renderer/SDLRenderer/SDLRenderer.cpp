@@ -9,12 +9,11 @@
 /////////////////////////////////////////////////
 CSDLRenderer::CSDLRenderer(ISystem * systemContext)
 	: m_pSystem(systemContext)
+	, m_pTextureManager(nullptr)
 	, m_pSDLWindow(nullptr)
 	, m_pSDLRenderer(nullptr)
-	, m_loadedTextures()
 	, m_renderObjectList()
 {
-
 }
 
 /////////////////////////////////////////////////
@@ -36,7 +35,12 @@ void CSDLRenderer::InitializeModule()
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
 
+	//LoadTextures();
+
 	GetSystem()->GetLogger()->Log("Renderer Initialized: SDL2");
+
+	// Initialize Texture Manager
+	m_pTextureManager = std::make_unique<CSDLTextureManager>(m_pSystem, m_pSDLRenderer);
 }
 
 /////////////////////////////////////////////////
@@ -64,9 +68,11 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 	break;
 	}
 		
-	pRenderObject->Load(params);
 	pRenderObject->setId(m_renderObjectList.size() > 0 ? m_renderObjectList.rbegin()->first + 1 : 0);
-
+	pRenderObject->Load(params);
+	
+	m_renderLayerMap.emplace(params.layerId, pRenderObject->getId());
+	
 	return static_cast<IRendererObject*>(m_renderObjectList.insert(
 		std::make_pair(pRenderObject->getId(),
 			std::move(pRenderObject)
@@ -77,50 +83,30 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 /////////////////////////////////////////////////
 void CSDLRenderer::RemoveRenderObject(IRendererObject* pRenderObject)
 {
-	m_renderObjectList.erase(pRenderObject->getId());
-}
-
-/////////////////////////////////////////////////
-int CSDLRenderer::LoadTexture(const std::string & filePath)
-{
-	int id = 0;
-	if (m_loadedTextures.size() > 0)
+	// Remove object from the layer map.
+	for (auto layerItr = m_renderLayerMap.begin(); layerItr != m_renderLayerMap.end(); ++layerItr)
 	{
-		id = m_loadedTextures.rbegin()->first + 1;
-	}
-
-	m_loadedTextures.emplace(std::make_pair(id, IMG_LoadTexture(m_pSDLRenderer, filePath.c_str())));
-
-	return id;
-}
-
-/////////////////////////////////////////////////
-void CSDLRenderer::UnloadTexture(const int & textureId)
-{
-	if (m_loadedTextures.size() > 1)
-	{
-		if (SDL_Texture* pTexture = m_loadedTextures.at(textureId))
+		if (layerItr->second == pRenderObject->getId())
 		{
-			m_loadedTextures.erase(textureId);
-
-			SDL_DestroyTexture(pTexture);
+			m_renderLayerMap.erase(layerItr);
+			break;
 		}
 	}
+
+	// And remove object from the list.
+	m_renderObjectList.erase(pRenderObject->getId());
 }
 
 /////////////////////////////////////////////////
 void CSDLRenderer::doRender()
 {
- //   SDL_Log("CSDLRenderer::doRender()");
-
 	// Clear SDL renderer.
 	SDL_RenderClear(m_pSDLRenderer);
 
-  //  SDL_Log("ERROR 1: %s", SDL_GetError());
-
-	for (auto& pRenderObjectEntry : m_renderObjectList)
+	for (auto& pRenderLayerEntry : m_renderLayerMap)
 	{
-		IRendererObject* pRendererObject = pRenderObjectEntry.second.get();
+		auto pRenderObject = m_renderObjectList.find(pRenderLayerEntry.second);
+		IRendererObject* pRendererObject = pRenderObject->second.get();
 
 		// Do not render if object render is not active.
 		if (!pRendererObject->isRenderActive())
@@ -132,6 +118,4 @@ void CSDLRenderer::doRender()
 
 	// Present prepared SDL renderer.
 	SDL_RenderPresent(m_pSDLRenderer);
-
-   // SDL_Log("ERROR 2: %s", SDL_GetError());
 }

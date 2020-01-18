@@ -19,8 +19,8 @@ void CMissile::Init()
 {
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("MissileSprite");
 	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/Missile1.png");
+	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
-	m_pSpriteRendererComponent->setActive(true);
 
 	m_windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 
