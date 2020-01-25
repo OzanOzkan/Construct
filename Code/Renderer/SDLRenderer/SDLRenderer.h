@@ -3,12 +3,11 @@
 #include <System/ISystem.h>
 #include <Renderer/IRenderer.h>
 #include <Renderer/IRenderObject.h>
+#include <Math/Math.h>
 
 #include <SDL.h>
 
 #include <map>
-
-#include <Math/Math.h>
 
 #include "SDLTextureManager.h"
 
@@ -19,26 +18,16 @@ class CSDLRenderer : public IRenderer
 public:
 	CSDLRenderer(ISystem* systemContext);
 
-	// Inherited via IRenderer
+	// IRenderer
 	void InitializeModule() override;
 	void onUpdate() override;
-	// ~IRenderer
 
-	// RenderObject
+	CSDLTextureManager* GetTextureManager() override { return m_pTextureManager.get(); }
 	IRendererObject* CreateRenderObject(const SRenderObjectParams& params) override;
 	void RemoveRenderObject(IRendererObject* pRenderObject) override;
-	// RenderObject
-
-	// Texture (Todo: Will be moved to upper Renderer class)
-	int LoadTexture(const std::string& filePath) override { return -1; }
-	void UnloadTexture(const int& textureId) override {}
-	// ~Texture
-
-	CSDLTextureManager* GetTextureManager() { return m_pTextureManager.get(); }
+	// ~IRenderer
 
 	void doRender();
-
-private:
 	ISystem * GetSystem() { return m_pSystem; }
 
 private:

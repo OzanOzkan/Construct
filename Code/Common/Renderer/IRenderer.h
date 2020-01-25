@@ -8,6 +8,7 @@
 #include "../IModule.h"
 #include "../System/ISystem.h"
 #include "IRenderObject.h"
+#include "ITextureManager.h"
 
 enum class ERenderer
 {
@@ -18,6 +19,7 @@ enum class ERenderer
 
 class IRenderer : public IModule
 {
+
 public:
 	virtual ~IRenderer() {}
 
@@ -26,13 +28,7 @@ public:
 	virtual void onUpdate() = 0;
 	// ~IModule
 
-	// Texture
-	virtual int LoadTexture(const std::string& filePath) = 0;
-	virtual void UnloadTexture(const int& textureId) = 0;
-	// ~Texture
-
-	// RenderObject
+	virtual ITextureManager* GetTextureManager() = 0;
 	virtual IRendererObject* CreateRenderObject(const SRenderObjectParams& params) = 0;
 	virtual void RemoveRenderObject(IRendererObject* pRenderObject) = 0;
-	// ~RenderObject
 };

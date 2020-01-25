@@ -37,7 +37,10 @@ int CSDLTextureManager::LoadTexture(const std::string & filePath)
 			textureId = m_loadedTextures.rbegin()->first + 1;
 		}
 
-		m_loadedTextures.emplace(std::make_pair(textureId, IMG_LoadTexture(m_pSDLRenderer, filePath.c_str())));
+		std::unique_ptr<CSDLTexture> pTexture = std::make_unique<CSDLTexture>(m_pSDLRenderer);
+		pTexture->LoadTexture(filePath);
+
+		m_loadedTextures.emplace(std::make_pair(textureId, std::move(pTexture)));
 		m_textureFileIdMap.emplace(filePath, textureId);
 	}
 
@@ -49,9 +52,9 @@ void CSDLTextureManager::UnloadTexture(const int & textureId)
 {
 	if (m_loadedTextures.size() > 1)
 	{
-		if (SDL_Texture* pTexture = m_loadedTextures.at(textureId))
+		if (CSDLTexture* pTexture = m_loadedTextures.at(textureId).get())
 		{
-			SDL_DestroyTexture(pTexture);
+			pTexture->DestroyTexture();
 			m_loadedTextures.erase(textureId);
 
 			// Erase it from file - id map as well.
@@ -68,23 +71,23 @@ void CSDLTextureManager::UnloadTexture(const int & textureId)
 }
 
 ///////////////////////////////////////////////////
-SDL_Texture * CSDLTextureManager::GetTexture(const std::string & filePath)
+CSDLTexture * CSDLTextureManager::GetTexture(const std::string & filePath)
 {
-	SDL_Texture* pRetTexture = nullptr;
+	CSDLTexture* pRetTexture = nullptr;
 
 	auto textureItr = m_loadedTextures.find(ResolveTextureId(filePath));
 	if (textureItr != m_loadedTextures.end())
-		pRetTexture = textureItr->second;
+		pRetTexture = textureItr->second.get();
 
 	return pRetTexture;
 }
 
 ///////////////////////////////////////////////////
-SDL_Texture * CSDLTextureManager::GetTexture(const int & textureId)
+CSDLTexture * CSDLTextureManager::GetTexture(const int & textureId)
 {
 	auto textureItr = m_loadedTextures.find(textureId);
 	if (textureItr != m_loadedTextures.end())
-		return textureItr->second;
+		return textureItr->second.get();
 	else
 		return nullptr;
 }
@@ -104,9 +107,9 @@ int CSDLTextureManager::ResolveTextureId(const std::string & filePath)
 ///////////////////////////////////////////////////
 void CSDLTextureManager::DestroyLoadedTextures()
 {
-	for (auto textureItr : m_loadedTextures)
+	for (auto& textureItr : m_loadedTextures)
 	{
-		SDL_DestroyTexture(textureItr.second);
+		textureItr.second->DestroyTexture();
 	}
 
 	m_loadedTextures.clear();

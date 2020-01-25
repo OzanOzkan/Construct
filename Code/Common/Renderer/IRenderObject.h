@@ -7,6 +7,7 @@
 enum class ERendererObjectType
 {
 	eRT_NONE = 0,
+	eRT_RECT,
 	eRT_SPRITE,
 	eRT_TEXT
 };
@@ -45,6 +46,8 @@ public:
 
 	const float& getWidth() const { return m_width; }
 	const float& getHeight() const { return m_height; }
+
+	void setDebugDraw(const bool& isActive) { m_debugDraw = isActive; }
 	
 protected:
 	int m_id = -1;
@@ -54,7 +57,20 @@ protected:
 	Vector2 m_position { 0.f, 0.f };
 	float m_width = -1;
 	float m_height = -1;
+	bool m_debugDraw = false;
 };
+
+/////////// Rect
+struct SRectParams : public SRenderObjectParams
+{
+	SRectParams() { type = ERendererObjectType::eRT_RECT; }
+};
+
+class IRect : public IRendererObject
+{
+	
+};
+/////////// ~Rect
 
 /////////// Sprite
 struct SSpriteParams : public SRenderObjectParams

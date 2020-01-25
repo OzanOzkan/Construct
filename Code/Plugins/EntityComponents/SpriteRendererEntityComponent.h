@@ -19,6 +19,7 @@ public:
 	void setSize(const float& height, const float& width);
 	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
 	void setLayerId(const int& layerId) { m_layerId = layerId; }
+	void setDebugDraw(const bool& isActive);
 	
 private:
 	void onEntityUpdateEvent();

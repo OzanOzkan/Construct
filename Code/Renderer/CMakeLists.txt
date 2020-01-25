@@ -11,6 +11,8 @@ file(GLOB ROOT_SRC
 file (GLOB SDL_RENDERER
 	"SDLRenderer/SDLRenderer.h"
 	"SDLRenderer/SDLRenderer.cpp"
+	"SDLRenderer/SDLTexture.h"
+	"SDLRenderer/SDLTexture.cpp"
 	"SDLRenderer/SDLTextureManager.h"
 	"SDLRenderer/SDLTextureManager.cpp"
 )
@@ -18,10 +20,12 @@ file (GLOB SDL_RENDERER
 file (GLOB RENDEREROBJECT
 	"SDLRenderer/RendererObject/SDLRendererObject.h"
 	"SDLRenderer/RendererObject/SDLRendererObject.cpp"
-	"SDLRenderer/RendererObject/Sprite.h"
-	"SDLRenderer/RendererObject/Sprite.cpp"
-	"SDLRenderer/RendererObject/Text.h"
-	"SDLRenderer/RendererObject/Text.cpp"
+	"SDLRenderer/RendererObject/SDLSprite.h"
+	"SDLRenderer/RendererObject/SDLSprite.cpp"
+	"SDLRenderer/RendererObject/SDLText.h"
+	"SDLRenderer/RendererObject/SDLText.cpp"
+	"SDLRenderer/RendererObject/SDLRect.h"
+	"SDLRenderer/RendererObject/SDLRect.cpp"
 )
 add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${SDL_RENDERER} ${RENDEREROBJECT})
 

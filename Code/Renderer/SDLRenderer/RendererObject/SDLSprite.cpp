@@ -1,10 +1,11 @@
-#include "Sprite.h"
+#include "SDLSprite.h"
 
-#include <Renderer/IRenderer.h>
 #include "../SDLTextureManager.h"
 
+#include <SDL_image.h>
+
 /////////////////////////////////////////////////
-CSprite::CSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
+CSDLSprite::CSDLSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
 	: CSDLRendererObject(pRendererContext, pSDLRenderer)
 	, m_scrollingSprite(false)
 	, m_scrollOffset(0.f)
@@ -14,7 +15,7 @@ CSprite::CSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer)
 }
 
 /////////////////////////////////////////////////
-void CSprite::Load(const SRenderObjectParams& params)
+void CSDLSprite::Load(const SRenderObjectParams& params)
 {
 	const SSpriteParams& spriteParams = static_cast<const SSpriteParams&>(params);
 	CSDLTextureManager* pTextureManager = m_pRendererContext->GetTextureManager();
@@ -25,8 +26,7 @@ void CSprite::Load(const SRenderObjectParams& params)
 	m_scrollingSprite	= (spriteParams.scrollParams.scrollSpeed > -1);
 	m_scrollSpeed		= spriteParams.scrollParams.scrollSpeed;
 	m_scrollDirection	= spriteParams.scrollParams.scrollDirection;
-	m_pSDLTexture		= pTextureManager->GetTexture(pTextureManager->LoadTexture(spriteParams.spriteFile));
-	//m_pSDLTexture		= IMG_LoadTexture(m_pSDLRenderer, m_file.c_str());
+	m_pSDLTexture		= pTextureManager->GetTexture(pTextureManager->LoadTexture(spriteParams.spriteFile))->GetSDLTexturePtr();
 
 	if (m_pSDLTexture)
 	{
@@ -39,13 +39,13 @@ void CSprite::Load(const SRenderObjectParams& params)
 }
 
 /////////////////////////////////////////////////
-void CSprite::setFile(const std::string & file)
+void CSDLSprite::setFile(const std::string & file)
 {
 	m_file = file;
 }
 
 /////////////////////////////////////////////////
-void CSprite::RenderCopy()
+void CSDLSprite::RenderCopy()
 {
 	if (!m_pSDLTexture)
 		return;
@@ -118,5 +118,48 @@ void CSprite::RenderCopy()
 		SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &tile1);
 		SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &tile2);
 		SDL_RenderSetClipRect(m_pSDLRenderer, NULL);
+	}
+
+	if (m_debugDraw)
+		DebugDraw();
+}
+
+/////////////////////////////////////////////////
+void CSDLSprite::DebugDraw()
+{
+	int layerId = 98;
+
+	// Bounding box
+	if (!m_pDebugRect)
+	{
+		SRectParams params;
+		params.layerId = layerId;
+		params.position = m_position;
+		params.height = m_height;
+		params.width = m_width;
+
+		m_pDebugRect = (IRect*)m_pRendererContext->CreateRenderObject(params);
+		m_pDebugRect->setRenderActive(true);
+	}
+	else
+	{
+		m_pDebugRect->setPosition(m_position);
+	}
+
+	// Text
+	if (!m_pDebugText)
+	{
+		STextParams params;
+		params.layerId = layerId;
+		params.position = m_position - Vector2(0, 15);
+		params.text = m_file;
+		params.fontSize = 10;
+
+		m_pDebugText = (IText*)m_pRendererContext->CreateRenderObject(params);
+		m_pDebugText->setRenderActive(true);
+	}
+	else
+	{
+		m_pDebugText->setPosition(m_position - Vector2(0, 15));
 	}
 }

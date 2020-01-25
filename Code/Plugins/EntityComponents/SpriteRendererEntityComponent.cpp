@@ -57,7 +57,6 @@ void SpriteRendererEntityComponent::updateComponent()
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pSprite->setRenderActive(true);
-
 }
 
 /////////////////////////////////////////////////
@@ -68,13 +67,22 @@ void SpriteRendererEntityComponent::setSize(const float & height, const float & 
 }
 
 /////////////////////////////////////////////////
+void SpriteRendererEntityComponent::setDebugDraw(const bool & isActive)
+{
+	if(m_pSprite)
+		m_pSprite->setDebugDraw(isActive);
+}
+
+/////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdateEvent()
 {
-	m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
+	if(m_pSprite)
+		m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
 }
 
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityDestroyEvent()
 {
-	GetSystem()->GetRenderer()->RemoveRenderObject(m_pSprite);
+	if(m_pSprite)
+		GetSystem()->GetRenderer()->RemoveRenderObject(m_pSprite);
 }

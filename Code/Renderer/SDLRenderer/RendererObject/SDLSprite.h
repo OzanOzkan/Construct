@@ -2,15 +2,11 @@
 
 #include <Renderer/IRenderObject.h>
 #include "SDLRendererObject.h"
-#include <SDL_image.h>
 
-class IRenderer;
-
-class CSprite : public ISprite, 
-				public CSDLRendererObject
+class CSDLSprite : public ISprite, public CSDLRendererObject
 {
 public:
-	CSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
+	CSDLSprite(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
 	// ISprite
 	void Load(const SRenderObjectParams& params) override;
@@ -20,8 +16,14 @@ public:
 	void RenderCopy() override;
 
 private:
-	bool m_scrollingSprite;
-	float m_scrollOffset;
-	float m_scrollSpeed;
+	void DebugDraw();
+
+private:
+	bool m_scrollingSprite = false;
+	float m_scrollOffset = -1;
+	float m_scrollSpeed = -1;
 	SSpriteParams::SSpriteScrollParams::ESpriteScrollDirection m_scrollDirection;
+
+	IRect* m_pDebugRect = nullptr;
+	IText* m_pDebugText = nullptr;
 };

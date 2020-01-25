@@ -1,7 +1,7 @@
-#include "Text.h"
+#include "SDLText.h"
 
 /////////////////////////////////////////////////
-CText::CText(CSDLRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
+CSDLText::CSDLText(CSDLRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
 	: CSDLRendererObject(pRendererContext, pSDLRenderer)
 	, m_previousText("")
 	, m_pSDLFont(nullptr)
@@ -10,7 +10,7 @@ CText::CText(CSDLRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
 }
 
 /////////////////////////////////////////////////
-void CText::Load(const SRenderObjectParams& params)
+void CSDLText::Load(const SRenderObjectParams& params)
 {
 	const STextParams& textParams = static_cast<const STextParams&>(params);
 
@@ -22,13 +22,22 @@ void CText::Load(const SRenderObjectParams& params)
 	m_width		= textParams.width;
 	m_height	= textParams.height;
 
+	if (m_font.empty())
+	{
+#ifdef _WIN32
+		m_font = std::string(m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + "Fonts\\ARIAL.TTF");
+#else
+		m_font = "Fonts/ARIAL.TTF";
+#endif
+	}
+
 	m_pSDLFont = TTF_OpenFont(getFont().c_str(), m_fontSize);
 
 	PrepareText();
 }
 
 /////////////////////////////////////////////////
-void CText::RenderCopy()
+void CSDLText::RenderCopy()
 {
 	if (!m_pSDLTexture)
 		return;
@@ -49,7 +58,7 @@ void CText::RenderCopy()
 }
 
 /////////////////////////////////////////////////
-void CText::PrepareText()
+void CSDLText::PrepareText()
 {
 	SDL_Color colWhite = { 255, 255, 255 };
 

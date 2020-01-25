@@ -3,8 +3,9 @@
 #include <ILog.h>
 
 #include "RendererObject/SDLRendererObject.h"
-#include "RendererObject/Sprite.h"
-#include "RendererObject/Text.h"
+#include "RendererObject/SDLSprite.h"
+#include "RendererObject/SDLText.h"
+#include "RendererObject/SDLRect.h"
 
 /////////////////////////////////////////////////
 CSDLRenderer::CSDLRenderer(ISystem * systemContext)
@@ -58,12 +59,17 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 	{
 	case ERendererObjectType::eRT_SPRITE:
 	{
-		pRenderObject = std::make_unique<CSprite>(this, m_pSDLRenderer);
+		pRenderObject = std::make_unique<CSDLSprite>(this, m_pSDLRenderer);
 	}
 	break;
 	case ERendererObjectType::eRT_TEXT:
 	{
-		pRenderObject = std::make_unique<CText>(this, m_pSDLRenderer);
+		pRenderObject = std::make_unique<CSDLText>(this, m_pSDLRenderer);
+	}
+	break;
+	case ERendererObjectType::eRT_RECT:
+	{
+		pRenderObject = std::make_unique<CSDLRect>(this, m_pSDLRenderer);
 	}
 	break;
 	}

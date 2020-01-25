@@ -7,11 +7,10 @@
 
 class IRenderer;
 
-class CText : public IText
-			, public CSDLRendererObject
+class CSDLText : public IText, public CSDLRendererObject
 {
 public:
-	CText(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
+	CSDLText(CSDLRenderer* pRendererContext, SDL_Renderer* pSDLRenderer);
 
 	void Load(const SRenderObjectParams& params) override;
 	void RenderCopy() override;
