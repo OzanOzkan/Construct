@@ -38,7 +38,7 @@ int CSDLTextureManager::LoadTexture(const std::string & filePath)
 		}
 
 		std::unique_ptr<CSDLTexture> pTexture = std::make_unique<CSDLTexture>(m_pSDLRenderer);
-		pTexture->LoadTexture(filePath);
+		pTexture->LoadTexture(filePath, textureId);
 
 		m_loadedTextures.emplace(std::make_pair(textureId, std::move(pTexture)));
 		m_textureFileIdMap.emplace(filePath, textureId);

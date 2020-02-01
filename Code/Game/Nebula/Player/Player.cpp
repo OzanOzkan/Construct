@@ -25,6 +25,8 @@ void CPlayer::Init()
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 
+	//m_pSpriteRendererComponent->setDebugDraw(true);
+
 	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));
 

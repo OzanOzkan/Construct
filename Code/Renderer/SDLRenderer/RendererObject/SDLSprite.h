@@ -16,14 +16,8 @@ public:
 	void RenderCopy() override;
 
 private:
-	void DebugDraw();
-
-private:
 	bool m_scrollingSprite = false;
 	float m_scrollOffset = -1;
 	float m_scrollSpeed = -1;
 	SSpriteParams::SSpriteScrollParams::ESpriteScrollDirection m_scrollDirection;
-
-	IRect* m_pDebugRect = nullptr;
-	IText* m_pDebugText = nullptr;
 };

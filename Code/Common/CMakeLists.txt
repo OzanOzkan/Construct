@@ -36,16 +36,21 @@ file (GLOB MATH_SRC
 	"Math/Math.h"
 )
 
+file (GLOB PHYSICS_SRC
+	"Physics/IPhysics.h"
+)
+
 include_directories("${SDK_DIR}/glm/")
 
 #add_library (${PROJECT_NAME} INTERFACE)
-add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC})
+add_custom_target(${PROJECT_NAME} SOURCES ${ROOT_SRC} ${SYSTEM_SRC} ${SYSTEM_ENTITY_SYSTEM_SRC} ${RENDERER_SRC} ${MATH_SRC} ${PHYSICS_SRC})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("System" FILES ${SYSTEM_SRC})
 source_group("System\\EntitySystem" FILES ${SYSTEM_ENTITY_SYSTEM_SRC})
 source_group("Renderer" FILES ${RENDERER_SRC})
 source_group("Math" FILES ${MATH_SRC})
+source_group("Physics" FILES ${PHYSICS_SRC})
 
 #set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 

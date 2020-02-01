@@ -5,6 +5,9 @@
 #include "EnvironmentController.h"
 
 #include "EnvironmentObject.h"
+#include "../EnemyShip.h"
+
+#include <random>
 
 /////////////////////////////////////////////////
 CEnvironmentController::CEnvironmentController()
@@ -82,5 +85,21 @@ void CEnvironmentController::ProcessUpdateEvent()
 			->addEntityComponent<CEnvironmentObject>("EnvironmentObjectComponent");
 
 		delay = 0;
+	}
+
+	static int enemyDelay = 1000;
+	++enemyDelay;
+
+	if (enemyDelay >= 50)
+	{
+		int randPos = rand()% ((int)m_windowSize.width - 0 + 1);
+
+		SEntitySpawnParams enemySpawnParams;
+		enemySpawnParams.entityName = "EnemyShip";
+		enemySpawnParams.position = Vector2(randPos, -100.f);
+
+		GetSystem()->GetEntitySystem()->spawnEntity(enemySpawnParams)->addEntityComponent<CEnemyShip>("EnemyShipComponent");
+
+		enemyDelay = 0;
 	}
 }

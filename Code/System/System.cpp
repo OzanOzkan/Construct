@@ -10,6 +10,7 @@
 #include "EntitySystem/EntitySystem.h"
 #include <Renderer/IRenderer.h>
 #include <IInput.h>
+#include <Physics/IPhysics.h>
 
 #include <string>
 #include <memory>
@@ -50,8 +51,7 @@ void CSystem::InitializeModule()
 
 	CreateModuleInstance(EModule::eM_RENDERER);
 	CreateModuleInstance(EModule::eM_INPUT);
-
-	//m_windowManager->registerWindowEvents(this);
+	CreateModuleInstance(EModule::eM_PHYSICS);
 
 	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
 
@@ -70,15 +70,21 @@ void CSystem::InitializeModule()
 /////////////////////////////////////////////////
 void CSystem::onUpdate()
 {
-	// Make system event listener.
+	// Update Window Manager
 	m_windowManager->onUpdate();
 
+	// Update Input
 	GetInput()->onUpdate();
 
+	// Update Physics
+	GetPhysics()->onUpdate();
+
+	// Update Entity System
 	GetEntitySystem()->onUpdate();
 
 	m_avgFps = m_nrOfFrames / ((getTime() - m_beginSec));
 
+	// Update Renderer
 	GetRenderer()->onUpdate();
 
 	++m_nrOfFrames;
@@ -118,6 +124,18 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 			GetLogger()->Log("Cannot find Input.dll");
 		else
 			m_pInput = std::unique_ptr<IInput>(CreateInputInterface(this, EInput::eINP_SDL2));
+	}
+	break;
+	case EModule::eM_PHYSICS:
+	{
+		auto lib = LoadExternalLibrary("Physics.dll");
+		typedef IPhysics*(*FNPTR)(ISystem* systemContext);
+		FNPTR CreatePhysicsInterface = (FNPTR)GetProcAddress(lib, "CreatePhysicsInterface");
+
+		if (!CreatePhysicsInterface)
+			GetLogger()->Log("Cannot find Physics.dll");
+		else
+			m_pPhysics = std::unique_ptr<IPhysics>(CreatePhysicsInterface(this));
 	}
 	break;
 	case EModule::eM_GAME:
@@ -166,6 +184,20 @@ void CSystem::CreateModuleInstance(const EModule & moduleName)
 		func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreateInputInterface");
 
 		m_pInput = std::unique_ptr<IInput>(static_cast<IInput*>(fptr(this, EInput::eINP_SDL2)));
+	}
+	break;
+	case EModule::eM_PHYSICS:
+	{
+		std::string libDir = m_libDir + "/libBokPhysics.so";
+		auto lib = dlopen(libDir.c_str(), RTLD_LAZY);
+		if (!lib) {
+			SDL_Log("CSystem::CreateModuleInstance:EModule::eM_PHYSICS: %s", dlerror());
+		}
+
+		typedef IPhysics* (*func_ptr_t)(ISystem*);
+		func_ptr_t fptr = (func_ptr_t)dlsym(lib, "CreatePhysicsInterface");
+
+		m_pPhysics = std::unique_ptr<IPhysics>(static_cast<IPhysics*>(fptr(this)));
 	}
 	break;
 	case EModule::eM_GAME:

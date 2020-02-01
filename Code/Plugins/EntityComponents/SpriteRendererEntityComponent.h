@@ -24,6 +24,7 @@ public:
 private:
 	void onEntityUpdateEvent();
 	void onEntityDestroyEvent();
+	void DebugDraw();
 
 private:
 	float m_width;
@@ -32,4 +33,8 @@ private:
 	std::string m_spriteFile;
 	SSpriteParams::SSpriteScrollParams m_scrollParams;
 	int m_layerId = -1;
+
+	bool m_debugDraw = false;
+	IRect* m_pDebugRect = nullptr;
+	IText* m_pDebugText = nullptr;
 };

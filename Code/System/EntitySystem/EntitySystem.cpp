@@ -32,7 +32,6 @@ void CEntitySystem::destroyEntity(const int& entityId)
 {
 	// Send destroy event to components and mark entity for delete on the next frame.
 	CEntity* pEntity = m_entityList.at(entityId).get();
-	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_DESTROY);
 	pEntity->MarkToDelete();
 }
 
@@ -62,6 +61,7 @@ void CEntitySystem::onUpdate()
 	{
 		if (itr->second->IsMarkedToDelete())
 		{
+			itr->second->sendEvent(EEntityEvent::ENTITY_EVENT_DESTROY);
 			itr = m_entityList.erase(itr);
 		}
 		else

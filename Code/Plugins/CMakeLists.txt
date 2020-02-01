@@ -8,6 +8,8 @@ file(GLOB ROOT_SRC
 )
 
 file(GLOB ENTITY_COMPONENTS
+	"EntityComponents/CollisionEntityComponent.h"
+	"EntityComponents/CollisionEntityComponent.cpp"
 	"EntityComponents/SpriteRendererEntityComponent.h"
 	"EntityComponents/SpriteRendererEntityComponent.cpp"
 	"EntityComponents/TextRendererEntityComponent.h"

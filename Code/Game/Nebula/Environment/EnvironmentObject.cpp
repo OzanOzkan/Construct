@@ -4,6 +4,8 @@
 
 #include "EnvironmentObject.h"
 
+#include <ILog.h>
+
 /////////////////////////////////////////////////
 CEnvironmentObject::CEnvironmentObject()
 	: m_pSpriteComponent(nullptr)
@@ -13,7 +15,7 @@ CEnvironmentObject::CEnvironmentObject()
 /////////////////////////////////////////////////
 void CEnvironmentObject::Init()
 {
-	getEntity()->setTimer(30.f);
+	getEntity()->setTimer(150.f);
 
 	m_pSpriteComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("EnvironmentObjectSprite");
 	m_pSpriteComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/background/Planets/Earthlike1.png");
@@ -21,6 +23,7 @@ void CEnvironmentObject::Init()
 	m_pSpriteComponent->setSize(200, 200);
 	m_pSpriteComponent->updateComponent();
 
+	//m_pSpriteComponent->setDebugDraw(true);
 }
 
 /////////////////////////////////////////////////

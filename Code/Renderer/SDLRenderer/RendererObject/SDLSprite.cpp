@@ -19,6 +19,7 @@ void CSDLSprite::Load(const SRenderObjectParams& params)
 {
 	const SSpriteParams& spriteParams = static_cast<const SSpriteParams&>(params);
 	CSDLTextureManager* pTextureManager = m_pRendererContext->GetTextureManager();
+	CSDLTexture* pTexture = pTextureManager->GetTexture(pTextureManager->LoadTexture(spriteParams.spriteFile));
 
 	m_type				= ERendererObjectType::eRT_SPRITE;
 	m_file				= spriteParams.spriteFile;
@@ -26,7 +27,7 @@ void CSDLSprite::Load(const SRenderObjectParams& params)
 	m_scrollingSprite	= (spriteParams.scrollParams.scrollSpeed > -1);
 	m_scrollSpeed		= spriteParams.scrollParams.scrollSpeed;
 	m_scrollDirection	= spriteParams.scrollParams.scrollDirection;
-	m_pSDLTexture		= pTextureManager->GetTexture(pTextureManager->LoadTexture(spriteParams.spriteFile))->GetSDLTexturePtr();
+	m_pSDLTexture		= pTexture->GetSDLTexturePtr();
 
 	if (m_pSDLTexture)
 	{
@@ -118,48 +119,5 @@ void CSDLSprite::RenderCopy()
 		SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &tile1);
 		SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &tile2);
 		SDL_RenderSetClipRect(m_pSDLRenderer, NULL);
-	}
-
-	if (m_debugDraw)
-		DebugDraw();
-}
-
-/////////////////////////////////////////////////
-void CSDLSprite::DebugDraw()
-{
-	int layerId = 98;
-
-	// Bounding box
-	if (!m_pDebugRect)
-	{
-		SRectParams params;
-		params.layerId = layerId;
-		params.position = m_position;
-		params.height = m_height;
-		params.width = m_width;
-
-		m_pDebugRect = (IRect*)m_pRendererContext->CreateRenderObject(params);
-		m_pDebugRect->setRenderActive(true);
-	}
-	else
-	{
-		m_pDebugRect->setPosition(m_position);
-	}
-
-	// Text
-	if (!m_pDebugText)
-	{
-		STextParams params;
-		params.layerId = layerId;
-		params.position = m_position - Vector2(0, 15);
-		params.text = m_file;
-		params.fontSize = 10;
-
-		m_pDebugText = (IText*)m_pRendererContext->CreateRenderObject(params);
-		m_pDebugText->setRenderActive(true);
-	}
-	else
-	{
-		m_pDebugText->setPosition(m_position - Vector2(0, 15));
 	}
 }

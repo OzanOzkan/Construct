@@ -29,6 +29,7 @@ public:
 	IRenderer* GetRenderer() override { return m_pRenderer.get(); }
 	ILog* GetLogger() override { return m_pLogger.get(); }
 	IInput* GetInput() override { return m_pInput.get(); }
+	IPhysics* GetPhysics() override { return m_pPhysics.get(); }
 	IEntitySystem* GetEntitySystem() override { return m_pEntitySystem.get(); }
 	IWindowManager* GetWindowManager() override { return m_windowManager.get(); }
 	
@@ -59,6 +60,7 @@ private:
 	std::unique_ptr<IRenderer> m_pRenderer = nullptr;
 	std::unique_ptr<ILog> m_pLogger = nullptr;
 	std::unique_ptr<IInput> m_pInput = nullptr;
+	std::unique_ptr<IPhysics> m_pPhysics = nullptr;
 	std::unique_ptr<IEntitySystem> m_pEntitySystem = nullptr;
 
 	int m_nrOfFrames = 0;

@@ -9,6 +9,7 @@ enum class EModule
 	eM_SYSTEM = 0,
 	eM_RENDERER,
 	eM_INPUT,
+	eM_PHYSICS,
 	eM_GAME
 };
 

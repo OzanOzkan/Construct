@@ -16,6 +16,7 @@ class ISystem;
 class IRenderer;
 class ILog;
 class IInput;
+class IPhysics;
 class IWindowEventListener;
 class IEntitySystem;
 
@@ -46,5 +47,6 @@ public:
 	virtual IRenderer* GetRenderer() = 0;
 	virtual ILog* GetLogger() = 0;
 	virtual IInput* GetInput() = 0;
+	virtual IPhysics* GetPhysics() = 0;
 	virtual IEntitySystem* GetEntitySystem() = 0;
 };

@@ -11,6 +11,9 @@ SpriteRendererEntityComponent::SpriteRendererEntityComponent()
 	, m_height(-1)
 	, m_width(-1)
 	, m_pSprite(nullptr)
+	, m_debugDraw(false)
+	, m_pDebugRect(nullptr)
+	, m_pDebugText(nullptr)
 {
 }
 
@@ -69,8 +72,7 @@ void SpriteRendererEntityComponent::setSize(const float & height, const float & 
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::setDebugDraw(const bool & isActive)
 {
-	if(m_pSprite)
-		m_pSprite->setDebugDraw(isActive);
+	m_debugDraw = isActive;
 }
 
 /////////////////////////////////////////////////
@@ -78,11 +80,55 @@ void SpriteRendererEntityComponent::onEntityUpdateEvent()
 {
 	if(m_pSprite)
 		m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
+
+	if (m_debugDraw)
+		DebugDraw();
 }
 
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityDestroyEvent()
 {
-	if(m_pSprite)
-		GetSystem()->GetRenderer()->RemoveRenderObject(m_pSprite);
+	if(m_pSprite) GetSystem()->GetRenderer()->RemoveRenderObject(m_pSprite);
+	if (m_pDebugRect) GetSystem()->GetRenderer()->RemoveRenderObject(m_pDebugRect);
+	if (m_pDebugText) GetSystem()->GetRenderer()->RemoveRenderObject(m_pDebugText);
+}
+
+/////////////////////////////////////////////////
+void SpriteRendererEntityComponent::DebugDraw()
+{
+	int layerId = 98;
+
+	// Bounding box
+	if (!m_pDebugRect)
+	{
+		SRectParams params;
+		params.layerId = layerId;
+		params.position = getEntity()->getPosition() + getPosition();
+		params.height = m_pSprite->getHeight();
+		params.width = m_pSprite->getWidth();
+
+		m_pDebugRect = (IRect*)GetSystem()->GetRenderer()->CreateRenderObject(params);
+		m_pDebugRect->setRenderActive(true);
+	}
+	else
+	{
+		m_pDebugRect->setPosition(getEntity()->getPosition() + getPosition());
+	}
+
+	// Text
+	if (!m_pDebugText)
+	{
+		STextParams params;
+		params.layerId = layerId;
+		params.position = (getEntity()->getPosition() + getPosition()) - Vector2(0, 15);
+		params.text = m_spriteFile + " ID: " + std::to_string(GetSystem()->GetRenderer()->GetTextureManager()->GetTexture(m_spriteFile)->GetId());
+		params.fontSize = 15;
+
+		m_pDebugText = (IText*)GetSystem()->GetRenderer()->CreateRenderObject(params);
+		m_pDebugText->setRenderActive(true);
+	}
+	else
+	{
+		m_pDebugText->setPosition((getEntity()->getPosition() + getPosition()) - Vector2(0, 15));
+	}
 }

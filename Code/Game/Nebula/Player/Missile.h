@@ -7,6 +7,8 @@
 #include <System/EntitySystem/IEntityComponent.h>
 #include <EntityComponents/SpriteRendererEntityComponent.h>
 
+#include <EntityComponents/CollisionEntityComponent.h>
+
 class CMissile : public IEntityComponent
 {
 public:
@@ -26,4 +28,6 @@ private:
 private:
 	SpriteRendererEntityComponent * m_pSpriteRendererComponent;
 	SWindowSize m_windowSize;
+
+	CollisionEntityComponent * m_pTestCollisionComponent = nullptr;
 };

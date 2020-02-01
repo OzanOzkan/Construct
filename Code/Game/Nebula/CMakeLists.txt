@@ -9,6 +9,8 @@ file(GLOB ROOT_SRC
 	"StdAfx.cpp"
 	"Game.h"
 	"Game.cpp"
+	"EnemyShip.h"
+	"EnemyShip.cpp"
 )
 
 file (GLOB PLAYER_SRC

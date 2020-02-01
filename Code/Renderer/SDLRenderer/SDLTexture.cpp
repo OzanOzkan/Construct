@@ -10,9 +10,11 @@ CSDLTexture::CSDLTexture(SDL_Renderer* pSDLRenderer)
 }
 
 ///////////////////////////////////////////////////
-bool CSDLTexture::LoadTexture(const std::string& filePath)
+bool CSDLTexture::LoadTexture(const std::string& filePath, const int& id)
 {
 	m_textureFile = filePath;
+	m_textureId = id;
+
 	m_pSDLTexture = IMG_LoadTexture(m_pSDLRenderer, m_textureFile.c_str());
 	
 	return m_pSDLTexture ? true : false;
@@ -35,4 +37,10 @@ SDL_Texture* CSDLTexture::GetSDLTexturePtr()
 const std::string & CSDLTexture::GetFilePath()
 {
 	return m_textureFile;
+}
+
+///////////////////////////////////////////////////
+int CSDLTexture::GetId()
+{
+	return m_textureId;
 }

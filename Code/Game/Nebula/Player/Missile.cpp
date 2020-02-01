@@ -11,6 +11,7 @@
 /////////////////////////////////////////////////
 CMissile::CMissile()
 	:m_pSpriteRendererComponent(nullptr)
+	, m_pTestCollisionComponent(nullptr)
 {
 }
 
@@ -22,15 +23,21 @@ void CMissile::Init()
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 
+	//m_pSpriteRendererComponent->setDebugDraw(true);
+
 	m_windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 
 	getEntity()->setTimer(1.5);
+
+	m_pTestCollisionComponent = getEntity()->addEntityComponent<CollisionEntityComponent>("CollisionComponent");
+	m_pTestCollisionComponent->SetSize(20, 20);
+	m_pTestCollisionComponent->updateComponent();
 }
 
 /////////////////////////////////////////////////
 unsigned int CMissile::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_TIMER_TICK;
+	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_TIMER_TICK | EEntityEvent::ENTITY_EVENT_COLLISION;
 }
 
 /////////////////////////////////////////////////
@@ -44,6 +51,11 @@ void CMissile::onEvent(const EEntityEvent & event)
 	}
 	break;
 	case EEntityEvent::ENTITY_EVENT_TIMER_TICK:
+	{
+		destroyMissile();
+	}
+	break;
+	case EEntityEvent::ENTITY_EVENT_COLLISION:
 	{
 		destroyMissile();
 	}
