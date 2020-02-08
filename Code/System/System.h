@@ -17,13 +17,13 @@
 class CSystem : public ISystem, IWindowEventListener {
 
 public:
-    CSystem(const std::string& libDir) : m_libDir(libDir) {}
+	CSystem();
 
 	// ISystemInterface
 	void InitializeModule() override;
 	// ~ISystemInterface
 
-	IFileManager* getFileManager() override { return m_fileManager.get(); }
+	IFileManager* getFileManager() override { return m_pFileManager.get(); }
 
 	// Modules
 	IRenderer* GetRenderer() override { return m_pRenderer.get(); }
@@ -31,7 +31,7 @@ public:
 	IInput* GetInput() override { return m_pInput.get(); }
 	IPhysics* GetPhysics() override { return m_pPhysics.get(); }
 	IEntitySystem* GetEntitySystem() override { return m_pEntitySystem.get(); }
-	IWindowManager* GetWindowManager() override { return m_windowManager.get(); }
+	IWindowManager* GetWindowManager() override { return m_pWindowManager.get(); }
 	
 	// !Subject to change
 	void registerWindowEvents(IWindowEventListener* listener) override;
@@ -41,26 +41,26 @@ public:
 	// ~!Subject to change
 
 private:
-	void CreateModuleInstance(const EModule& moduleName);
-
 	// IWindowEventListener
 	void onWindowEvent(const SWindowEvent & event) override;
 	// ~IWindowEventListener
 
 	void onUpdate() override;
 
+	template <typename ModuleType, typename ParamsType = int>
+	ModuleType* LoadModule(SCreateModuleParams<ParamsType> createParams = {});
+
 private:
 	bool m_isQuit = false;
 
-	std::string m_libDir = "";
-
-	std::unique_ptr<IFileManager> m_fileManager = nullptr;
-	std::unique_ptr<CWindowManager> m_windowManager = nullptr;
+	std::unique_ptr<IFileManager> m_pFileManager = nullptr;
+	std::unique_ptr<CWindowManager> m_pWindowManager = nullptr;
 
 	std::unique_ptr<IRenderer> m_pRenderer = nullptr;
 	std::unique_ptr<ILog> m_pLogger = nullptr;
 	std::unique_ptr<IInput> m_pInput = nullptr;
 	std::unique_ptr<IPhysics> m_pPhysics = nullptr;
+	std::unique_ptr<IGame> m_pGame = nullptr;
 	std::unique_ptr<IEntitySystem> m_pEntitySystem = nullptr;
 
 	int m_nrOfFrames = 0;

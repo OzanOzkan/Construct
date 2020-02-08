@@ -14,10 +14,10 @@
 
 extern "C"
 {
-	API_EXPORT IModule* CreateGameModule(ISystem* systemContext)
+	API_EXPORT IGame* CreateModuleInterface(ISystem* systemContext)
 	{
 		CGame* pGame = new CGame(systemContext);
-
+		pGame->InitializeModule();
 		return pGame;
 	}
 }
@@ -35,11 +35,11 @@ void CGame::InitializeModule()
 	SEntitySpawnParams environmentControllerSpawnParams;
 	environmentControllerSpawnParams.entityName = "EnvironmentControllerEntity";
 	GetSystem()->GetEntitySystem()->spawnEntity(environmentControllerSpawnParams)
-		->addEntityComponent<CEnvironmentController>("EnvironmentController");
+		->addEntityComponent<CEnvironmentController>();
 
 
 	SEntitySpawnParams playerSpawnParams;
 	playerSpawnParams.entityName = "PlayerEntity";
 	GetSystem()->GetEntitySystem()->spawnEntity(playerSpawnParams)
-		->addEntityComponent<CPlayer>("Player");
+		->addEntityComponent<CPlayer>();
 }

@@ -7,9 +7,18 @@
 
 extern "C"
 {
-	API_EXPORT IPhysics* CreatePhysicsInterface(ISystem* systemContext)
+	API_EXPORT IPhysics* CreateModuleInterface(ISystem* systemContext, SCreateModuleParams<EPhysics> createParams)
 	{
-		IPhysics* pPhysics = new CSDLPhysics(systemContext);
+		IPhysics* pPhysics = nullptr;
+
+		switch(createParams.implType)
+		{
+		case EPhysics::SDL2:
+		{
+			pPhysics = new CSDLPhysics(systemContext);
+		}
+		break;
+		}
 
 		pPhysics->InitializeModule();
 
