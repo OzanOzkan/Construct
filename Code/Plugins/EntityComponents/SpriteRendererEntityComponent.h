@@ -1,6 +1,7 @@
 #pragma once
 
 #include <System/EntitySystem/IEntityComponent.h>
+#include <Renderer/IRenderer.h>
 #include <Renderer/IRenderObject.h>
 
 class SpriteRendererEntityComponent : public IEntityComponent
@@ -17,6 +18,8 @@ public:
 
 	void setFile(const std::string& file) { m_spriteFile = file; }
 	void setSize(const float& height, const float& width);
+	void getSize(float& height, float& width);
+	void setColor(const RGBColor& color);
 	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
 	void setLayerId(const int& layerId) { m_layerId = layerId; }
 	void setDebugDraw(const bool& isActive);
@@ -27,8 +30,9 @@ private:
 	void DebugDraw();
 
 private:
-	float m_width;
-	float m_height;
+	float m_width = -1;
+	float m_height = -1;
+	RGBColor m_color;
 	ISprite* m_pSprite;
 	std::string m_spriteFile;
 	SSpriteParams::SSpriteScrollParams m_scrollParams;

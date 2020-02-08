@@ -20,7 +20,7 @@ CPlayer::CPlayer()
 /////////////////////////////////////////////////
 void CPlayer::Init()
 {
-	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("PlayerSprite");
+	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
 	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/PlayerShip.png");
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
@@ -30,10 +30,10 @@ void CPlayer::Init()
 	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));
 
-	m_pWeapon1 = getEntity()->addEntityComponent<CWeapon>("Weapon1"); // Left weapon
+	m_pWeapon1 = getEntity()->addEntityComponent<CWeapon>(); // Left weapon
 	m_pWeapon1->setPosition(Vector2(55, 80)); // Relative to ship position
 
-	m_pWeapon2 = getEntity()->addEntityComponent<CWeapon>("Weapon2");
+	m_pWeapon2 = getEntity()->addEntityComponent<CWeapon>();
 	m_pWeapon2->setPosition(Vector2(200, 80));
 }
 

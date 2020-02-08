@@ -9,6 +9,8 @@ LOCAL_MODULE_FILENAME := libBokPlugins
 MODULE_DIR := $(call my-dir)
 
 LOCAL_CPPFLAGS += -std=c++17
+LOCAL_CPP_FEATURES := rtti exceptions
+
 LOCAL_C_INCLUDES += $(ENGINE_CODE_PATH)/Common
 
 LOCAL_SRC_FILES := \

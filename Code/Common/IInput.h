@@ -11,10 +11,10 @@
 
 #include <vector>
 
-enum class EInput : uint8_t
+enum class EInput : int
 {
-	eINP_NONE = 0,
-	eINP_SDL2
+	NONE = 0,
+	SDL2
 };
 
 enum class EKey

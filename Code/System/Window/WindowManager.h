@@ -47,7 +47,7 @@ private:
 private:
 	ISystem * m_pSystem;
 
-	int m_height = 600;
+	int m_height = 1000;
 	int m_width = 800;
 
 	std::unique_ptr<CWindow> m_activeWindow = nullptr;

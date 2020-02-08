@@ -17,6 +17,7 @@ class IRenderer;
 class ILog;
 class IInput;
 class IPhysics;
+class IGame;
 class IWindowEventListener;
 class IEntitySystem;
 

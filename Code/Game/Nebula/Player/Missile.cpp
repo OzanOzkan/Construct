@@ -18,7 +18,7 @@ CMissile::CMissile()
 /////////////////////////////////////////////////
 void CMissile::Init()
 {
-	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("MissileSprite");
+	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
 	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/Missile1.png");
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
@@ -29,7 +29,7 @@ void CMissile::Init()
 
 	getEntity()->setTimer(1.5);
 
-	m_pTestCollisionComponent = getEntity()->addEntityComponent<CollisionEntityComponent>("CollisionComponent");
+	m_pTestCollisionComponent = getEntity()->addEntityComponent<CollisionEntityComponent>();
 	m_pTestCollisionComponent->SetSize(20, 20);
 	m_pTestCollisionComponent->updateComponent();
 }

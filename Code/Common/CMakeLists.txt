@@ -8,6 +8,7 @@ file(GLOB ROOT_SRC
   "IInput.h"
   "ILog.h"
   "IModule.h"
+  "IGame.h"
 )
 
 file(GLOB SYSTEM_SRC

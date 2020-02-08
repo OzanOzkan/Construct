@@ -4,6 +4,12 @@
 #include "../IModule.h"
 #include "../System/EntitySystem/IEntity.h"
 
+enum class EPhysics : int
+{
+	NONE = 0,
+	SDL2
+};
+
 struct SCollisionListenerParams
 {
 	IEntity* pEntity;

@@ -3,7 +3,7 @@
 */
 
 #pragma once
-#include <IModule.h>
+#include <IGame.h>
 #include <System/ISystem.h>
 #include <ILog.h>
 
@@ -11,7 +11,7 @@
 	SUBJECT TO CHANGE: All of the Game module implementation is temporary.
 */
 
-class CGame : public IModule
+class CGame : public IGame
 {
 public:
 	CGame(ISystem* systemContext);

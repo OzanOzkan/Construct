@@ -38,17 +38,25 @@ extern "C"
 
 /////////////////////////////////////////////////
 CSystem::CSystem()
+	: m_isQuit(false)
+	, m_pFileManager(nullptr)
+	, m_pWindowManager(nullptr)
+	, m_pEntitySystem(nullptr)
+	, m_pRenderer(nullptr)
+	, m_pLogger(nullptr)
+	, m_pInput(nullptr)
+	, m_pPhysics(nullptr)
+	, m_pGame(nullptr)
+	, m_nrOfFrames(0)
+	, m_beginSec(0.f)
+	, m_avgFps(0.f)
+	, m_systemText(nullptr)
 {
-
 }
 
 /////////////////////////////////////////////////
 void CSystem::InitializeModule()
 {
-	/*
-		SUBJECT TO CHANGE: Temporary implementation.
-	*/
-
 	m_pLogger = std::make_unique<CLog>();
 	m_pFileManager = std::make_unique<CFileManager>(this);
 
@@ -61,10 +69,7 @@ void CSystem::InitializeModule()
 	m_pRenderer = std::unique_ptr<IRenderer>(LoadModule<IRenderer>(SCreateModuleParams<ERenderer>{ ERenderer::SDL2 }));
 	m_pInput = std::unique_ptr<IInput>(LoadModule<IInput>(SCreateModuleParams<EInput>{ EInput::SDL2 }));
 	m_pPhysics = std::unique_ptr<IPhysics>(LoadModule<IPhysics>(SCreateModuleParams<EPhysics>{ EPhysics::SDL2 }));
-	
-	GetLogger()->Log("=========== Initializing Game ===========");
 	m_pGame = std::unique_ptr<IGame>(LoadModule<IGame>());
-	GetLogger()->Log("=========== Game Initialized ===========");
 
 	m_beginSec = getTime();
 
@@ -93,6 +98,9 @@ void CSystem::onUpdate()
 
 	// Update Renderer
 	GetRenderer()->onUpdate();
+
+	// Update Game
+	m_pGame->onUpdate();
 
 	++m_nrOfFrames;
 
@@ -139,7 +147,7 @@ void CSystem::updateSystemInfo()
 		STextParams params;
 		params.layerId = INT_MAX;
 		params.text = systemText;
-		params.font = getFileManager()->getAssetsDirectory() + "/Fonts/ARIAL.TTF";
+		params.font = getFileManager()->getAssetsDirectory() + "Fonts/ARIAL.TTF";
 		params.fontSize = 50;
 		params.position = Vector2(5.f, 5.f);
 
@@ -152,6 +160,7 @@ void CSystem::updateSystemInfo()
 	}
 }
 
+/////////////////////////////////////////////////
 template <typename ModuleType, typename ParamsType>
 ModuleType * CSystem::LoadModule(SCreateModuleParams<ParamsType> createParams)
 {
@@ -175,17 +184,22 @@ ModuleType * CSystem::LoadModule(SCreateModuleParams<ParamsType> createParams)
 		pModule = CreateModuleInterface(this, createParams);
 
 #else
-	std::string moduleNameAndroidStr = "libBok" + moduleNameStr + ".so";
-	auto lib = dlopen(moduleNameAndroidStr.c_str(), RTLD_GLOBAL);
+	moduleNameStr = "libBok" + moduleNameStr + ".so";
+	auto lib = dlopen(moduleNameStr.c_str(), RTLD_GLOBAL);
 	typedef IModule* (*func_ptr_t)(ISystem*, SCreateModuleParams<ParamsType>);
 	func_ptr_t CreateModuleInterface = (func_ptr_t)dlsym(lib, "CreateModuleInterface");
 
 	if (!CreateModuleInterface)
-		GetLogger()->Log(("Cannot find " + moduleNameAndroidStr).c_str());
+		GetLogger()->Log(("Cannot find " + moduleNameStr).c_str());
 	else
 		pModule = CreateModuleInterface(this, createParams);
 
 #endif
+
+	if(pModule)
+		GetLogger()->Log(("Module " + moduleNameStr + " loaded.").c_str());
+	else
+		GetLogger()->Log(("Failed to load module " + moduleNameStr).c_str());
 
 	return static_cast<ModuleType*>(pModule);
 }

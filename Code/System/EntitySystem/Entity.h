@@ -34,6 +34,7 @@ public:
 protected:
 	void addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent) override;
 	IEntityComponent* getEntityComponentInternal(const std::string& componentName) override;
+	std::vector<IEntityComponent*> getEntityComponentsInternal(const std::string& componentName) override;
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }
@@ -43,7 +44,7 @@ private:
 	int m_entityID;
 	std::string m_entityName;
 	bool m_isActive;
-	std::map<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents;
+	std::multimap<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents;
 	Vector2 m_entityPosition;
 	bool m_isMarkedToDelete;
 	bool m_timerSet;

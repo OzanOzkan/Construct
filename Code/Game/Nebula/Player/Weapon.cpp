@@ -47,7 +47,7 @@ void CWeapon::updateEvent()
 		SEntitySpawnParams params;
 		params.entityName = "Missile";
 		params.position = getEntity()->getPosition() + getPosition();
-		CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>("MissileComponent");
+		CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>();
 
 		tempCounter = 0;
 	}

@@ -4,6 +4,10 @@
 
 #include "Entity.h"
 
+#include <ILog.h>
+
+#include <functional>
+
 /////////////////////////////////////////////////
 CEntity::CEntity(ISystem * systemContext)
 	: m_entityID (-1)
@@ -58,15 +62,29 @@ void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
 }
 
 /////////////////////////////////////////////////
-void CEntity::addEntityComponentInternal(const std::string & componentName, std::shared_ptr<IEntityComponent> entityComponent)
+void CEntity::addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent)
 {
 	m_entityComponents.emplace(std::make_pair(componentName, entityComponent));
 }
 
 /////////////////////////////////////////////////
-IEntityComponent * CEntity::getEntityComponentInternal(const std::string & componentName)
+IEntityComponent * CEntity::getEntityComponentInternal(const std::string& componentName)
 {
-	return m_entityComponents[componentName].get();
+	return m_entityComponents.find(componentName)->second.get();
+}
+
+/////////////////////////////////////////////////
+std::vector<IEntityComponent*> CEntity::getEntityComponentsInternal(const std::string& componentName)
+{
+	std::vector<IEntityComponent*> retVec{};
+
+	for (auto componentPair : m_entityComponents)
+	{
+		if (componentPair.first.compare(componentName) == 0)
+			retVec.push_back(componentPair.second.get());
+	}
+
+	return retVec;
 }
 
 /////////////////////////////////////////////////

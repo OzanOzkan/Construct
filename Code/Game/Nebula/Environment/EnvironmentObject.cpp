@@ -17,7 +17,7 @@ void CEnvironmentObject::Init()
 {
 	getEntity()->setTimer(150.f);
 
-	m_pSpriteComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>("EnvironmentObjectSprite");
+	m_pSpriteComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
 	m_pSpriteComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/background/Planets/Earthlike1.png");
 	m_pSpriteComponent->setLayerId(9);
 	m_pSpriteComponent->setSize(200, 200);

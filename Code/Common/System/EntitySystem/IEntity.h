@@ -33,22 +33,34 @@ public:
 protected:
 	virtual void addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent) = 0;
 	virtual IEntityComponent* getEntityComponentInternal(const std::string& componentName) = 0;
+	virtual std::vector<IEntityComponent*> getEntityComponentsInternal(const std::string& componentName) = 0;
 
 public:
 	template <typename ComponentType>
-	ComponentType* addEntityComponent(const std::string& componentName) 
+	ComponentType* addEntityComponent() 
 	{ 
 		std::shared_ptr<ComponentType> component = std::make_shared<ComponentType>();
 		component->initComponent(m_pSystem, this);
-		this->addEntityComponentInternal(componentName, component);
+		this->addEntityComponentInternal(typeid(ComponentType).name(), component);
 
 		return component.get();
 	}
 
 	template <typename ComponentType>
-	ComponentType* getEntityComponent(const std::string& componentName)
+	ComponentType* getEntityComponent()
 	{
-		return static_cast<ComponentType*>(this->getEntityComponentInternal(componentName));
+		return static_cast<ComponentType*>(this->getEntityComponentInternal(typeid(ComponentType).name()));
+	}
+
+	template <typename ComponentType>
+	std::vector<ComponentType*> getEntityComponents()
+	{
+		std::vector<ComponentType*> retVec{};
+
+		for (auto component : getEntityComponentsInternal(typeid(ComponentType).name()))
+			retVec.push_back(static_cast<ComponentType*>(component));
+
+		return retVec;
 	}
 
 protected:

@@ -8,6 +8,7 @@
 /////////////////////////////////////////////////
 SpriteRendererEntityComponent::SpriteRendererEntityComponent()
 	: m_spriteFile("")
+	, m_color()
 	, m_height(-1)
 	, m_width(-1)
 	, m_pSprite(nullptr)
@@ -50,6 +51,8 @@ void SpriteRendererEntityComponent::onEvent(const EEntityEvent & event)
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::updateComponent()
 {
+	if(m_pSprite) GetSystem()->GetRenderer()->RemoveRenderObject(m_pSprite);
+
 	SSpriteParams params;
 	params.layerId = m_layerId;
 	params.spriteFile = m_spriteFile;
@@ -65,8 +68,34 @@ void SpriteRendererEntityComponent::updateComponent()
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::setSize(const float & height, const float & width)
 {
-	m_height = height;
-	m_width = width;
+	if (m_pSprite)
+	{
+		m_pSprite->setSize(width, height);
+	}
+	else
+	{
+		m_width = width;
+		m_height = height;
+	}
+}
+
+/////////////////////////////////////////////////
+void SpriteRendererEntityComponent::getSize(float& height, float& width)
+{
+	if (m_pSprite)
+	{
+		height = m_pSprite->getHeight();
+		width = m_pSprite->getWidth();
+	}
+}
+
+/////////////////////////////////////////////////
+void SpriteRendererEntityComponent::setColor(const RGBColor& color)
+{
+	if (m_pSprite)
+		m_pSprite->setColor(color);
+	else
+		m_color = color;
 }
 
 /////////////////////////////////////////////////

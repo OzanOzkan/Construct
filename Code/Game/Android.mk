@@ -9,6 +9,7 @@ LOCAL_MODULE_FILENAME := libBokGame
 MODULE_DIR := $(call my-dir)
 
 LOCAL_CPPFLAGS += -std=c++17
+LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_C_INCLUDES += \
 	$(wildcard $(ENGINE_CODE_PATH)/Common) \

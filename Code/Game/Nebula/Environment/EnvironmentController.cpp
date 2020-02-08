@@ -57,7 +57,7 @@ void CEnvironmentController::ConfigureBackground()
 	scrollingBackgroundParams.position = Vector2(0.f, 0.f);
 	IEntity* pScrollingBackground = GetSystem()->GetEntitySystem()->spawnEntity(scrollingBackgroundParams);
 
-	m_pScrollingBgComponent = pScrollingBackground->addEntityComponent<SpriteRendererEntityComponent>("SpriteRenderer");
+	m_pScrollingBgComponent = pScrollingBackground->addEntityComponent<SpriteRendererEntityComponent>();
 	m_pScrollingBgComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/background/NebulaRed.png");
 	m_pScrollingBgComponent->setLayerId(-1);
 
@@ -82,7 +82,7 @@ void CEnvironmentController::ProcessUpdateEvent()
 		environmentObjectSpawnParams.position = Vector2(m_windowSize.width / 2, -200.f);
 		
 		GetSystem()->GetEntitySystem()->spawnEntity(environmentObjectSpawnParams)
-			->addEntityComponent<CEnvironmentObject>("EnvironmentObjectComponent");
+			->addEntityComponent<CEnvironmentObject>();
 
 		delay = 0;
 	}
@@ -98,7 +98,7 @@ void CEnvironmentController::ProcessUpdateEvent()
 		enemySpawnParams.entityName = "EnemyShip";
 		enemySpawnParams.position = Vector2(randPos, -100.f);
 
-		GetSystem()->GetEntitySystem()->spawnEntity(enemySpawnParams)->addEntityComponent<CEnemyShip>("EnemyShipComponent");
+		GetSystem()->GetEntitySystem()->spawnEntity(enemySpawnParams)->addEntityComponent<CEnemyShip>();
 
 		enemyDelay = 0;
 	}

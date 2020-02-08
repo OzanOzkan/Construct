@@ -18,6 +18,7 @@ public:
 private:
 	void onUpdateEvent();
 	void onCollisionEvent();
+	void explodeShip();
 	void destroyShip();
 
 private:
