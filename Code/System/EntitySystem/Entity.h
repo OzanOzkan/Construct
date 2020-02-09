@@ -23,6 +23,8 @@ public:
 	int getComponentCount() const { return m_entityComponents.size(); };
 	void setPosition(const Vector2& position) { m_entityPosition = position; }
 	const Vector2& getPosition() { return m_entityPosition; }
+	virtual void setTag(const std::string& tag) { m_tag = tag; }
+	virtual const std::string& getTag() { return m_tag; }
 
 	void sendEvent(const SEntityEvent& event) override;
 	void setTimer(const float& seconds) override;
@@ -44,6 +46,7 @@ private:
 	int m_entityID;
 	std::string m_entityName;
 	bool m_isActive;
+	std::string m_tag;
 	std::multimap<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents;
 	Vector2 m_entityPosition;
 	bool m_isMarkedToDelete;
