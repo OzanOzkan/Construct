@@ -22,9 +22,9 @@ unsigned int CWeapon::getEventMask() const
 	return EEntityEvent::ENTITY_EVENT_UPDATE;
 }
 
-void CWeapon::onEvent(const EEntityEvent & event)
+void CWeapon::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

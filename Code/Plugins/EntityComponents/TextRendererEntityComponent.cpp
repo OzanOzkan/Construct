@@ -16,9 +16,9 @@ unsigned int TextRendererEntityComponent::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void TextRendererEntityComponent::onEvent(const EEntityEvent & event)
+void TextRendererEntityComponent::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

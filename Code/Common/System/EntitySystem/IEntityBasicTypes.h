@@ -14,3 +14,9 @@ enum EEntityEvent
 	ENTITY_EVENT_TIMER_TICK = (1u << 3),
 	ENTITY_EVENT_COLLISION = (1u << 4)
 };
+
+struct SEntityEvent
+{
+	EEntityEvent event;
+	void* data;
+};

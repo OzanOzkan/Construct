@@ -35,9 +35,9 @@ unsigned int CEnemyShip::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void CEnemyShip::onEvent(const EEntityEvent & event)
+void CEnemyShip::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

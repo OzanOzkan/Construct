@@ -11,7 +11,7 @@ public:
 	// IEntityComponent
 	void Init() override;
 	unsigned int getEventMask() const override;
-	void onEvent(const EEntityEvent& event) override;
+	void onEvent(const SEntityEvent& event) override;
 	void updateComponent() override;
 	// ~IEntityComponent
 

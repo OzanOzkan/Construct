@@ -24,7 +24,7 @@ public:
 	void setPosition(const Vector2& position) { m_entityPosition = position; }
 	const Vector2& getPosition() { return m_entityPosition; }
 
-	void sendEvent(const EEntityEvent& event) override;
+	void sendEvent(const SEntityEvent& event) override;
 	void setTimer(const float& seconds) override;
 	// ~IEntity
 
@@ -38,7 +38,7 @@ protected:
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }
-	void HandleEntityEventInternal(const EEntityEvent& event);
+	void HandleEntityEventInternal(const SEntityEvent& event);
 
 private:
 	int m_entityID;

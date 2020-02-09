@@ -27,9 +27,9 @@ unsigned int CollisionEntityComponent::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void CollisionEntityComponent::onEvent(const EEntityEvent & event)
+void CollisionEntityComponent::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

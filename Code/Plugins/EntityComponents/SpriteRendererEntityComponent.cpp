@@ -31,9 +31,9 @@ unsigned int SpriteRendererEntityComponent::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void SpriteRendererEntityComponent::onEvent(const EEntityEvent & event)
+void SpriteRendererEntityComponent::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

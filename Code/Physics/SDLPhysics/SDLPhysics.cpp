@@ -64,8 +64,13 @@ void CSDLPhysics::ProcessCollisionCalculation()
 			SDL_Rect collisionResultRect;
 			if (SDL_IntersectRect(&entityToCheckCollisionRect, &entityToCheckCollisionWithRect, &collisionResultRect))
 			{
-				pEntityToCheckCollision->sendEvent(EEntityEvent::ENTITY_EVENT_COLLISION);
-				pEntityToCheckCollisionWith->sendEvent(EEntityEvent::ENTITY_EVENT_COLLISION);
+				SPhysicsEventData data;
+				data.pEntity1 = pEntityToCheckCollision;
+				data.pEntity2 = pEntityToCheckCollisionWith;
+				data.collisionPoint = Vector2(collisionResultRect.x, collisionResultRect.y);
+
+				pEntityToCheckCollision->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_COLLISION, &data });
+				pEntityToCheckCollisionWith->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_COLLISION, &data });
 			}
 		}
 	}

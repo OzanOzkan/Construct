@@ -44,7 +44,7 @@ unsigned int CPlayer::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void CPlayer::onEvent(const EEntityEvent & event)
+void CPlayer::onEvent(const SEntityEvent & event)
 {
 	// Control spaceship with touch input.
 	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();

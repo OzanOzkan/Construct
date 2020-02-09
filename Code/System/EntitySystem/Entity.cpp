@@ -23,7 +23,7 @@ CEntity::CEntity(ISystem * systemContext)
 }
 
 /////////////////////////////////////////////////
-void CEntity::sendEvent(const EEntityEvent & event)
+void CEntity::sendEvent(const SEntityEvent & event)
 {
 	// Handle event for this entity
 	HandleEntityEventInternal(event);
@@ -33,7 +33,7 @@ void CEntity::sendEvent(const EEntityEvent & event)
 	{
 		auto pComponent = pComponentEntry.second;
 
-		if (pComponent->getEventMask() & event)
+		if (pComponent->getEventMask() & event.event)
 		{
 			pComponent->onEvent(event);
 		}
@@ -41,9 +41,9 @@ void CEntity::sendEvent(const EEntityEvent & event)
 }
 
 /////////////////////////////////////////////////
-void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
+void CEntity::HandleEntityEventInternal(const SEntityEvent& event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
@@ -52,7 +52,7 @@ void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
 		{
 			if (GetSystem()->getTime() - m_timerSetTime >= m_timerSec)
 			{
-				sendEvent(EEntityEvent::ENTITY_EVENT_TIMER_TICK);
+				sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_TIMER_TICK });
 				m_timerSet = false;
 			}
 		}

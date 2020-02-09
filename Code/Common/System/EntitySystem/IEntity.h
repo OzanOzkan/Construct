@@ -27,7 +27,7 @@ public:
 	virtual void setPosition(const Vector2& position) = 0;
 	virtual const Vector2& getPosition() = 0;
 
-	virtual void sendEvent(const EEntityEvent& event) = 0;
+	virtual void sendEvent(const SEntityEvent& event) = 0;
 	virtual void setTimer(const float& seconds) = 0;
 
 protected:

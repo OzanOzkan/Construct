@@ -8,6 +8,8 @@
 #include <System/EntitySystem/IEntitySystem.h>
 #include <ILog.h>
 
+#include <Physics/IPhysics.h>
+
 /////////////////////////////////////////////////
 CMissile::CMissile()
 	:m_pSpriteRendererComponent(nullptr)
@@ -41,9 +43,9 @@ unsigned int CMissile::getEventMask() const
 }
 
 /////////////////////////////////////////////////
-void CMissile::onEvent(const EEntityEvent & event)
+void CMissile::onEvent(const SEntityEvent & event)
 {
-	switch (event)
+	switch (event.event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
@@ -58,6 +60,10 @@ void CMissile::onEvent(const EEntityEvent & event)
 	case EEntityEvent::ENTITY_EVENT_COLLISION:
 	{
 		destroyMissile();
+
+		// Test
+		GetSystem()->GetLogger()->Log(((struct SPhysicsEventData*)event.data)->pEntity1->getName().c_str());
+		GetSystem()->GetLogger()->Log(((struct SPhysicsEventData*)event.data)->pEntity2->getName().c_str());
 	}
 	break;
 	}

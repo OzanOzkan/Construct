@@ -17,7 +17,7 @@ public:
 
 	virtual void Init() = 0;
 	virtual unsigned int getEventMask() const = 0;
-	virtual void onEvent(const EEntityEvent& event) = 0;
+	virtual void onEvent(const SEntityEvent& event) = 0;
 	virtual void updateComponent() = 0;
 	
 	IEntity* getEntity() { return m_pEntity; }

@@ -16,6 +16,13 @@ struct SCollisionListenerParams
 	int w, h = -1;
 };
 
+struct SPhysicsEventData
+{
+	IEntity* pEntity1 = nullptr;
+	IEntity* pEntity2 = nullptr;
+	Vector2 collisionPoint{ 0,0 };
+};
+
 class IPhysics : public IModule
 {
 public:
