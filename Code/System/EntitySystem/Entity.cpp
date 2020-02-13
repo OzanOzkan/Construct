@@ -34,7 +34,7 @@ void CEntity::sendEvent(const SEntityEvent & event)
 	{
 		auto pComponent = pComponentEntry.second;
 
-		if (pComponent->getEventMask() & event.event)
+		if (pComponent->getEventMask() & event.GetEvent())
 		{
 			pComponent->onEvent(event);
 		}
@@ -44,7 +44,7 @@ void CEntity::sendEvent(const SEntityEvent & event)
 /////////////////////////////////////////////////
 void CEntity::HandleEntityEventInternal(const SEntityEvent& event)
 {
-	switch (event.event)
+	switch (event.GetEvent())
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

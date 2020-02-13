@@ -45,7 +45,7 @@ unsigned int CMissile::getEventMask() const
 /////////////////////////////////////////////////
 void CMissile::onEvent(const SEntityEvent & event)
 {
-	switch (event.event)
+	switch (event.GetEvent())
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
@@ -59,11 +59,11 @@ void CMissile::onEvent(const SEntityEvent & event)
 	break;
 	case EEntityEvent::ENTITY_EVENT_COLLISION:
 	{
-		destroyMissile();
-
-		// Test
-		GetSystem()->GetLogger()->Log(((struct SPhysicsEventData*)event.data)->pEntity1->getName().c_str());
-		GetSystem()->GetLogger()->Log(((struct SPhysicsEventData*)event.data)->pEntity2->getName().c_str());
+		auto eventData = event.GetData<SPhysicsEventData>();
+		if (eventData->pEntity2->getTag().compare("EnemyShip") == 0)
+		{
+			destroyMissile();
+		}
 	}
 	break;
 	}

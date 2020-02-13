@@ -26,6 +26,7 @@ void CEnemyShip::Init()
 	m_pCollisionComponent->updateComponent();
 
 	getEntity()->setTimer(50.f);
+	getEntity()->setTag("EnemyShip");
 }
 
 /////////////////////////////////////////////////
@@ -37,7 +38,7 @@ unsigned int CEnemyShip::getEventMask() const
 /////////////////////////////////////////////////
 void CEnemyShip::onEvent(const SEntityEvent & event)
 {
-	switch (event.event)
+	switch (event.GetEvent())
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{

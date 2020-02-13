@@ -17,6 +17,23 @@ enum EEntityEvent
 
 struct SEntityEvent
 {
-	EEntityEvent event;
-	void* data;
+public:
+	SEntityEvent(const EEntityEvent& event)
+		: m_event(event)
+		, m_data(nullptr)
+	{}
+
+	SEntityEvent(const EEntityEvent& event, void* data)
+		: m_event(event)
+		, m_data(data)
+	{}
+
+	const EEntityEvent& GetEvent() const { return m_event; }
+
+	template <typename EventDataType>
+	EventDataType* GetData() const { return reinterpret_cast<EventDataType*>(m_data); }
+
+private:
+	EEntityEvent m_event;
+	void* m_data;
 };

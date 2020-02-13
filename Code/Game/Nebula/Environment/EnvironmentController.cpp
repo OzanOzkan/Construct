@@ -33,7 +33,7 @@ unsigned int CEnvironmentController::getEventMask() const
 /////////////////////////////////////////////////
 void CEnvironmentController::onEvent(const SEntityEvent & event)
 {
-	switch (event.event)
+	switch (event.GetEvent())
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
