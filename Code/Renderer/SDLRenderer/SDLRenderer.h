@@ -10,6 +10,7 @@
 #include <map>
 
 #include "SDLTextureManager.h"
+#include "SDLCamera.h"
 
 class CText;
 
@@ -25,6 +26,7 @@ public:
 	CSDLTextureManager* GetTextureManager() override { return m_pTextureManager.get(); }
 	IRendererObject* CreateRenderObject(const SRenderObjectParams& params) override;
 	void RemoveRenderObject(IRendererObject* pRenderObject) override;
+	ICamera* GetCamera() override { return m_pCamera.get(); }
 	// ~IRenderer
 
 	void doRender();
@@ -32,6 +34,7 @@ public:
 
 private:
 	ISystem * m_pSystem;
+	std::unique_ptr<CSDLCamera> m_pCamera;
 	std::unique_ptr<CSDLTextureManager> m_pTextureManager;
 	SDL_Window* m_pSDLWindow;
 	SDL_Renderer* m_pSDLRenderer;

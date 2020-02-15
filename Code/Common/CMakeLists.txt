@@ -27,6 +27,7 @@ file(GLOB SYSTEM_ENTITY_SYSTEM_SRC
 )
 
 file (GLOB RENDERER_SRC
+	"Renderer/ICamera.h"
 	"Renderer/IRenderer.h"
 	"Renderer/IRenderObject.h"
 	"Renderer/ITexture.h"

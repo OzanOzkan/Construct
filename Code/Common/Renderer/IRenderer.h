@@ -9,17 +9,29 @@
 #include "../System/ISystem.h"
 #include "IRenderObject.h"
 #include "ITextureManager.h"
+#include "ICamera.h"
 
-enum class ERenderer
+struct RGBColor
 {
-	eRDR_NONE = 0,
-	eRDR_SDL2,
-	eRDR_OPENGL
+	RGBColor() {}
+	RGBColor(const float& R, const float& G, const float& B)
+		: r(R)
+		, g(G)
+		, b(B)
+	{}
+	
+	float r, g, b = 0;
+};
+
+enum class ERenderer : int
+{
+	NONE = 0,
+	SDL2,
+	OPENGL
 };
 
 class IRenderer : public IModule
 {
-
 public:
 	virtual ~IRenderer() {}
 
@@ -31,4 +43,5 @@ public:
 	virtual ITextureManager* GetTextureManager() = 0;
 	virtual IRendererObject* CreateRenderObject(const SRenderObjectParams& params) = 0;
 	virtual void RemoveRenderObject(IRendererObject* pRenderObject) = 0;
+	virtual ICamera* GetCamera() = 0;
 };

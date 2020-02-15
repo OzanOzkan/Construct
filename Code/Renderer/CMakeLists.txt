@@ -9,6 +9,8 @@ file(GLOB ROOT_SRC
 )
 
 file (GLOB SDL_RENDERER
+	"SDLRenderer/SDLCamera.h"
+	"SDLRenderer/SDLCamera.cpp"
 	"SDLRenderer/SDLRenderer.h"
 	"SDLRenderer/SDLRenderer.cpp"
 	"SDLRenderer/SDLTexture.h"

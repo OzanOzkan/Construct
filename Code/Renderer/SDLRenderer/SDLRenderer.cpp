@@ -28,10 +28,9 @@ void CSDLRenderer::InitializeModule()
 
     if(!m_pSDLRenderer) {
 		GetSystem()->GetLogger()->Log("CSDLRenderer::InitializeModule(): SDL Renderer creation failed!");
-        //SDL_Log("ERROR: %s", SDL_GetError());
     }
 
-	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 1920, 1080);
+	SDL_RenderSetLogicalSize(m_pSDLRenderer, 1440, 2960);
 
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
@@ -42,6 +41,11 @@ void CSDLRenderer::InitializeModule()
 
 	// Initialize Texture Manager
 	m_pTextureManager = std::make_unique<CSDLTextureManager>(m_pSystem, m_pSDLRenderer);
+
+	// Initialize Camera
+	m_pCamera = std::make_unique<CSDLCamera>(m_pSystem);
+	m_pCamera->SetSize(1440, 2960);
+	//m_pCamera->SetPosition(Vector2(-100, 0));
 }
 
 /////////////////////////////////////////////////

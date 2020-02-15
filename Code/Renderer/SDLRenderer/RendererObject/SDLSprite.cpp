@@ -46,14 +46,22 @@ void CSDLSprite::setFile(const std::string & file)
 }
 
 /////////////////////////////////////////////////
+void CSDLSprite::setColor(const RGBColor& color)
+{
+
+}
+
+/////////////////////////////////////////////////
 void CSDLSprite::RenderCopy()
 {
 	if (!m_pSDLTexture)
 		return;
 
+	Vector2 currentCameraPos = m_pRendererContext->GetCamera()->GetPosition();
+
 	SDL_Rect originalPosition;
-	originalPosition.x = m_position.x;
-	originalPosition.y = m_position.y;
+	originalPosition.x = m_position.x + currentCameraPos.x;
+	originalPosition.y = m_position.y + currentCameraPos.y;
 	originalPosition.w = m_width;
 	originalPosition.h = m_height;
 
