@@ -2,16 +2,14 @@ cmake_minimum_required(VERSION 3.10)
 
 project (WindowsLauncher VERSION 1.0 LANGUAGES CXX)
 
-file(GLOB ROOT_SRC
+set(ROOT_SRC
   "Main.cpp"
 )
-
-include_directories("${SRC_DIR}/Common")
 
 add_executable(${PROJECT_NAME} ${ROOT_SRC})
 
 source_group(" " FILES ${ROOT_SRC})
 
-add_dependencies(${PROJECT_NAME} Renderer)
+target_link_libraries(${PROJECT_NAME} PUBLIC Common)
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

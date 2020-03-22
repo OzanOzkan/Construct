@@ -2,12 +2,10 @@ cmake_minimum_required(VERSION 3.10)
 
 project (Plugins VERSION 1.0 LANGUAGES CXX)
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-file(GLOB ROOT_SRC
+set(ROOT_SRC
 )
 
-file(GLOB ENTITY_COMPONENTS
+set(ENTITY_COMPONENTS
 	"EntityComponents/CollisionEntityComponent.h"
 	"EntityComponents/CollisionEntityComponent.cpp"
 	"EntityComponents/SpriteRendererEntityComponent.h"
@@ -16,11 +14,17 @@ file(GLOB ENTITY_COMPONENTS
 	"EntityComponents/TextRendererEntityComponent.cpp"
 )
 
-include_directories("${SRC_DIR}/Common")
+set(UI
+	"UI/UIButton.h"
+	"UI/UIButton.cpp"
+)
 
-add_library (${PROJECT_NAME} STATIC ${ROOT_SRC} ${ENTITY_COMPONENTS})
+add_library (${PROJECT_NAME} STATIC ${ROOT_SRC} ${ENTITY_COMPONENTS} ${UI})
 
 source_group(" " FILES ${ROOT_SRC})
 source_group("EntityComponents" FILES ${ENTITY_COMPONENTS})
+source_group("UI" FILES ${UI})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC Common)
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
