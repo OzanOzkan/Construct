@@ -60,6 +60,7 @@ void SpriteRendererEntityComponent::updateComponent()
 	params.width = m_width;
 	params.height = m_height;
 	params.scrollParams = m_scrollParams;
+	params.renderObjectClass = ERenderObjectClass::WORLD;
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pSprite->setRenderActive(true);
