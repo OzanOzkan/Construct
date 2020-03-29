@@ -40,7 +40,8 @@ void TextRendererEntityComponent::updateComponent()
 	params.text = m_text;
 	params.font = m_font;
 	params.fontSize = m_fontSize;
-	params.position = getEntity()->getPosition();
+	params.layerId = m_layerId;
+	params.position = getEntity()->getPosition() + getPosition();
 
 	m_pText = static_cast<IText*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pText->setRenderActive(true);
@@ -49,7 +50,7 @@ void TextRendererEntityComponent::updateComponent()
 /////////////////////////////////////////////////
 void TextRendererEntityComponent::onEntityUpdateEvent()
 {
-	m_pText->setPosition(getEntity()->getPosition());
+	m_pText->setPosition(getEntity()->getPosition() + getPosition());
 }
 
 /////////////////////////////////////////////////
