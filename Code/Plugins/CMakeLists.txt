@@ -12,6 +12,8 @@ set(ENTITY_COMPONENTS
 	"EntityComponents/SpriteRendererEntityComponent.cpp"
 	"EntityComponents/TextRendererEntityComponent.h"
 	"EntityComponents/TextRendererEntityComponent.cpp"
+	"EntityComponents/OnSelectionListenerEntityComponent.h"
+	"EntityComponents/OnSelectionListenerEntityComponent.cpp"
 )
 
 set(UI
