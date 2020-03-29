@@ -25,8 +25,6 @@ void CPlayer::Init()
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 
-	//m_pSpriteRendererComponent->setDebugDraw(true);
-
 	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));
 
@@ -35,6 +33,12 @@ void CPlayer::Init()
 
 	m_pWeapon2 = getEntity()->addEntityComponent<CWeapon>();
 	m_pWeapon2->setPosition(Vector2(200, 80));
+
+	float h, w;
+	m_pSpriteRendererComponent->getSize(h, w);
+	m_pOnSelectionListenerEntityComponent = getEntity()->addEntityComponent<OnSelectionListenerEntityComponent>();
+	m_pOnSelectionListenerEntityComponent->setSize(w, h);
+	m_pOnSelectionListenerEntityComponent->subscribeOnSelection([this](const Vector2& selectionPos) { movePlayer(selectionPos); });
 }
 
 /////////////////////////////////////////////////
@@ -46,17 +50,20 @@ unsigned int CPlayer::getEventMask() const
 /////////////////////////////////////////////////
 void CPlayer::onEvent(const SEntityEvent & event)
 {
-	// Control spaceship with touch input.
-	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();
-	if (!touchEvents.empty())
-	{
-		STouchEvent touchEvent = touchEvents.front();
-		getEntity()->setPosition(Vector2(touchEvent.position.x - 130, touchEvent.position.y - 400));
-	}
+
 }
 
 /////////////////////////////////////////////////
 void CPlayer::updateComponent()
 {
 	
+}
+
+/////////////////////////////////////////////////
+void CPlayer::movePlayer(const Vector2& toPosition)
+{
+	float h, w;
+	m_pSpriteRendererComponent->getSize(h, w);
+
+	getEntity()->setPosition(Vector2(toPosition.x - h/2, toPosition.y - w/2));
 }

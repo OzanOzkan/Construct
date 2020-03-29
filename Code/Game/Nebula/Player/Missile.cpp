@@ -59,10 +59,10 @@ void CMissile::onEvent(const SEntityEvent & event)
 	break;
 	case EEntityEvent::ENTITY_EVENT_COLLISION:
 	{
-		auto eventData = event.GetData<SPhysicsEventData>();
-		if (eventData->pEntity2->getTag().compare("EnemyShip") == 0)
+		if (auto eventData = event.GetData<SPhysicsEventData>()) 
 		{
-			destroyMissile();
+			if (eventData->pEntity2->getTag().compare("EnemyShip") == 0)
+				destroyMissile();
 		}
 	}
 	break;

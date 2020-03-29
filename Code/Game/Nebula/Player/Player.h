@@ -6,6 +6,7 @@
 
 #include <System/EntitySystem/IEntityComponent.h>
 #include <EntityComponents/SpriteRendererEntityComponent.h>
+#include <EntityComponents/OnSelectionListenerEntityComponent.h>
 #include "Weapon.h"
 
 class CPlayer : public IEntityComponent
@@ -21,7 +22,12 @@ public:
 	// ~IEntityComponent
 
 private:
+	void movePlayer(const Vector2& toPosition);
+
+private:
 	SpriteRendererEntityComponent * m_pSpriteRendererComponent;
 	CWeapon* m_pWeapon1;
 	CWeapon* m_pWeapon2;
+
+	OnSelectionListenerEntityComponent* m_pOnSelectionListenerEntityComponent;
 };
