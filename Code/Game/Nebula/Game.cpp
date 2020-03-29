@@ -12,6 +12,8 @@
 #include "Player/Player.h"
 #include "Environment/EnvironmentController.h"
 
+#include <UI/UIButton.h>
+
 extern "C"
 {
 	API_EXPORT IGame* CreateModuleInterface(ISystem* systemContext)
@@ -42,4 +44,10 @@ void CGame::InitializeModule()
 	playerSpawnParams.entityName = "PlayerEntity";
 	GetSystem()->GetEntitySystem()->spawnEntity(playerSpawnParams)
 		->addEntityComponent<CPlayer>();
+
+	SEntitySpawnParams uiParams;
+	uiParams.entityName = "Canvas";
+	IEntity* pUICanvas = GetSystem()->GetEntitySystem()->spawnEntity(uiParams);
+	pUICanvas->setPosition(Vector2(100, 100));
+	pUICanvas->addEntityComponent<UIButton>();
 }
