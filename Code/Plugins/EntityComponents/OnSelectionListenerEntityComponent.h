@@ -33,6 +33,6 @@ private:
 	Math::Rectangle m_boundingBox;
 	std::vector<TSelectionEventCallbackFn> m_callbacks;
 	bool m_debugDraw;
-	IRect* m_pBBDebugRect = nullptr;
-	IRect* m_pInputDebugRect = nullptr;
+	IRect* m_pBBDebugRect;
+	IRect* m_pInputDebugRect;
 };

@@ -38,7 +38,7 @@ void OnSelectionListenerEntityComponent::onEvent(const SEntityEvent & event)
 void OnSelectionListenerEntityComponent::processInputEvent()
 {
 	bool isEventInBoundingBox = false;
-	Vector2 inputPosition;
+	Vector2 inputPosition(0, 0);
 
 	updateBoundingBox();
 
