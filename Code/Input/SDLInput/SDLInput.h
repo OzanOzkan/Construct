@@ -18,7 +18,7 @@ public:
 	void InitializeModule() override;
 	void onUpdate() override;
 	const bool& IsKeyPressed(const EKey& key) override;
-	const Vector2& GetMousePosition() override;
+	Vector2 GetMousePosition() override;
 	STouchEventList GetTouchEvents() override;
 	// ~IInput
 

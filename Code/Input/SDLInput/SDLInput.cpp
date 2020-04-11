@@ -50,11 +50,11 @@ const bool & CSDLInput::IsKeyPressed(const EKey & key)
 }
 
 /////////////////////////////////////////////////
-const Vector2 & CSDLInput::GetMousePosition()
+Vector2 CSDLInput::GetMousePosition()
 {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
-
+	
 	return Vector2(x, y);
 }
 
