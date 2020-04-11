@@ -31,7 +31,7 @@ public:
 	const EEntityEvent& GetEvent() const { return m_event; }
 
 	template <typename EventDataType>
-	EventDataType* GetData() const { return reinterpret_cast<EventDataType*>(m_data); }
+	EventDataType* GetData() const { return static_cast<EventDataType*>(m_data); }
 
 private:
 	EEntityEvent m_event;

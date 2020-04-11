@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/EntitySystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/EventSystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Window/*.cpp) \
+	$(wildcard $(MODULE_DIR)/UI/*.cpp)\
 	$(wildcard $(MODULE_DIR)/*.cpp)
 
 LOCAL_SHARED_LIBRARIES := SDL2

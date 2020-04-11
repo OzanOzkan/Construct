@@ -16,6 +16,7 @@ public:
 	// ~IEntityComponent
 
 	void SetSize(const int& w, const int& h);
+	void setDebugDraw(const bool& isActive);
 
 private:
 	void onEntityDestroyEvent();
@@ -23,6 +24,7 @@ private:
 
 private:
 	IRect * m_pDebugRect = nullptr;
+	bool m_isDebugDraw = false;
 	int m_width = -1;
 	int m_height = -1;
 };

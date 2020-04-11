@@ -4,7 +4,7 @@
 #include <Math/Math.h>
 #include <Renderer/IRenderObject.h>
 
-typedef std::function<void(const Vector2& selectionPos)> TSelectionEventCallbackFn;
+typedef std::function<void(const bool& isSelected, const Vector2& selectionPos)> TSelectionEventCallbackFn;
 
 class OnSelectionListenerEntityComponent : public IEntityComponent
 {
@@ -24,14 +24,17 @@ public:
 	void setDebugDraw(bool isActive);
 
 private:
-	void processInputEvent();
+	void processSelectionEvent();
 	bool checkSelection(const Vector2& positionToCheck);
+	void notifyListeners(const bool& isSelected, const Vector2& selectionPos);
 	void updateBoundingBox();
 	void debugDraw();
 
 private:
 	Math::Rectangle m_boundingBox;
 	std::vector<TSelectionEventCallbackFn> m_callbacks;
+	Vector2 m_lastSelectedPosition;
+	bool m_isSelectedPreviousFrame;
 	bool m_debugDraw;
 	IRect* m_pBBDebugRect;
 	IRect* m_pInputDebugRect;

@@ -7,7 +7,9 @@
 
 /////////////////////////////////////////////////
 OnSelectionListenerEntityComponent::OnSelectionListenerEntityComponent()
-	: m_debugDraw(false)
+	: m_lastSelectedPosition(Vector2(0,0))
+	, m_isSelectedPreviousFrame(false)
+	, m_debugDraw(false)
 	, m_pBBDebugRect(nullptr)
 	, m_pInputDebugRect(nullptr)
 {
@@ -22,44 +24,53 @@ void OnSelectionListenerEntityComponent::Init()
 /////////////////////////////////////////////////
 unsigned int OnSelectionListenerEntityComponent::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE;
+	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_DESTROY;
 }
 
 /////////////////////////////////////////////////
 void OnSelectionListenerEntityComponent::onEvent(const SEntityEvent & event)
 {
-	processInputEvent();
+	if (event.GetEvent() == EEntityEvent::ENTITY_EVENT_UPDATE)
+	{
+		updateBoundingBox();
+		processSelectionEvent();
 
-	if (m_debugDraw)
-		debugDraw();
+		if (m_debugDraw)
+			debugDraw();
+	}
+	else if (event.GetEvent() == EEntityEvent::ENTITY_EVENT_DESTROY)
+	{
+		if(m_pBBDebugRect) GetSystem()->GetRenderer()->RemoveRenderObject(m_pBBDebugRect);
+		if(m_pInputDebugRect) GetSystem()->GetRenderer()->RemoveRenderObject(m_pInputDebugRect);
+	}
 }
 
 /////////////////////////////////////////////////
-void OnSelectionListenerEntityComponent::processInputEvent()
+void OnSelectionListenerEntityComponent::processSelectionEvent()
 {
-	bool isEventInBoundingBox = false;
-	Vector2 inputPosition(0, 0);
-
-	updateBoundingBox();
-
-	// Touch input
 	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();
-	if (!touchEvents.empty())
+	bool isMouseKeyPressed = GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_LEFT);
+
+	if (!touchEvents.empty() || isMouseKeyPressed)
 	{
-		STouchEvent touchEvent = touchEvents.front();
-		inputPosition = touchEvent.position;
+		Vector2 inputPosition = isMouseKeyPressed ? GetSystem()->GetInput()->GetMousePosition() 
+			: touchEvents.front().position;
+
+		if (checkSelection(inputPosition))
+		{
+			notifyListeners(true, inputPosition);
+			m_isSelectedPreviousFrame = true;
+			m_lastSelectedPosition = inputPosition;
+		}
 	}
 	else
 	{
-		// Mouse input
-		if (GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_LEFT))
-			inputPosition = GetSystem()->GetInput()->GetMousePosition();
-	}
-
-	if (checkSelection(inputPosition))
-	{
-		for (auto fn : m_callbacks)
-			fn(inputPosition);
+		if (m_isSelectedPreviousFrame)
+		{
+			notifyListeners(false, m_lastSelectedPosition);
+			m_isSelectedPreviousFrame = false;
+			m_lastSelectedPosition = Vector2(0, 0);
+		}
 	}
 }
 
@@ -71,6 +82,12 @@ bool OnSelectionListenerEntityComponent::checkSelection(const Vector2& positionT
 	selectionPoint.y = positionToCheck.y;
 
 	return Math::isPointInRect(selectionPoint, m_boundingBox);
+}
+
+void OnSelectionListenerEntityComponent::notifyListeners(const bool & isSelected, const Vector2 & selectionPos)
+{
+	for (auto fn : m_callbacks)
+		fn(isSelected, selectionPos);
 }
 
 /////////////////////////////////////////////////

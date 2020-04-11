@@ -6,6 +6,7 @@
 /////////////////////////////////////////////////
 CollisionEntityComponent::CollisionEntityComponent()
 	: m_pDebugRect(nullptr)
+	, m_isDebugDraw(false)
 	, m_width(-1)
 	, m_height(-1)
 {
@@ -33,7 +34,8 @@ void CollisionEntityComponent::onEvent(const SEntityEvent & event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
-		//DebugDraw();
+		if(m_isDebugDraw)
+			DebugDraw();
 	}
 	break;
 	case EEntityEvent::ENTITY_EVENT_DESTROY:
@@ -65,6 +67,12 @@ void CollisionEntityComponent::SetSize(const int & w, const int & h)
 {
 	m_width = w;
 	m_height = h;
+}
+
+/////////////////////////////////////////////////
+void CollisionEntityComponent::setDebugDraw(const bool& isActive)
+{
+	m_isDebugDraw = isActive;
 }
 
 /////////////////////////////////////////////////
