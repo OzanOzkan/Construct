@@ -3,14 +3,14 @@
 #include <System/ISystem.h>
 #include <Renderer/IRenderer.h>
 #include <Renderer/IRenderObject.h>
+#include <Math/Math.h>
 
 #include <SDL.h>
 
 #include <map>
 
-#include <Math/Math.h>
-
 #include "SDLTextureManager.h"
+#include "SDLCamera.h"
 
 class CText;
 
@@ -19,30 +19,22 @@ class CSDLRenderer : public IRenderer
 public:
 	CSDLRenderer(ISystem* systemContext);
 
-	// Inherited via IRenderer
+	// IRenderer
 	void InitializeModule() override;
 	void onUpdate() override;
-	// ~IRenderer
 
-	// RenderObject
+	CSDLTextureManager* GetTextureManager() override { return m_pTextureManager.get(); }
 	IRendererObject* CreateRenderObject(const SRenderObjectParams& params) override;
 	void RemoveRenderObject(IRendererObject* pRenderObject) override;
-	// RenderObject
-
-	// Texture (Todo: Will be moved to upper Renderer class)
-	int LoadTexture(const std::string& filePath) override { return -1; }
-	void UnloadTexture(const int& textureId) override {}
-	// ~Texture
-
-	CSDLTextureManager* GetTextureManager() { return m_pTextureManager.get(); }
+	ICamera* GetCamera() override { return m_pCamera.get(); }
+	// ~IRenderer
 
 	void doRender();
-
-private:
 	ISystem * GetSystem() { return m_pSystem; }
 
 private:
 	ISystem * m_pSystem;
+	std::unique_ptr<CSDLCamera> m_pCamera;
 	std::unique_ptr<CSDLTextureManager> m_pTextureManager;
 	SDL_Window* m_pSDLWindow;
 	SDL_Renderer* m_pSDLRenderer;

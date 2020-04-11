@@ -4,12 +4,9 @@
 
 #pragma once
 
-enum class EModule
-{
-	eM_SYSTEM = 0,
-	eM_RENDERER,
-	eM_INPUT,
-	eM_GAME
+template <typename T = int>
+struct SCreateModuleParams {
+	T implType;
 };
 
 class IModule

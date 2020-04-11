@@ -19,7 +19,7 @@ IEntity * CEntitySystem::spawnEntity(const SEntitySpawnParams & spawnParams)
 	pEntity->setID(m_entityList.size() > 0 ? m_entityList.rbegin()->first + 1 : 0);
 	pEntity->setName(spawnParams.entityName);
 	pEntity->setPosition(spawnParams.position);
-	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_INIT);
+	pEntity->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_INIT });
 
 	return static_cast<IEntity*>(m_entityList.insert(
 		std::make_pair(pEntity->getID(),
@@ -32,7 +32,6 @@ void CEntitySystem::destroyEntity(const int& entityId)
 {
 	// Send destroy event to components and mark entity for delete on the next frame.
 	CEntity* pEntity = m_entityList.at(entityId).get();
-	pEntity->sendEvent(EEntityEvent::ENTITY_EVENT_DESTROY);
 	pEntity->MarkToDelete();
 }
 
@@ -62,11 +61,12 @@ void CEntitySystem::onUpdate()
 	{
 		if (itr->second->IsMarkedToDelete())
 		{
+			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_DESTROY });
 			itr = m_entityList.erase(itr);
 		}
 		else
 		{
-			itr->second->sendEvent(EEntityEvent::ENTITY_EVENT_UPDATE);
+			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_UPDATE });
 			++itr;
 		}
 			

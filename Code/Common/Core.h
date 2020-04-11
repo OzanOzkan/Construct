@@ -21,7 +21,7 @@
 #else
 #include <dlfcn.h>
 # define API_EXPORT
-#define LoadExternalLibrary(libname) :: dlopen(libname, RTLD_LAZY)
+#define LoadExternalLibrary(libname) :: dlopen(libname, RTLD_GLOBAL)
 #define GetProc(handle, func) :: dlsym(handle, func)
 #endif
 

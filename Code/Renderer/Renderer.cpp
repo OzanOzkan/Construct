@@ -11,13 +11,13 @@
 /////////////////////////////////////////////////
 extern "C"
 {
-	API_EXPORT IRenderer* CreateModuleInterface(ISystem * systemContext, ERenderer renderer)
+	API_EXPORT IRenderer* CreateModuleInterface(ISystem * systemContext, SCreateModuleParams<ERenderer> createParams)
 	{
 		IRenderer* pRenderer = nullptr;
 
-		switch (renderer)
+		switch (createParams.implType)
 		{
-		case ERenderer::eRDR_SDL2:
+		case ERenderer::SDL2:
 		{
 			pRenderer = new CSDLRenderer(systemContext);
 		}

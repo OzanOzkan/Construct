@@ -8,12 +8,14 @@
 #include "../IModule.h"
 #include "../System/ISystem.h"
 #include "IRenderObject.h"
+#include "ITextureManager.h"
+#include "ICamera.h"
 
-enum class ERenderer
+enum class ERenderer : int
 {
-	eRDR_NONE = 0,
-	eRDR_SDL2,
-	eRDR_OPENGL
+	NONE = 0,
+	SDL2,
+	OPENGL
 };
 
 class IRenderer : public IModule
@@ -26,13 +28,8 @@ public:
 	virtual void onUpdate() = 0;
 	// ~IModule
 
-	// Texture
-	virtual int LoadTexture(const std::string& filePath) = 0;
-	virtual void UnloadTexture(const int& textureId) = 0;
-	// ~Texture
-
-	// RenderObject
+	virtual ITextureManager* GetTextureManager() = 0;
 	virtual IRendererObject* CreateRenderObject(const SRenderObjectParams& params) = 0;
 	virtual void RemoveRenderObject(IRendererObject* pRenderObject) = 0;
-	// ~RenderObject
+	virtual ICamera* GetCamera() = 0;
 };

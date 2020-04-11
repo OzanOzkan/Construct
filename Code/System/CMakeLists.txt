@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project (System VERSION 1.0 LANGUAGES CXX)
 
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-file(GLOB ROOT_SRC
+set(ROOT_SRC
 	"StdAfx.h"
 	"StdAfx.cpp"
 	"Log.h"
@@ -15,12 +13,12 @@ file(GLOB ROOT_SRC
 	"FileManager.cpp"
 )
 
-file (GLOB EVENTSYSTEM
+set(EVENTSYSTEM
 	"EventSystem/EventSystem.h"
 	"EventSystem/EventSystem.cpp"
 )
 
-file (GLOB WINDOW
+set(WINDOW
 	"Window/WindowManager.h"
 	"Window/WindowManager.cpp"
 	"Window/Window.h"
@@ -31,30 +29,34 @@ file (GLOB WINDOW
 	"Window/SDLWindow.cpp"
 )
 
-file (GLOB ENTITYSYSTEM
+set(ENTITYSYSTEM
 	"EntitySystem/EntitySystem.h"
 	"EntitySystem/EntitySystem.cpp"
 	"EntitySystem/Entity.h"
 	"EntitySystem/Entity.cpp"
 )
 
-include_directories("${SRC_DIR}/Common")
-include_directories("${SDK_DIR}")
-
-add_library (${PROJECT_NAME} SHARED ${ROOT_SRC} ${EVENTSYSTEM} ${WINDOW} ${ENTITYSYSTEM})
-
 source_group(" " FILES ${ROOT_SRC})
 source_group("EventSystem" FILES ${EVENTSYSTEM})
 source_group("Window" FILES ${WINDOW})
 source_group("EntitySystem" FILES ${ENTITYSYSTEM})
 
-#include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/glfw-3.3.bin.WIN64/include")
-#link_directories("${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017")
-#target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/glfw-3.3.bin.WIN64/lib-vc2017/glfw3.lib")
+find_package(SDL2 REQUIRED)
 
-#SDL2-2.0.10
-include_directories(${PROJECT_NAME} PRIVATE "${SDK_DIR}/SDL2-2.0.10/include")
-link_directories("${SDK_DIR}/SDL2-2.0.10/lib/x64")
-target_link_libraries(${PROJECT_NAME} "${SDK_DIR}/SDL2-2.0.10/lib/x64/SDL2.lib")
+include_directories(${SDL2_INCLUDE_DIRS})
+
+add_library (${PROJECT_NAME} 
+	SHARED 
+		${ROOT_SRC} 
+		${EVENTSYSTEM} 
+		${WINDOW} 
+		${ENTITYSYSTEM}
+)
+
+target_link_libraries(${PROJECT_NAME} 
+	PUBLIC 
+		Common
+		${SDL2_LIBRARIES}
+)
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

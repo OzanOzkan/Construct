@@ -11,10 +11,10 @@
 
 #include <vector>
 
-enum class EInput : uint8_t
+enum class EInput : int
 {
-	eINP_NONE = 0,
-	eINP_SDL2
+	NONE = 0,
+	SDL2
 };
 
 enum class EKey
@@ -86,7 +86,7 @@ public:
 	virtual void InitializeModule() = 0;
 	virtual void onUpdate() = 0;
 	virtual const bool& IsKeyPressed(const EKey& key) = 0;
-	virtual const Vector2& GetMousePosition() = 0;
+	virtual Vector2 GetMousePosition() = 0;
 	virtual STouchEventList GetTouchEvents() = 0;
 	// ~IModule
 };

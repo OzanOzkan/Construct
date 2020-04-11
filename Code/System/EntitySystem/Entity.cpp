@@ -4,11 +4,16 @@
 
 #include "Entity.h"
 
+#include <ILog.h>
+
+#include <functional>
+
 /////////////////////////////////////////////////
 CEntity::CEntity(ISystem * systemContext)
 	: m_entityID (-1)
 	, m_entityName("")
 	, m_isActive(true)
+	, m_tag("")
 	, m_entityComponents()
 	, m_entityPosition(0.f, 0.f)
 	, m_isMarkedToDelete(false)
@@ -19,7 +24,7 @@ CEntity::CEntity(ISystem * systemContext)
 }
 
 /////////////////////////////////////////////////
-void CEntity::sendEvent(const EEntityEvent & event)
+void CEntity::sendEvent(const SEntityEvent & event)
 {
 	// Handle event for this entity
 	HandleEntityEventInternal(event);
@@ -29,7 +34,7 @@ void CEntity::sendEvent(const EEntityEvent & event)
 	{
 		auto pComponent = pComponentEntry.second;
 
-		if (pComponent->getEventMask() & event)
+		if (pComponent->getEventMask() & event.GetEvent())
 		{
 			pComponent->onEvent(event);
 		}
@@ -37,9 +42,9 @@ void CEntity::sendEvent(const EEntityEvent & event)
 }
 
 /////////////////////////////////////////////////
-void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
+void CEntity::HandleEntityEventInternal(const SEntityEvent& event)
 {
-	switch (event)
+	switch (event.GetEvent())
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
@@ -48,7 +53,7 @@ void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
 		{
 			if (GetSystem()->getTime() - m_timerSetTime >= m_timerSec)
 			{
-				sendEvent(EEntityEvent::ENTITY_EVENT_TIMER_TICK);
+				sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_TIMER_TICK });
 				m_timerSet = false;
 			}
 		}
@@ -58,15 +63,29 @@ void CEntity::HandleEntityEventInternal(const EEntityEvent& event)
 }
 
 /////////////////////////////////////////////////
-void CEntity::addEntityComponentInternal(const std::string & componentName, std::shared_ptr<IEntityComponent> entityComponent)
+void CEntity::addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent)
 {
 	m_entityComponents.emplace(std::make_pair(componentName, entityComponent));
 }
 
 /////////////////////////////////////////////////
-IEntityComponent * CEntity::getEntityComponentInternal(const std::string & componentName)
+IEntityComponent * CEntity::getEntityComponentInternal(const std::string& componentName)
 {
-	return m_entityComponents[componentName].get();
+	return m_entityComponents.find(componentName)->second.get();
+}
+
+/////////////////////////////////////////////////
+std::vector<IEntityComponent*> CEntity::getEntityComponentsInternal(const std::string& componentName)
+{
+	std::vector<IEntityComponent*> retVec{};
+
+	for (auto componentPair : m_entityComponents)
+	{
+		if (componentPair.first.compare(componentName) == 0)
+			retVec.push_back(componentPair.second.get());
+	}
+
+	return retVec;
 }
 
 /////////////////////////////////////////////////

@@ -1,23 +1,28 @@
 #pragma once
 
 #include <System/ISystem.h>
+#include <Renderer/ITextureManager.h>
 #include <ILog.h>
+
+#include "SDLTexture.h"
 
 #include <SDL.h>
 
 #include <map>
 
-class CSDLTextureManager
+class CSDLTextureManager final : public ITextureManager
 {
 public:
 	CSDLTextureManager(ISystem* systemContext, SDL_Renderer* pSDLRenderer);
 	virtual ~CSDLTextureManager();
 
-	int LoadTexture(const std::string& filePath);
-	void UnloadTexture(const int& textureId);
-	SDL_Texture* GetTexture(const std::string& filePath);
-	SDL_Texture* GetTexture(const int& textureId);
-	
+	// ITextureManager
+	int LoadTexture(const std::string& filePath) override;
+	void UnloadTexture(const int& textureId) override;
+	CSDLTexture* GetTexture(const std::string& filePath) override;
+	CSDLTexture* GetTexture(const int& textureId) override;
+	// ~ITextureManager
+
 	int ResolveTextureId(const std::string& filePath);
 
 private:
@@ -28,6 +33,6 @@ private:
 	ISystem * m_pSystem = nullptr;
 	SDL_Renderer* m_pSDLRenderer = nullptr;
 	
-	std::map<int, SDL_Texture*> m_loadedTextures{};
+	std::map<int, std::unique_ptr<CSDLTexture>> m_loadedTextures{};
 	std::map<std::string, int> m_textureFileIdMap{};
 };

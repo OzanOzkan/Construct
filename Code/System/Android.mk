@@ -9,7 +9,7 @@ LOCAL_MODULE_FILENAME := libBokSystem
 MODULE_DIR := $(call my-dir)
 
 LOCAL_CPPFLAGS += -std=c++17
-LOCAL_CPP_FEATURES += exceptions
+LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/$(SDL_PATH)/include
 LOCAL_C_INCLUDES += $(ENGINE_CODE_PATH)/Common
@@ -18,6 +18,7 @@ LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/EntitySystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/EventSystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Window/*.cpp) \
+	$(wildcard $(MODULE_DIR)/UI/*.cpp)\
 	$(wildcard $(MODULE_DIR)/*.cpp)
 
 LOCAL_SHARED_LIBRARIES := SDL2

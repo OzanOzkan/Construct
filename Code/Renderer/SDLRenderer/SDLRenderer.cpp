@@ -3,8 +3,10 @@
 #include <ILog.h>
 
 #include "RendererObject/SDLRendererObject.h"
-#include "RendererObject/Sprite.h"
-#include "RendererObject/Text.h"
+#include "RendererObject/SDLSprite.h"
+#include "RendererObject/SDLAnimatedSprite.h"
+#include "RendererObject/SDLText.h"
+#include "RendererObject/SDLRect.h"
 
 /////////////////////////////////////////////////
 CSDLRenderer::CSDLRenderer(ISystem * systemContext)
@@ -27,10 +29,9 @@ void CSDLRenderer::InitializeModule()
 
     if(!m_pSDLRenderer) {
 		GetSystem()->GetLogger()->Log("CSDLRenderer::InitializeModule(): SDL Renderer creation failed!");
-        //SDL_Log("ERROR: %s", SDL_GetError());
     }
 
-	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 1920, 1080);
+	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 720, 1280);
 
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
@@ -41,6 +42,11 @@ void CSDLRenderer::InitializeModule()
 
 	// Initialize Texture Manager
 	m_pTextureManager = std::make_unique<CSDLTextureManager>(m_pSystem, m_pSDLRenderer);
+
+	// Initialize Camera
+	m_pCamera = std::make_unique<CSDLCamera>(m_pSystem);
+	m_pCamera->SetSize(1440, 2960);
+	//m_pCamera->SetPosition(Vector2(-100, 0));
 }
 
 /////////////////////////////////////////////////
@@ -58,12 +64,22 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 	{
 	case ERendererObjectType::eRT_SPRITE:
 	{
-		pRenderObject = std::make_unique<CSprite>(this, m_pSDLRenderer);
+		pRenderObject = std::make_unique<CSDLSprite>(this, m_pSDLRenderer);
+	}
+	break;
+	case ERendererObjectType::eRT_ANIMATED_SPRITE:
+	{
+		pRenderObject = std::make_unique<CSDLAnimatedSprite>(this, m_pSDLRenderer);
 	}
 	break;
 	case ERendererObjectType::eRT_TEXT:
 	{
-		pRenderObject = std::make_unique<CText>(this, m_pSDLRenderer);
+		pRenderObject = std::make_unique<CSDLText>(this, m_pSDLRenderer);
+	}
+	break;
+	case ERendererObjectType::eRT_RECT:
+	{
+		pRenderObject = std::make_unique<CSDLRect>(this, m_pSDLRenderer);
 	}
 	break;
 	}

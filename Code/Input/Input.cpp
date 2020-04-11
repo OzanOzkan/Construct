@@ -7,13 +7,13 @@
 
 extern "C"
 {
-	API_EXPORT IInput* CreateInputInterface(ISystem* systemContext, EInput inputImplementation)
+	API_EXPORT IInput* CreateModuleInterface(ISystem* systemContext, SCreateModuleParams<EInput> createParams)
 	{
 		IInput* pInput = nullptr;
 
-		switch (inputImplementation)
+		switch (createParams.implType)
 		{
-		case EInput::eINP_SDL2:
+		case EInput::SDL2:
 		{
 			pInput = new CSDLInput(systemContext);
 		}

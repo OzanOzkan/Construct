@@ -17,7 +17,7 @@ public:
 
 	virtual void Init() = 0;
 	virtual unsigned int getEventMask() const = 0;
-	virtual void onEvent(const EEntityEvent& event) = 0;
+	virtual void onEvent(const SEntityEvent& event) = 0;
 	virtual void updateComponent() = 0;
 	
 	IEntity* getEntity() { return m_pEntity; }
@@ -25,6 +25,8 @@ public:
 	bool isActive() const { return m_isActive; }
 	void setPosition(const Vector2& position) { m_componentRelativePosition = position; }
 	const Vector2& getPosition() { return m_componentRelativePosition; }
+	void setRotation(const float& rotation) { m_componentRotation = rotation; }
+	float getRotation() { return m_componentRotation; }
 
 protected:
 	ISystem * GetSystem() { return m_pSystem; }
@@ -42,4 +44,5 @@ protected:
 	IEntity * m_pEntity = nullptr;
 	bool m_isActive = true;
 	Vector2 m_componentRelativePosition { 0,0 };
+	float m_componentRotation = 0;
 };
