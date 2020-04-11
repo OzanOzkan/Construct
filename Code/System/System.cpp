@@ -5,20 +5,19 @@
 #include "StdAfx.h"
 #include "System.h"
 
+#include <IInput.h>
+#include <Physics/IPhysics.h>
+#include <Renderer/IRenderer.h>
+#include <IGame.h>
+
 #include "Log.h"
 #include "FileManager.h"
 #include "EntitySystem/EntitySystem.h"
-#include <Renderer/IRenderer.h>
-#include <IInput.h>
-#include <Physics/IPhysics.h>
-#include <IGame.h>
 
 #include <string>
 #include <memory>
 #include <chrono>
 #include <future>
-
-#include <SDL.h>
 
 #ifdef _WIN32
 #else
@@ -30,6 +29,7 @@ extern "C"
 	API_EXPORT ISystem* CreateSystemInterface()
 	{
 		ISystem* pSystem = new CSystem();
+
 		pSystem->InitializeModule();
 
 		return pSystem;
@@ -140,16 +140,18 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 void CSystem::updateSystemInfo()
 {
 	std::string systemText = "   " + std::to_string(static_cast<int>(m_avgFps)) + " FPS "
-		+ "/ Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount());
+		+ "/ Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount())
+		+ " / CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) 
+		+ "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y);
 
 	if (!m_systemText)
 	{
 		STextParams params;
 		params.layerId = INT_MAX;
 		params.text = systemText;
-		params.font = getFileManager()->getAssetsDirectory() + "Fonts/ARIAL.TTF";
-		params.fontSize = 50;
-		params.position = Vector2(5.f, 5.f);
+		params.fontSize = 25;
+		params.position = Vector2(30.f, 5.f);
+		params.color = RGBAColor(244, 208, 63, 1);
 
 		m_systemText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));
 		m_systemText->setRenderActive(true);

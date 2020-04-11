@@ -41,8 +41,12 @@ void TextRendererEntityComponent::updateComponent()
 	params.font = m_font;
 	params.fontSize = m_fontSize;
 	params.layerId = m_layerId;
+	params.color = m_color;
 	params.position = getEntity()->getPosition() + getPosition();
 
+	if (m_pText)
+		GetSystem()->GetRenderer()->RemoveRenderObject(m_pText);
+	
 	m_pText = static_cast<IText*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
 	m_pText->setRenderActive(true);
 }

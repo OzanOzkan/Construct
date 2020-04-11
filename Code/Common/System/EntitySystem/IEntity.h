@@ -26,6 +26,8 @@ public:
 	virtual int getComponentCount() const = 0;
 	virtual void setPosition(const Vector2& position) = 0;
 	virtual const Vector2& getPosition() = 0;
+	virtual void setRotation(const float& rotation) = 0;
+	virtual float getRotation() = 0;
 	virtual void setTag(const std::string& tag) = 0;
 	virtual const std::string& getTag() = 0;
 

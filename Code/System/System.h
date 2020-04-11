@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include <Core.h>
 #include <System/ISystem.h>
 #include <System/IWindowEventListener.h>
 #include "Window/WindowManager.h"

@@ -24,9 +24,12 @@ void CSDLSprite::Load(const SRenderObjectParams& params)
 	m_type				= ERendererObjectType::eRT_SPRITE;
 	m_file				= spriteParams.spriteFile;
 	m_position			= spriteParams.position;
+	m_rotation			= spriteParams.rotation;
 	m_scrollingSprite	= (spriteParams.scrollParams.scrollSpeed > -1);
 	m_scrollSpeed		= spriteParams.scrollParams.scrollSpeed;
 	m_scrollDirection	= spriteParams.scrollParams.scrollDirection;
+	m_class				= spriteParams.renderObjectClass;
+	m_color				= spriteParams.color;
 	m_pSDLTexture		= pTexture->GetSDLTexturePtr();
 
 	if (m_pSDLTexture)
@@ -46,28 +49,27 @@ void CSDLSprite::setFile(const std::string & file)
 }
 
 /////////////////////////////////////////////////
-void CSDLSprite::setColor(const RGBColor& color)
-{
-
-}
-
-/////////////////////////////////////////////////
 void CSDLSprite::RenderCopy()
 {
 	if (!m_pSDLTexture)
 		return;
 
-	Vector2 currentCameraPos = m_pRendererContext->GetCamera()->GetPosition();
-
 	SDL_Rect originalPosition;
-	originalPosition.x = m_position.x + currentCameraPos.x;
-	originalPosition.y = m_position.y + currentCameraPos.y;
+	originalPosition.x = m_position.x;
+	originalPosition.y = m_position.y;
 	originalPosition.w = m_width;
 	originalPosition.h = m_height;
 
+	if (m_class == ERenderObjectClass::WORLD)
+	{
+		Vector2 currentCameraPos = m_pRendererContext->GetCamera()->GetPosition();
+		originalPosition.x += currentCameraPos.x;
+		originalPosition.y += currentCameraPos.y;
+	}
+
 	if (!m_scrollingSprite)
 	{
-		SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &originalPosition);
+		SDL_RenderCopyEx(m_pSDLRenderer, m_pSDLTexture, NULL, &originalPosition, m_rotation, NULL, SDL_FLIP_NONE);
 	}
 	else
 	{

@@ -8,7 +8,7 @@
 /////////////////////////////////////////////////
 SpriteRendererEntityComponent::SpriteRendererEntityComponent()
 	: m_spriteFile("")
-	, m_color()
+	, m_color(0,0,0,1)
 	, m_height(-1)
 	, m_width(-1)
 	, m_pSprite(nullptr)
@@ -56,7 +56,7 @@ void SpriteRendererEntityComponent::updateComponent()
 	SSpriteParams params;
 	params.layerId = m_layerId;
 	params.spriteFile = m_spriteFile;
-	params.position = getEntity()->getPosition();
+	params.position = getEntity()->getPosition() + getPosition();
 	params.width = m_width;
 	params.height = m_height;
 	params.scrollParams = m_scrollParams;
@@ -67,17 +67,23 @@ void SpriteRendererEntityComponent::updateComponent()
 }
 
 /////////////////////////////////////////////////
+void SpriteRendererEntityComponent::setFile(const std::string & file)
+{
+	if (m_spriteFile.compare(file) != 0)
+	{
+		m_spriteFile = file;
+		updateComponent();
+	}
+}
+
+/////////////////////////////////////////////////
 void SpriteRendererEntityComponent::setSize(const float & height, const float & width)
 {
 	if (m_pSprite)
-	{
 		m_pSprite->setSize(width, height);
-	}
-	else
-	{
-		m_width = width;
-		m_height = height;
-	}
+
+	m_width = width;
+	m_height = height;
 }
 
 /////////////////////////////////////////////////
@@ -91,7 +97,7 @@ void SpriteRendererEntityComponent::getSize(float& height, float& width)
 }
 
 /////////////////////////////////////////////////
-void SpriteRendererEntityComponent::setColor(const RGBColor& color)
+void SpriteRendererEntityComponent::setColor(const RGBAColor& color)
 {
 	if (m_pSprite)
 		m_pSprite->setColor(color);
@@ -108,8 +114,12 @@ void SpriteRendererEntityComponent::setDebugDraw(const bool & isActive)
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::onEntityUpdateEvent()
 {
-	if(m_pSprite)
+	if (m_pSprite)
+	{
 		m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
+		m_pSprite->setRotation(getRotation());
+		m_pSprite->setRenderActive(m_isActive);
+	}
 
 	if (m_debugDraw)
 		DebugDraw();

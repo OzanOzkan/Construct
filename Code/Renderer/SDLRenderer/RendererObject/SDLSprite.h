@@ -11,10 +11,8 @@ public:
 	// ISprite
 	void Load(const SRenderObjectParams& params) override;
 	void setFile(const std::string& file) override;
-	void setColor(const RGBColor& color) override;
-	// ~ISprite
-
 	void RenderCopy() override;
+	// ~ISprite
 
 private:
 	bool m_scrollingSprite = false;

@@ -10,6 +10,7 @@ CSDLRect::CSDLRect(CSDLRenderer * pRendererContext, SDL_Renderer * pSDLRenderer)
 void CSDLRect::Load(const SRenderObjectParams & params)
 {
 	m_position	= params.position;
+	m_rotation	= params.rotation;
 	m_width		= params.width;
 	m_height	= params.height;
 }

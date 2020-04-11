@@ -19,8 +19,10 @@ void CSDLText::Load(const SRenderObjectParams& params)
 	m_font		= textParams.font;
 	m_fontSize	= textParams.fontSize;
 	m_position	= textParams.position;
+	m_rotation	= textParams.rotation;
 	m_width		= textParams.width;
 	m_height	= textParams.height;
+	m_color		= textParams.color;
 
 	if (m_font.empty())
 	{
@@ -54,15 +56,15 @@ void CSDLText::RenderCopy()
 	rect.w = m_width;
 	rect.h = m_height;
 
-	SDL_RenderCopy(m_pSDLRenderer, m_pSDLTexture, NULL, &rect);
+	SDL_RenderCopyEx(m_pSDLRenderer, m_pSDLTexture, NULL, &rect, m_rotation, NULL, SDL_FLIP_NONE);
 }
 
 /////////////////////////////////////////////////
 void CSDLText::PrepareText()
 {
-	SDL_Color colWhite = { 255, 255, 255 };
+	SDL_Color color = { m_color.r, m_color.g, m_color.b };
 
-	m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, getText().c_str(), colWhite);
+	m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, getText().c_str(), color);
 
 	int w, h;
 	TTF_SizeText(m_pSDLFont, getText().c_str(), &w, &h);

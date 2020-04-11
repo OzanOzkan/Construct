@@ -23,6 +23,8 @@ public:
 	int getComponentCount() const { return m_entityComponents.size(); };
 	void setPosition(const Vector2& position) { m_entityPosition = position; }
 	const Vector2& getPosition() { return m_entityPosition; }
+	void setRotation(const float& rotation) { m_entityRotation = rotation; }
+	float getRotation() { return m_entityRotation; }
 	virtual void setTag(const std::string& tag) { m_tag = tag; }
 	virtual const std::string& getTag() { return m_tag; }
 
@@ -49,6 +51,7 @@ private:
 	std::string m_tag;
 	std::multimap<std::string, std::shared_ptr<IEntityComponent>> m_entityComponents;
 	Vector2 m_entityPosition;
+	float m_entityRotation;
 	bool m_isMarkedToDelete;
 	bool m_timerSet;
 	float m_timerSetTime;

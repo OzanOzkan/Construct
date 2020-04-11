@@ -16,10 +16,10 @@ public:
 	void updateComponent() override;
 	// ~IEntityComponent
 
-	void setFile(const std::string& file) { m_spriteFile = file; }
+	void setFile(const std::string& file);
 	void setSize(const float& height, const float& width);
 	void getSize(float& height, float& width);
-	void setColor(const RGBColor& color);
+	void setColor(const RGBAColor& color);
 	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
 	void setLayerId(const int& layerId) { m_layerId = layerId; }
 	void setDebugDraw(const bool& isActive);
@@ -32,7 +32,7 @@ private:
 private:
 	float m_width = -1;
 	float m_height = -1;
-	RGBColor m_color;
+	RGBAColor m_color;
 	ISprite* m_pSprite;
 	std::string m_spriteFile;
 	SSpriteParams::SSpriteScrollParams m_scrollParams;
