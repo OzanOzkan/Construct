@@ -3,10 +3,10 @@
 #include <System/EntitySystem/IEntity.h>
 #include <System/EntitySystem/IEntityComponent.h>
 
-class CPlayer : public IEntityComponent
+class CPlayerView : public IEntityComponent
 {
 public:
-	CPlayer();
+	CPlayerView();
 
 	// IEntityComponent
 	void Init() override;

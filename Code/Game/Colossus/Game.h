@@ -1,8 +1,5 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
+
 #include <IGame.h>
 #include <System/ISystem.h>
 #include <ILog.h>
@@ -21,6 +18,7 @@ public:
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }
+	void loadLevel();
 
 private:
 	ISystem * m_pSystem = nullptr;

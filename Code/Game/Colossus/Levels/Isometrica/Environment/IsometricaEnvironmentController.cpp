@@ -1,17 +1,13 @@
-/* Copyright (C) 2020 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
-#include "EnvironmentController.h"
+#include "IsometricaEnvironmentController.h"
 
 
 /////////////////////////////////////////////////
-CEnvironmentController::CEnvironmentController()
+CIsometricaEnvironmentController::CIsometricaEnvironmentController()
 {
 }
 
 /////////////////////////////////////////////////
-void CEnvironmentController::Init()
+void CIsometricaEnvironmentController::Init()
 {
 	SpriteRendererEntityComponent* tile;
 
@@ -41,19 +37,19 @@ void CEnvironmentController::Init()
 }
 
 /////////////////////////////////////////////////
-unsigned int CEnvironmentController::getEventMask() const
+unsigned int CIsometricaEnvironmentController::getEventMask() const
 {
 	return -1;
 }
 
 /////////////////////////////////////////////////
-void CEnvironmentController::onEvent(const SEntityEvent & event)
+void CIsometricaEnvironmentController::onEvent(const SEntityEvent & event)
 {
 
 }
 
 /////////////////////////////////////////////////
-void CEnvironmentController::updateComponent()
+void CIsometricaEnvironmentController::updateComponent()
 {
 
 }

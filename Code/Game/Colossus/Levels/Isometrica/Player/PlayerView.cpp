@@ -2,7 +2,7 @@
 * All of the implementations are experimental and subject to change.
 */
 
-#include "Player.h"
+#include "PlayerView.h"
 
 #include <System/EntitySystem/IEntity.h>
 #include <IInput.h>
@@ -10,47 +10,49 @@
 #include <Renderer/IRenderer.h>
 
 /////////////////////////////////////////////////
-CPlayer::CPlayer()
+CPlayerView::CPlayerView()
 {
 
 }
 
 /////////////////////////////////////////////////
-void CPlayer::Init()
+void CPlayerView::Init()
 {
 
 }
 
 /////////////////////////////////////////////////
-unsigned int CPlayer::getEventMask() const
+unsigned int CPlayerView::getEventMask() const
 {
 	return EEntityEvent::ENTITY_EVENT_UPDATE;
 }
 
 /////////////////////////////////////////////////
-void CPlayer::onEvent(const SEntityEvent & event)
+void CPlayerView::onEvent(const SEntityEvent & event)
 {
 	ICamera* pCamera = GetSystem()->GetRenderer()->GetCamera();
 
 	// Control camera with touch input.
 	static bool firstTouch = true;
+	static Vector2 lastPos(0, 0);
 	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();
-	if (!touchEvents.empty())
-	{
-		STouchEvent touchEvent = touchEvents.front();
-		static Vector2 lastPos;
+	Vector2 inputPos = !touchEvents.empty() ? touchEvents.front().position
+		: GetSystem()->GetInput()->GetMousePosition();
+
+	if (!touchEvents.empty() || GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_LEFT))
+	{		
 		if (firstTouch)
 		{
-			lastPos = touchEvent.position;
+			lastPos = inputPos;
 			firstTouch = false;
 		}
 		else
 		{
-			Vector2 offset = lastPos - touchEvent.position;
-			Vector2 movePos = Vector2(offset.x * 1.2, offset.y * 1.2);
+			Vector2 offset = lastPos - inputPos;
+			Vector2 movePos = Vector2(offset.x * -1.2, offset.y * -1.2);
 			pCamera->SetPosition(pCamera->GetPosition() + movePos);
 
-			lastPos = touchEvent.position;
+			lastPos = inputPos;
 		}
 	}
 	else
@@ -71,7 +73,7 @@ void CPlayer::onEvent(const SEntityEvent & event)
 }
 
 /////////////////////////////////////////////////
-void CPlayer::updateComponent()
+void CPlayerView::updateComponent()
 {
 
 }

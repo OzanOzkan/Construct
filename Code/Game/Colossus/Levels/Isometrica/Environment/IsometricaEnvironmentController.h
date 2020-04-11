@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <System/EntitySystem/IEntity.h>
@@ -9,10 +5,10 @@
 #include <System/EntitySystem/IEntityComponent.h>
 #include <EntityComponents/SpriteRendererEntityComponent.h>
 
-class CEnvironmentController : public IEntityComponent
+class CIsometricaEnvironmentController : public IEntityComponent
 {
 public:
-	CEnvironmentController();
+	CIsometricaEnvironmentController();
 
 	void Init() override;
 	unsigned int getEventMask() const override;
