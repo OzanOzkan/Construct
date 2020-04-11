@@ -22,6 +22,8 @@ set(RENDEREROBJECT
 	"SDLRenderer/RendererObject/SDLRendererObject.cpp"
 	"SDLRenderer/RendererObject/SDLSprite.h"
 	"SDLRenderer/RendererObject/SDLSprite.cpp"
+	"SDLRenderer/RendererObject/SDLAnimatedSprite.h"
+	"SDLRenderer/RendererObject/SDLAnimatedSprite.cpp"
 	"SDLRenderer/RendererObject/SDLText.h"
 	"SDLRenderer/RendererObject/SDLText.cpp"
 	"SDLRenderer/RendererObject/SDLRect.h"
@@ -37,22 +39,22 @@ find_package(SDL2_image REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
 include_directories(
-	${SDL2_INCLUDE_DIRS} 
+	${SDL2_INCLUDE_DIRS}
 	${SDL2_IMAGE_INCLUDE_DIRS}
 	${SDL2_TTF_INCLUDE_DIRS}
 )
 
-add_library (${PROJECT_NAME} 
-	SHARED 
-		${ROOT_SRC} 
-		${SDL_RENDERER} 
+add_library (${PROJECT_NAME}
+	SHARED
+		${ROOT_SRC}
+		${SDL_RENDERER}
 		${RENDEREROBJECT}
 )
 
-target_link_libraries(${PROJECT_NAME} 
-	PUBLIC 
-		Common 
-		${SDL2_LIBRARIES} 
+target_link_libraries(${PROJECT_NAME}
+	PUBLIC
+		Common
+		${SDL2_LIBRARIES}
 		${SDL2_IMAGE_LIBRARIES}
 		${SDL2_TTF_LIBRARIES}
 )

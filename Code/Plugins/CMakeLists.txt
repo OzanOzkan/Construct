@@ -8,6 +8,8 @@ set(ROOT_SRC
 set(ENTITY_COMPONENTS
 	"EntityComponents/CollisionEntityComponent.h"
 	"EntityComponents/CollisionEntityComponent.cpp"
+	"EntityComponents/AnimatedSpriteRendererEntityComponent.h"
+	"EntityComponents/AnimatedSpriteRendererEntityComponent.cpp"
 	"EntityComponents/SpriteRendererEntityComponent.h"
 	"EntityComponents/SpriteRendererEntityComponent.cpp"
 	"EntityComponents/TextRendererEntityComponent.h"

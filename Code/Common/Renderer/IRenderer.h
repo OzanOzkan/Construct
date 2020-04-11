@@ -11,18 +11,6 @@
 #include "ITextureManager.h"
 #include "ICamera.h"
 
-struct RGBColor
-{
-	RGBColor() {}
-	RGBColor(const float& R, const float& G, const float& B)
-		: r(R)
-		, g(G)
-		, b(B)
-	{}
-	
-	float r, g, b = 0;
-};
-
 enum class ERenderer : int
 {
 	NONE = 0,

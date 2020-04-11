@@ -4,6 +4,7 @@
 
 #include "RendererObject/SDLRendererObject.h"
 #include "RendererObject/SDLSprite.h"
+#include "RendererObject/SDLAnimatedSprite.h"
 #include "RendererObject/SDLText.h"
 #include "RendererObject/SDLRect.h"
 
@@ -30,7 +31,7 @@ void CSDLRenderer::InitializeModule()
 		GetSystem()->GetLogger()->Log("CSDLRenderer::InitializeModule(): SDL Renderer creation failed!");
     }
 
-	SDL_RenderSetLogicalSize(m_pSDLRenderer, 1440, 2960);
+	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 720, 1280);
 
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
@@ -64,6 +65,11 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 	case ERendererObjectType::eRT_SPRITE:
 	{
 		pRenderObject = std::make_unique<CSDLSprite>(this, m_pSDLRenderer);
+	}
+	break;
+	case ERendererObjectType::eRT_ANIMATED_SPRITE:
+	{
+		pRenderObject = std::make_unique<CSDLAnimatedSprite>(this, m_pSDLRenderer);
 	}
 	break;
 	case ERendererObjectType::eRT_TEXT:
