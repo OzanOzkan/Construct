@@ -1,7 +1,3 @@
-/* Copyright (C) 2020 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include <Physics/IPhysics.h>
 #include "SDLPhysics/SDLPhysics.h"
 

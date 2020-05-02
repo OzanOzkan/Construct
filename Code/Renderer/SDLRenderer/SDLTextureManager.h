@@ -21,6 +21,7 @@ public:
 	void UnloadTexture(const int& textureId) override;
 	CSDLTexture* GetTexture(const std::string& filePath) override;
 	CSDLTexture* GetTexture(const int& textureId) override;
+	int getLoadedTextureCount() override;
 	// ~ITextureManager
 
 	int ResolveTextureId(const std::string& filePath);

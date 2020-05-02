@@ -37,8 +37,8 @@ void CSDLSprite::Load(const SRenderObjectParams& params)
 		int originalWidth, originalHeight;
 		SDL_QueryTexture(m_pSDLTexture, NULL, NULL, &originalWidth, &originalHeight);
 
-		m_width = spriteParams.width > -1 ? spriteParams.width : originalWidth;
-		m_height = spriteParams.height > -1 ? spriteParams.height : originalHeight;
+		m_width = spriteParams.width > 0 ? spriteParams.width : originalWidth;
+		m_height = spriteParams.height > 0 ? spriteParams.height : originalHeight;
 	}
 }
 

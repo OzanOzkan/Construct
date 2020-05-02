@@ -15,3 +15,5 @@ public:
 	void updateComponent() override;
 	// ~IEntityComponent
 };
+
+REGISTER_ENTITY_COMPONENT(CPlayerView);

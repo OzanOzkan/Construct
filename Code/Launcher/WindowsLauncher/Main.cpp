@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 //#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup").
 
 #include <direct.h>
@@ -24,7 +20,7 @@ int main()
 	//~Working dir
 
 	auto lib = LoadExternalLibrary("System.dll");
-	typedef ISystem*(*FNPTR)(const std::string&);
+	typedef ISystem*(*FNPTR)();
 	FNPTR CreateSystemInterface = (FNPTR)GetProcAddress(lib, "CreateSystemInterface");
 
 	if (!CreateSystemInterface) {
@@ -32,7 +28,7 @@ int main()
 	}
 	else
 	{
-		CreateSystemInterface("");
+		CreateSystemInterface()->InitializeModule();
 	}
 
 	std::cout << "End of program." << std::endl;

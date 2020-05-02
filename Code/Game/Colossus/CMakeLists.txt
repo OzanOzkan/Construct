@@ -58,6 +58,11 @@ set(ISOMETRICA_ENVIRONMENT_SRC
 	"Levels/Isometrica/Environment/IsometricaEnvironmentController.cpp"
 )
 
+set(PHYSICA
+	"Levels/Physica/Physica.h"
+	"Levels/Physica/Physica.cpp"
+)
+
 source_group(" " FILES ${ROOT_SRC})
 source_group("UI" FILES ${UI_SRC})
 source_group("Levels" FILES ${LEVELS_SRC})
@@ -68,6 +73,7 @@ source_group("Levels\\Nebula\\Environment" FILES ${NEBULA_ENVIRONMENT_SRC})
 source_group("Levels\\Isometrica" FILES ${ISOMETRICA_ROOT_SRC})
 source_group("Levels\\Isometrica\\Player" FILES ${ISOMETRICA_PLAYER_SRC})
 source_group("Levels\\Isometrica\\Environment" FILES ${ISOMETRICA_ENVIRONMENT_SRC})
+source_group("Levels\\Physica" FILES ${PHYSICA})
 
 include_directories("${SRC_DIR}/Plugins")
 
@@ -82,8 +88,16 @@ add_library (${PROJECT_NAME}
 	${ISOMETRICA_ROOT_SRC}
 	${ISOMETRICA_PLAYER_SRC}
 	${ISOMETRICA_ENVIRONMENT_SRC}
+	${PHYSICA}
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC Common Plugins)
+# System link is mandatory due to singleton EntityComponent factory.
+# Find a way to remove it.
+target_link_libraries(${PROJECT_NAME} PUBLIC Common Plugins System)
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+
+#set_target_properties(${PROJECT_NAME}
+#    PROPERTIES
+#    LINK_FLAGS "/FORCE:UNRESOLVED"
+#)

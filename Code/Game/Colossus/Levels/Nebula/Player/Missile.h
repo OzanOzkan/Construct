@@ -31,3 +31,5 @@ private:
 
 	CollisionEntityComponent * m_pTestCollisionComponent = nullptr;
 };
+
+REGISTER_ENTITY_COMPONENT(CMissile);

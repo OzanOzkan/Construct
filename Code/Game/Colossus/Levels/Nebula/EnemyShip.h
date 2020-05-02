@@ -26,3 +26,5 @@ private:
 	SpriteRendererEntityComponent* m_pSpriteRendererComponent = nullptr;
 	CollisionEntityComponent* m_pCollisionComponent = nullptr;
 };
+
+REGISTER_ENTITY_COMPONENT(CEnemyShip);

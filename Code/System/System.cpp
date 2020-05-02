@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "StdAfx.h"
 #include "System.h"
 
@@ -10,9 +6,9 @@
 #include <Renderer/IRenderer.h>
 #include <IGame.h>
 
+#include "EntitySystem/EntitySystem.h"
 #include "Log.h"
 #include "FileManager.h"
-#include "EntitySystem/EntitySystem.h"
 
 #include <string>
 #include <memory>
@@ -30,8 +26,6 @@ extern "C"
 	{
 		ISystem* pSystem = new CSystem();
 
-		pSystem->InitializeModule();
-
 		return pSystem;
 	}
 }
@@ -39,6 +33,7 @@ extern "C"
 /////////////////////////////////////////////////
 CSystem::CSystem()
 	: m_isQuit(false)
+	, m_pRenderTarget(nullptr)
 	, m_pFileManager(nullptr)
 	, m_pWindowManager(nullptr)
 	, m_pEntitySystem(nullptr)
@@ -61,7 +56,7 @@ void CSystem::InitializeModule()
 	m_pFileManager = std::make_unique<CFileManager>(this);
 
 	m_pWindowManager = std::make_unique<CWindowManager>(this);
-	m_pWindowManager->initWindow(EWindowType::eWT_SDL2);
+	m_pWindowManager->initWindow(EWindowType::eWT_SDL2, m_pRenderTarget);
 	m_pWindowManager->registerWindowEvents(this);
 
 	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
@@ -107,7 +102,7 @@ void CSystem::onUpdate()
 	updateSystemInfo();
 }
 
-/////////////////////////////////////////////////
+/////////////////////////////////////////
 void CSystem::unregisterWindowEvents(IWindowEventListener * listener)
 {
 	m_pWindowManager->unregisterWindowEvents(listener);
@@ -139,18 +134,18 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 /////////////////////////////////////////////////
 void CSystem::updateSystemInfo()
 {
-	std::string systemText = "   " + std::to_string(static_cast<int>(m_avgFps)) + " FPS "
-		+ "/ Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount())
-		+ " / CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) 
-		+ "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y);
+	std::string systemText = std::to_string(static_cast<int>(m_avgFps)) + " FPS \n"
+		+ "Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount()) + "\n"
+		+ "Loaded Textures: " + std::to_string(GetRenderer()->GetTextureManager()->getLoadedTextureCount()) + "\n"
+		+ "CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) + "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y);
 
 	if (!m_systemText)
 	{
 		STextParams params;
-		params.layerId = INT_MAX;
+		params.layerId = std::numeric_limits<int>::max();
 		params.text = systemText;
-		params.fontSize = 25;
-		params.position = Vector2(30.f, 5.f);
+		params.fontSize = 26;
+		params.position = Vector2(30.f, 30.f);
 		params.color = RGBAColor(244, 208, 63, 1);
 
 		m_systemText = static_cast<IText*>(GetRenderer()->CreateRenderObject(params));

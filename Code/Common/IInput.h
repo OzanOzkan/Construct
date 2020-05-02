@@ -83,10 +83,11 @@ class IInput : public IModule
 {
 public:
 	// IModule
-	virtual void InitializeModule() = 0;
-	virtual void onUpdate() = 0;
-	virtual const bool& IsKeyPressed(const EKey& key) = 0;
-	virtual Vector2 GetMousePosition() = 0;
-	virtual STouchEventList GetTouchEvents() = 0;
+	virtual void			InitializeModule() = 0;
+	virtual void			onUpdate() = 0;
 	// ~IModule
+
+	virtual bool			IsKeyPressed(const EKey& key) = 0;
+	virtual Vector2			GetMousePosition() = 0;
+	virtual STouchEventList GetTouchEvents() = 0;
 };

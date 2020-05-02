@@ -12,13 +12,19 @@ OnSelectionListenerEntityComponent::OnSelectionListenerEntityComponent()
 	, m_debugDraw(false)
 	, m_pBBDebugRect(nullptr)
 	, m_pInputDebugRect(nullptr)
+	, m_boundingBox()
 {
 }
 
 /////////////////////////////////////////////////
 void OnSelectionListenerEntityComponent::Init()
 {
-	updateBoundingBox();
+	float width, height;
+	getEntity()->getSize(width, height);
+	m_boundingBox.w = width;
+	m_boundingBox.h = height;
+
+	updateBoundingBoxPosition();
 }
 
 /////////////////////////////////////////////////
@@ -32,7 +38,7 @@ void OnSelectionListenerEntityComponent::onEvent(const SEntityEvent & event)
 {
 	if (event.GetEvent() == EEntityEvent::ENTITY_EVENT_UPDATE)
 	{
-		updateBoundingBox();
+		updateBoundingBoxPosition();
 		processSelectionEvent();
 
 		if (m_debugDraw)
@@ -84,6 +90,7 @@ bool OnSelectionListenerEntityComponent::checkSelection(const Vector2& positionT
 	return Math::isPointInRect(selectionPoint, m_boundingBox);
 }
 
+/////////////////////////////////////////////////
 void OnSelectionListenerEntityComponent::notifyListeners(const bool & isSelected, const Vector2 & selectionPos)
 {
 	for (auto fn : m_callbacks)
@@ -93,7 +100,7 @@ void OnSelectionListenerEntityComponent::notifyListeners(const bool & isSelected
 /////////////////////////////////////////////////
 void OnSelectionListenerEntityComponent::updateComponent()
 {
-	updateBoundingBox();
+	updateBoundingBoxPosition();
 }
 
 /////////////////////////////////////////////////
@@ -123,7 +130,7 @@ void OnSelectionListenerEntityComponent::setDebugDraw(bool isActive)
 }
 
 /////////////////////////////////////////////////
-void OnSelectionListenerEntityComponent::updateBoundingBox()
+void OnSelectionListenerEntityComponent::updateBoundingBoxPosition()
 {
 	Vector2 entityPosition = getEntity()->getPosition();
 	m_boundingBox.x = entityPosition.x + m_componentRelativePosition.x;

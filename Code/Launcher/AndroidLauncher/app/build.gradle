@@ -11,7 +11,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         if (buildAsApplication) {
-            applicationId "org.ozymandias.construct"
+            applicationId "org.ozymandias.construct.nebula"
         }
         minSdkVersion 16
         targetSdkVersion 26

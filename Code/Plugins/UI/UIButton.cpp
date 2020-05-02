@@ -18,11 +18,11 @@ UIButton::UIButton()
 /////////////////////////////////////////////////
 void UIButton::Init()
 {
-	m_backgroundImage = GetSystem()->getFileManager()->getAssetsDirectory() + "Default/UI/buttonbg.png";
-	m_backgroundOnPressedImage = GetSystem()->getFileManager()->getAssetsDirectory() + "Default/UI/buttonbg_pressed.png";
-
 	m_width = 300;
 	m_height = 100;
+
+	m_backgroundImage = GetSystem()->getFileManager()->getAssetsDirectory() + "Default/UI/buttonbg.png";
+	m_backgroundOnPressedImage = GetSystem()->getFileManager()->getAssetsDirectory() + "Default/UI/buttonbg_pressed.png";
 
 	m_pBackgroundRenderer = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
 	m_pBackgroundRenderer->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Default/UI/buttonbg.png");
@@ -35,7 +35,7 @@ void UIButton::Init()
 	m_pTextRenderer->setFontSize(20);
 	m_pTextRenderer->setText("Button");
 	m_pTextRenderer->setLayerId(81);
-	m_pTextRenderer->setColor(RGBAColor(240, 52, 52, 1));
+	m_pTextRenderer->setColor(RGBAColor(0, 0, 0, 1));
 	m_pTextRenderer->updateComponent();
 
 	m_pOnClickListener = getEntity()->addEntityComponent<OnSelectionListenerEntityComponent>();

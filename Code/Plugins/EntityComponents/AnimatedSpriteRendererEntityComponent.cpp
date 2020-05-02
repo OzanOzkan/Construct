@@ -10,6 +10,7 @@ AnimatedSpriteRendererEntityComponent::AnimatedSpriteRendererEntityComponent()
 	, m_frameFiles({})
 	, m_animationSpeed(1)
 	, m_layerId(1)
+	, m_loopListeners({})
 {
 }
 
@@ -89,7 +90,7 @@ int AnimatedSpriteRendererEntityComponent::getFrameCount()
 /////////////////////////////////////////////////
 int AnimatedSpriteRendererEntityComponent::getCurrentFrame()
 {
-	return m_pAnimatedSprite ? m_pAnimatedSprite->getCurrentFrame() : 0;
+	return m_pAnimatedSprite ? m_pAnimatedSprite->getCurrentFrame() + 1 : 0;
 }
 
 /////////////////////////////////////////////////
@@ -106,7 +107,24 @@ void AnimatedSpriteRendererEntityComponent::onEntityUpdate()
 	{
 		m_pAnimatedSprite->setPosition(getEntity()->getPosition() + getPosition());
 		m_pAnimatedSprite->setRotation(getRotation());
+
+		for (auto loopListener : m_loopListeners)
+		{
+			loopListener(getCurrentFrame(), getFrameCount());
+		}
 	}
+}
+
+/////////////////////////////////////////////////
+void AnimatedSpriteRendererEntityComponent::subscribeToAnimationLoop(TAnimatedSpriteRendererCallback fn)
+{
+	m_loopListeners.emplace_back(fn);
+}
+
+/////////////////////////////////////////////////
+void AnimatedSpriteRendererEntityComponent::unsubscribeToAnimationLoop(TAnimatedSpriteRendererCallback fn)
+{
+	//m_loopListeners.erase(fn);
 }
 
 /////////////////////////////////////////////////

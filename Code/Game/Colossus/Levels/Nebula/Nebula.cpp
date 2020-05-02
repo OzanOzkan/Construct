@@ -30,12 +30,15 @@ void CNebula::loadLevel()
 		->addEntityComponent<CPlayerShip>();
 
 
+	int resolutionW, resolutionH;
+	GetSystem()->GetRenderer()->getResolution(resolutionW, resolutionH);
+
 	auto windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
 
 	SEntitySpawnParams uiCanvas;
 	uiCanvas.entityName = "UICanvas";
 	IEntity* pUICanvas = GetSystem()->GetEntitySystem()->spawnEntity(uiCanvas);
-	pUICanvas->setPosition(Vector2(windowSize.width - 350, windowSize.height - 200));
+	pUICanvas->setPosition(Vector2(resolutionW - 350, resolutionH - 200));
 
 	UIButton* pButtonMoveRight = pUICanvas->addEntityComponent<UIButton>();
 	pButtonMoveRight->setPosition(Vector2(165, 0));
@@ -62,4 +65,9 @@ void CNebula::loadLevel()
 			pPlayerShip->getEntity()->setPosition(Vector2(pPlayerShip->getEntity()->getPosition().x - 10, pPlayerShip->getEntity()->getPosition().y));
 		}
 	});
+}
+
+/////////////////////////////////////////////////
+void CNebula::onUpdate()
+{
 }

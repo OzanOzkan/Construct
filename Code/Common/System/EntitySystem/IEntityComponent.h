@@ -1,35 +1,30 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include "IEntityBasicTypes.h"
+#include "IEntitySystem.h"
 #include "../ISystem.h"
 #include "../../Math/Math.h"
-
-class IEntity;
 
 class IEntityComponent
 {
 public:
-	virtual ~IEntityComponent() {}
-
-	virtual void Init() = 0;
-	virtual unsigned int getEventMask() const = 0;
-	virtual void onEvent(const SEntityEvent& event) = 0;
-	virtual void updateComponent() = 0;
+	virtual void			Init() = 0;
+	virtual unsigned int	getEventMask() const = 0;
+	virtual void			onEvent(const SEntityEvent& event) = 0;
+	virtual void			updateComponent() = 0;
 	
-	IEntity* getEntity() { return m_pEntity; }
-	void setActive(const bool& isActive) { m_isActive = isActive; }
-	bool isActive() const { return m_isActive; }
-	void setPosition(const Vector2& position) { m_componentRelativePosition = position; }
-	const Vector2& getPosition() { return m_componentRelativePosition; }
-	void setRotation(const float& rotation) { m_componentRotation = rotation; }
-	float getRotation() { return m_componentRotation; }
+	//virtual void getDescriptor(EntityComponentFactory::EntityComponentDescriptor& desc) {};
+	
+	IEntity*		getEntity() noexcept { return m_pEntity; }
+	void			setActive(const bool& isActive) noexcept { m_isActive = isActive; }
+	bool			isActive() const noexcept { return m_isActive; }
+	void			setPosition(const Vector2& position) noexcept { m_componentRelativePosition = position; }
+	const Vector2&	getPosition() noexcept { return m_componentRelativePosition; }
+	void			setRotation(const float& rotation) noexcept { m_componentRotation = rotation; }
+	float			getRotation() noexcept { return m_componentRotation; }
 
 protected:
-	ISystem * GetSystem() { return m_pSystem; }
+	ISystem * GetSystem() noexcept { return m_pSystem; }
 
 private:
 	friend class IEntity;

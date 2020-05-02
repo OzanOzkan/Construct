@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <System/ISystem.h>
@@ -22,7 +18,7 @@ public:
 	void InitializeModule() override;
 	// ~ISystemInterface
 
-	IFileManager* getFileManager() override { return m_pFileManager.get(); }
+	void setRenderTarget(void* renderTarget) override { m_pRenderTarget = renderTarget; }
 
 	// Modules
 	IRenderer* GetRenderer() override { return m_pRenderer.get(); }
@@ -31,6 +27,7 @@ public:
 	IPhysics* GetPhysics() override { return m_pPhysics.get(); }
 	IEntitySystem* GetEntitySystem() override { return m_pEntitySystem.get(); }
 	IWindowManager* GetWindowManager() override { return m_pWindowManager.get(); }
+	IFileManager* getFileManager() override { return m_pFileManager.get(); }
 	
 	// !Subject to change
 	void registerWindowEvents(IWindowEventListener* listener) override;
@@ -51,6 +48,7 @@ private:
 
 private:
 	bool m_isQuit = false;
+	void* m_pRenderTarget = nullptr;
 
 	std::unique_ptr<IFileManager> m_pFileManager = nullptr;
 	std::unique_ptr<CWindowManager> m_pWindowManager = nullptr;

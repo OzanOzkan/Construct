@@ -1,38 +1,22 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "WindowManager.h"
-//#include "GLFWWindow.h"
 #include "SDLWindow.h"
 #include <ILog.h>
 
 #include <iostream>
 
 /////////////////////////////////////////////////
-void CWindowManager::setWindowSize(const int& height, const int& width)
-{
-	m_height = height;
-	m_width = width;
-}
-
-/////////////////////////////////////////////////
 CWindowManager::CWindowManager(ISystem * systemContext)
 	: m_pSystem(systemContext)
+	, m_width(490)
+	, m_height(1000)
 {
 }
 
 /////////////////////////////////////////////////
-void CWindowManager::initWindow(const EWindowType& windowType)
+void CWindowManager::initWindow(const EWindowType& windowType, void* renderTarget)
 {
 	switch (windowType)
 	{
-	//case EWindowType::eWT_GLFW:
-	//{
-	//	m_activeWindow = std::make_unique<CGLFWWindow>(m_pSystem);
-	//	GetSystem()->GetLogger()->Log("CWindowManager:initWindow: Initializing GLFW Window");
-	//}
-	//break;
 	case EWindowType::eWT_SDL2:
 	{
 		m_activeWindow = std::make_unique<CSDLWindow>(m_pSystem);
@@ -51,7 +35,8 @@ void CWindowManager::initWindow(const EWindowType& windowType)
 		m_activeWindow.get()->openWindow(
 			m_height,
 			m_width,
-			[this](const SWindowEvent& event) { onWindowEvent(event); }
+			[this](const SWindowEvent& event) { onWindowEvent(event); },
+			renderTarget
 		);
 	}
 }
@@ -66,6 +51,14 @@ const int& CWindowManager::GetWindowId()
 const SWindowSize & CWindowManager::GetWindowSize()
 {
 	return m_activeWindow->getWindowSize();
+}
+
+/////////////////////////////////////////////////
+void CWindowManager::setWindowSize(const int& width, const int& height)
+{
+	m_height = height;
+	m_width = width;
+	m_activeWindow->setWindowSize(m_width, m_height);
 }
 
 /////////////////////////////////////////////////

@@ -22,3 +22,5 @@ public:
 private:
 	SpriteRendererEntityComponent * m_pSpriteComponent;
 };
+
+REGISTER_ENTITY_COMPONENT(CEnvironmentObject);

@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "Entity.h"
 
 #include <ILog.h>
@@ -16,11 +12,27 @@ CEntity::CEntity(ISystem * systemContext)
 	, m_tag("")
 	, m_entityComponents()
 	, m_entityPosition(0.f, 0.f)
+	, m_width(0.f)
+	, m_height(0.f)
 	, m_isMarkedToDelete(false)
 	, m_timerSet(false)
 	, m_timerSetTime(-1)
 {
 	m_pSystem = systemContext;
+}
+
+/////////////////////////////////////////////////
+void CEntity::setSize(const float & width, const float & height)
+{
+	m_width = width;
+	m_height = height;
+}
+
+/////////////////////////////////////////////////
+void CEntity::getSize(float & width, float & height)
+{
+	width = m_width;
+	height = m_height;
 }
 
 /////////////////////////////////////////////////
@@ -30,9 +42,9 @@ void CEntity::sendEvent(const SEntityEvent & event)
 	HandleEntityEventInternal(event);
 
 	// Send event to components
-	for (auto pComponentEntry : m_entityComponents)
+	for (const auto& pComponentEntry : m_entityComponents)
 	{
-		auto pComponent = pComponentEntry.second;
+		const auto& pComponent = pComponentEntry.second;
 
 		if (pComponent->getEventMask() & event.GetEvent())
 		{
@@ -63,9 +75,9 @@ void CEntity::HandleEntityEventInternal(const SEntityEvent& event)
 }
 
 /////////////////////////////////////////////////
-void CEntity::addEntityComponentInternal(const std::string& componentName, std::shared_ptr<IEntityComponent> entityComponent)
+void CEntity::addEntityComponentInternal(const std::string& componentName, std::unique_ptr<IEntityComponent> entityComponent)
 {
-	m_entityComponents.emplace(std::make_pair(componentName, entityComponent));
+	m_entityComponents.emplace(std::make_pair(componentName, std::move(entityComponent)));
 }
 
 /////////////////////////////////////////////////
@@ -79,7 +91,7 @@ std::vector<IEntityComponent*> CEntity::getEntityComponentsInternal(const std::s
 {
 	std::vector<IEntityComponent*> retVec{};
 
-	for (auto componentPair : m_entityComponents)
+	for (const auto& componentPair : m_entityComponents)
 	{
 		if (componentPair.first.compare(componentName) == 0)
 			retVec.push_back(componentPair.second.get());

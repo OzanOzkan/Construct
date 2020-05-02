@@ -34,7 +34,7 @@ namespace Math
 	} FRectangle;
 
 
-	inline bool isPointInRect(const Point& p, const Rectangle& r)
+	inline bool isPointInRect(const Point& p, const Rectangle& r) noexcept
 	{
 		return ((p.x >= r.x) && (p.x < (r.x + r.w)) &&
 			(p.y >= r.y) && (p.y < (r.y + r.h))) ? true : false;

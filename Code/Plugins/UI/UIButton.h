@@ -34,3 +34,5 @@ private:
 	std::string m_backgroundOnPressedImage;
 	bool m_isPressed;
 };
+
+REGISTER_ENTITY_COMPONENT(UIButton);

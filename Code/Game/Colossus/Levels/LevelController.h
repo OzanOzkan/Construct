@@ -9,17 +9,19 @@ enum class ELevel
 {
 	MAIN_MENU = 0,
 	NEBULA,
-	ISOMETRICA
+	ISOMETRICA,
+	PHYSICA
 };
 
 class CLevelController
 {
 public:
-	static CLevelController& getInstance(ISystem* systemContext);
+	static CLevelController& getInstance(ISystem* systemContext) noexcept;
 	void loadLevel(const ELevel& level);
+	void onUpdate();
 
 private:
-	CLevelController(ISystem* systemContext);
+	CLevelController(ISystem* systemContext) noexcept;
 
 private:
 	ISystem* m_pSystem;

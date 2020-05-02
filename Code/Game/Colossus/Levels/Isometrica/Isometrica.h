@@ -11,10 +11,11 @@ public:
 
 	// ILevel
 	void loadLevel() override;
+	void onUpdate() override;
 	// ~ILevel
 
 private:
-	ISystem * GetSystem() { return m_pSystem; }
+	ISystem * GetSystem() noexcept { return m_pSystem; }
 
 private:
 	ISystem * m_pSystem = nullptr;

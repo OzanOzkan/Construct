@@ -28,3 +28,5 @@ private:
 	CWeapon* m_pWeapon1;
 	CWeapon* m_pWeapon2;
 };
+
+REGISTER_ENTITY_COMPONENT(CPlayerShip);

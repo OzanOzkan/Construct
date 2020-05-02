@@ -15,9 +15,9 @@ public:
 
 	void setText(const std::string& text) { m_text = text; }
 	void setFont(const std::string& font) { m_font = font; }
-	void setFontSize(const int& size) { m_fontSize = size; }
-	void setLayerId(const int& layerId) { m_layerId = layerId; }
-	void setColor(const RGBAColor& color) { m_color = color; }
+	void setFontSize(const int& size) noexcept { m_fontSize = size; }
+	void setLayerId(const int& layerId) noexcept { m_layerId = layerId; }
+	void setColor(const RGBAColor& color) noexcept { m_color = color; }
 
 private:
 	void onEntityUpdateEvent();
@@ -31,3 +31,5 @@ private:
 	int m_layerId = -1;
 	RGBAColor m_color = { 0,0,0,1 };
 };
+
+REGISTER_ENTITY_COMPONENT(TextRendererEntityComponent);

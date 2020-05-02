@@ -93,6 +93,12 @@ CSDLTexture * CSDLTextureManager::GetTexture(const int & textureId)
 }
 
 ///////////////////////////////////////////////////
+int CSDLTextureManager::getLoadedTextureCount()
+{
+	return m_loadedTextures.size();
+}
+
+///////////////////////////////////////////////////
 int CSDLTextureManager::ResolveTextureId(const std::string & filePath)
 {
 	int retId = -1;

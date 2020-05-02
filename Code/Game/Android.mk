@@ -22,11 +22,12 @@ LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/Player/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/MainMenu/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Physica/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Environment/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Player/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/*.cpp)
 
-LOCAL_SHARED_LIBRARIES := BokPlugins
+LOCAL_SHARED_LIBRARIES := BokPlugins BokSystem
 
 LOCAL_CFLAGS += \
 	-Wno-unused-parameter \

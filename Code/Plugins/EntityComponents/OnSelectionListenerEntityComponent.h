@@ -4,6 +4,8 @@
 #include <Math/Math.h>
 #include <Renderer/IRenderObject.h>
 
+#include <functional>
+
 typedef std::function<void(const bool& isSelected, const Vector2& selectionPos)> TSelectionEventCallbackFn;
 
 class OnSelectionListenerEntityComponent : public IEntityComponent
@@ -27,7 +29,7 @@ private:
 	void processSelectionEvent();
 	bool checkSelection(const Vector2& positionToCheck);
 	void notifyListeners(const bool& isSelected, const Vector2& selectionPos);
-	void updateBoundingBox();
+	void updateBoundingBoxPosition();
 	void debugDraw();
 
 private:
@@ -39,3 +41,5 @@ private:
 	IRect* m_pBBDebugRect;
 	IRect* m_pInputDebugRect;
 };
+
+REGISTER_ENTITY_COMPONENT(OnSelectionListenerEntityComponent);

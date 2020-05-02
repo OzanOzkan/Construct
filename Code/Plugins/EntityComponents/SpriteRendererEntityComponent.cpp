@@ -21,7 +21,10 @@ SpriteRendererEntityComponent::SpriteRendererEntityComponent()
 /////////////////////////////////////////////////
 void SpriteRendererEntityComponent::Init()
 {
-
+	float width, height;
+	getEntity()->getSize(width, height);
+	m_width = width;
+	m_height = height;
 }
 
 /////////////////////////////////////////////////
@@ -63,7 +66,12 @@ void SpriteRendererEntityComponent::updateComponent()
 	params.renderObjectClass = ERenderObjectClass::WORLD;
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
-	m_pSprite->setRenderActive(true);
+	//m_pSprite->setRenderActive(true);
+
+	if (m_width == 0.f && m_height == 0.f)
+	{
+		getEntity()->setSize(m_pSprite->getWidth(), m_pSprite->getHeight());
+	}
 }
 
 /////////////////////////////////////////////////

@@ -23,8 +23,9 @@ void CPlayerShip::Init()
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 
-	SWindowSize currentWindowSize = GetSystem()->GetWindowManager()->GetWindowSize();
-	getEntity()->setPosition(Vector2((currentWindowSize.width / 2) - 133, currentWindowSize.height - 450));
+	int resW, resH;
+	GetSystem()->GetRenderer()->getResolution(resW, resH);
+	getEntity()->setPosition(Vector2((resW / 2) - 133, resH - 450));
 
 	m_pWeapon1 = getEntity()->addEntityComponent<CWeapon>(); // Left weapon
 	m_pWeapon1->setPosition(Vector2(55, 80)); // Relative to ship position
