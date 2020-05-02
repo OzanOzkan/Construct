@@ -22,6 +22,8 @@ public:
 	// IRenderer
 	void InitializeModule() override;
 	void onUpdate() override;
+	void setResolution(const int& width, const int& height) override;
+	void getResolution(int& width, int& height) override;
 
 	CSDLTextureManager* GetTextureManager() override { return m_pTextureManager.get(); }
 	IRendererObject* CreateRenderObject(const SRenderObjectParams& params) override;
@@ -33,6 +35,8 @@ public:
 	ISystem * GetSystem() { return m_pSystem; }
 
 private:
+	int m_defaultRenderWidth;
+	int m_defaultRenderHeight;
 	ISystem * m_pSystem;
 	std::unique_ptr<CSDLCamera> m_pCamera;
 	std::unique_ptr<CSDLTextureManager> m_pTextureManager;

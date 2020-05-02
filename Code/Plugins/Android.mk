@@ -15,6 +15,7 @@ LOCAL_C_INCLUDES += $(ENGINE_CODE_PATH)/Common
 
 LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/EntityComponents/*.cpp) \
+	$(wildcard $(MODULE_DIR)/EntityComponents/Physics/*.cpp) \
 	$(wildcard $(MODULE_DIR)/UI/*.cpp) \
 	$(wildcard $(MODULE_DIR)/*.cpp)
 

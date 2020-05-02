@@ -24,6 +24,8 @@ private:
 	void ProcessUpdateEvent();
 
 private:
-	SWindowSize m_windowSize;
+	int m_resW, m_resH;
 	SpriteRendererEntityComponent* m_pScrollingBgComponent;
 };
+
+REGISTER_ENTITY_COMPONENT(CEnvironmentController);

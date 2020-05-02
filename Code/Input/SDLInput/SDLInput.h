@@ -17,13 +17,13 @@ public:
 	// IInput
 	void InitializeModule() override;
 	void onUpdate() override;
-	const bool& IsKeyPressed(const EKey& key) override;
+	bool IsKeyPressed(const EKey& key) override;
 	Vector2 GetMousePosition() override;
 	STouchEventList GetTouchEvents() override;
 	// ~IInput
 
 private:
-	ISystem * GetSystem() { return m_pSystem; }
+	ISystem * GetSystem() noexcept { return m_pSystem; }
 
 private:
 	ISystem * m_pSystem;

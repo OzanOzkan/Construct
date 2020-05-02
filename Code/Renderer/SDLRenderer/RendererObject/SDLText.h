@@ -17,8 +17,21 @@ public:
 
 	void PrepareText();
 
+protected:
+	struct SSDLTextLine
+	{
+		SDL_Texture* texture;
+		SDL_Rect rect;
+
+		SSDLTextLine(SDL_Texture* t, SDL_Rect r)
+			: texture(t)
+			, rect(r)
+		{};
+	};
+
 private:
 	std::string m_previousText;
+	std::vector<SSDLTextLine> m_textLines;
 	TTF_Font* m_pSDLFont;
 	SDL_Surface* m_pSDLSurface;
 };

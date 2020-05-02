@@ -12,13 +12,15 @@
 /////////////////////////////////////////////////
 CEnvironmentController::CEnvironmentController()
 	: m_pScrollingBgComponent(nullptr)
+	, m_resW(0)
+	, m_resH(0)
 {
 }
 
 /////////////////////////////////////////////////
 void CEnvironmentController::Init()
 {
-	m_windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
+	GetSystem()->GetRenderer()->getResolution(m_resW, m_resH);
 
 	// Scrolling background
 	ConfigureBackground();
@@ -79,7 +81,7 @@ void CEnvironmentController::ProcessUpdateEvent()
 	{
 		SEntitySpawnParams environmentObjectSpawnParams;
 		environmentObjectSpawnParams.entityName = "EnvironmentObject";
-		environmentObjectSpawnParams.position = Vector2(m_windowSize.width / 2, -200.f);
+		environmentObjectSpawnParams.position = Vector2(m_resW / 2, -200.f);
 		
 		GetSystem()->GetEntitySystem()->spawnEntity(environmentObjectSpawnParams)
 			->addEntityComponent<CEnvironmentObject>();
@@ -92,7 +94,7 @@ void CEnvironmentController::ProcessUpdateEvent()
 
 	if (enemyDelay >= 50)
 	{
-		int randPos = rand()% ((int)m_windowSize.width - 0 + 1);
+		int randPos = rand()% (m_resW - 0 + 1);
 
 		SEntitySpawnParams enemySpawnParams;
 		enemySpawnParams.entityName = "EnemyShip";

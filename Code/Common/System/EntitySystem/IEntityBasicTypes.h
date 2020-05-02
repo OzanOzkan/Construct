@@ -18,17 +18,17 @@ enum EEntityEvent
 struct SEntityEvent
 {
 public:
-	SEntityEvent(const EEntityEvent& event)
+	SEntityEvent(const EEntityEvent& event) noexcept
 		: m_event(event)
 		, m_data(nullptr)
 	{}
 
-	SEntityEvent(const EEntityEvent& event, void* data)
+	SEntityEvent(const EEntityEvent& event, void* data) noexcept
 		: m_event(event)
 		, m_data(data)
 	{}
 
-	const EEntityEvent& GetEvent() const { return m_event; }
+	const EEntityEvent& GetEvent() const noexcept { return m_event; }
 
 	template <typename EventDataType>
 	EventDataType* GetData() const { return static_cast<EventDataType*>(m_data); }

@@ -18,3 +18,5 @@ public:
 private:
 	std::vector<SpriteRendererEntityComponent*> m_tiles{};
 };
+
+REGISTER_ENTITY_COMPONENT(CIsometricaEnvironmentController);

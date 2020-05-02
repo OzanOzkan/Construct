@@ -3,7 +3,6 @@
 class ILevel
 {
 public:
-	virtual ~ILevel() {}
-
 	virtual void loadLevel() = 0;
+	virtual void onUpdate() = 0;
 };

@@ -3,6 +3,8 @@
 /////////////////////////////////////////////////
 CSDLPhysics::CSDLPhysics(ISystem* systemContext)
 	: m_pSystem(systemContext)
+	, m_collisionListeners({})
+	, m_physicalizedEntities({})
 {
 }
 
@@ -14,7 +16,14 @@ void CSDLPhysics::InitializeModule()
 /////////////////////////////////////////////////
 void CSDLPhysics::onUpdate()
 {
+	ProcessGravity();
 	ProcessCollisionCalculation();
+}
+
+/////////////////////////////////////////////////
+void CSDLPhysics::EnablePhysics2D(const S2DPhysicalizeParams & params)
+{
+	m_physicalizedEntities.emplace_back(params);
 }
 
 /////////////////////////////////////////////////
@@ -74,4 +83,14 @@ void CSDLPhysics::ProcessCollisionCalculation()
 			}
 		}
 	}
+}
+
+/////////////////////////////////////////////////
+void CSDLPhysics::ProcessGravity()
+{
+	//for (auto params : m_physicalizedEntities)
+	//{
+	//	params.pEntity;
+	//	params.mass;
+	//}
 }

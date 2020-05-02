@@ -28,10 +28,10 @@ public:
 	// IWindowManager
 	const int& GetWindowId() override;
 	const SWindowSize& GetWindowSize() override;
+	void setWindowSize(const int& width, const int& height) override;
 	// ~IWindowManager
 
-	void initWindow(const EWindowType& windowType);
-	void setWindowSize(const int& height, const int& width);
+	void initWindow(const EWindowType& windowType, void* renderTarget);
 	void onUpdate();
 
 	void registerWindowEvents(IWindowEventListener* listener);
@@ -46,10 +46,8 @@ private:
 
 private:
 	ISystem * m_pSystem;
-
-	int m_height = 1000;
-	int m_width = 480;
-
-	std::unique_ptr<CWindow> m_activeWindow = nullptr;
-	std::set<IWindowEventListener*> m_eventListeners{};
+	int m_height;
+	int m_width;
+	std::unique_ptr<CWindow> m_activeWindow;
+	std::set<IWindowEventListener*> m_eventListeners;
 };

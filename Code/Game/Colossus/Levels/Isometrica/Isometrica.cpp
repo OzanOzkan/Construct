@@ -7,6 +7,8 @@
 #include "Player/PlayerView.h"
 #include "Environment/IsometricaEnvironmentController.h"
 
+#include <EntityComponents/TextRendererEntityComponent.h>
+
 /////////////////////////////////////////////////
 CIsometrica::CIsometrica(ISystem* systemContext)
 	: m_pSystem(systemContext)
@@ -24,4 +26,9 @@ void CIsometrica::loadLevel()
 
 	params.entityName = "EnvironmentController";
 	GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CIsometricaEnvironmentController>();
+}
+
+/////////////////////////////////////////////////
+void CIsometrica::onUpdate()
+{
 }

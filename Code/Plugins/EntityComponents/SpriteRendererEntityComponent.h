@@ -20,8 +20,8 @@ public:
 	void setSize(const float& height, const float& width);
 	void getSize(float& height, float& width);
 	void setColor(const RGBAColor& color);
-	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) { m_scrollParams = scrollParams; }
-	void setLayerId(const int& layerId) { m_layerId = layerId; }
+	void setScrollParams(const SSpriteParams::SSpriteScrollParams& scrollParams) noexcept { m_scrollParams = scrollParams; }
+	void setLayerId(const int& layerId) noexcept { m_layerId = layerId; }
 	void setDebugDraw(const bool& isActive);
 	
 private:
@@ -42,3 +42,5 @@ private:
 	IRect* m_pDebugRect = nullptr;
 	IText* m_pDebugText = nullptr;
 };
+
+REGISTER_ENTITY_COMPONENT(SpriteRendererEntityComponent);

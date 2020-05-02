@@ -24,14 +24,12 @@ class IEntitySystem;
 class ISystem : public IModule
 {
 public:
-	virtual ~ISystem(){}
-
 	// ISystemInterface
 	virtual void InitializeModule() = 0;
 	virtual void onUpdate() = 0;
 	// ~ISystemInterface
 
-	//virtual SEnvironment* GetEnvironment() = 0;
+	virtual void setRenderTarget(void* renderTarget) = 0;
 
 	// Window
 	virtual void registerWindowEvents(IWindowEventListener* listener) = 0;

@@ -10,6 +10,12 @@ enum class EPhysics : int
 	SDL2
 };
 
+struct S2DPhysicalizeParams
+{
+	IEntity* pEntity;
+	float mass;
+};
+
 struct SCollisionListenerParams
 {
 	IEntity* pEntity;
@@ -27,6 +33,10 @@ class IPhysics : public IModule
 {
 public:
 	virtual ~IPhysics() {}
+
+	// 2D Basic Physics
+	virtual void EnablePhysics2D(const S2DPhysicalizeParams& params) = 0;
+	// ~2D Basic Physics
 
 	// 2D Collision
 	virtual bool AddCollisionListener(const SCollisionListenerParams& params) = 0;

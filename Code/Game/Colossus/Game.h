@@ -11,13 +11,14 @@
 class CGame : public IGame
 {
 public:
-	CGame(ISystem* systemContext);
+	CGame(ISystem* systemContext) noexcept;
+	~CGame() {}
 
 	void InitializeModule() override;
-	void onUpdate() override {}
+	void onUpdate() override;
 
 private:
-	ISystem * GetSystem() { return m_pSystem; }
+	ISystem * GetSystem() noexcept { return m_pSystem; }
 	void loadLevel();
 
 private:

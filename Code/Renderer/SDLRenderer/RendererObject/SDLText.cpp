@@ -1,5 +1,7 @@
 #include "SDLText.h"
 
+#include <sstream>
+
 /////////////////////////////////////////////////
 CSDLText::CSDLText(CSDLRenderer * pRendererContext, SDL_Renderer* pSDLRenderer)
 	: CSDLRendererObject(pRendererContext, pSDLRenderer)
@@ -26,11 +28,7 @@ void CSDLText::Load(const SRenderObjectParams& params)
 
 	if (m_font.empty())
 	{
-#ifdef _WIN32
-		m_font = std::string(m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + "Fonts\\ARIAL.TTF");
-#else
-		m_font = "Fonts/ARIAL.TTF";
-#endif
+		m_font = m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + "Fonts/ARIAL.TTF";
 	}
 
 	m_pSDLFont = TTF_OpenFont(getFont().c_str(), m_fontSize);
@@ -41,7 +39,7 @@ void CSDLText::Load(const SRenderObjectParams& params)
 /////////////////////////////////////////////////
 void CSDLText::RenderCopy()
 {
-	if (!m_pSDLTexture)
+	if (m_textLines.empty())
 		return;
 
 	if (m_text.compare(m_previousText) != 0) // Todo: Implement operator==
@@ -50,29 +48,38 @@ void CSDLText::RenderCopy()
 		m_previousText = m_text;
 	}
 
-	SDL_Rect rect;
-	rect.x = m_position.x;
-	rect.y = m_position.y;
-	rect.w = m_width;
-	rect.h = m_height;
-
-	SDL_RenderCopyEx(m_pSDLRenderer, m_pSDLTexture, NULL, &rect, m_rotation, NULL, SDL_FLIP_NONE);
+	for (auto textLine : m_textLines)
+	{
+		SDL_RenderCopyEx(m_pSDLRenderer, textLine.texture, NULL, &textLine.rect, m_rotation, NULL, SDL_FLIP_NONE);
+	}
 }
 
 /////////////////////////////////////////////////
 void CSDLText::PrepareText()
 {
-	SDL_Color color = { m_color.r, m_color.g, m_color.b };
+	const SDL_Color color = { m_color.r, m_color.g, m_color.b };
 
-	m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, getText().c_str(), color);
+	for (auto textLine : m_textLines) {
+		SDL_DestroyTexture(textLine.texture);
+	}
+	m_textLines.clear();
 
-	int w, h;
-	TTF_SizeText(m_pSDLFont, getText().c_str(), &w, &h);
-	m_width = static_cast<float>(w);
-	m_height = static_cast<float>(h);
+	int line = 0;
+	std::stringstream text;
+	text << m_text;
+	for (std::string lineText; std::getline(text, lineText);)
+	{
+		SDL_Rect rect;
+		TTF_SizeText(m_pSDLFont, lineText.c_str(), &rect.w, &rect.h);
+		rect.x = m_position.x;
+		rect.y = m_position.y + (line * m_fontSize);
 
-	if(m_pSDLTexture) SDL_DestroyTexture(m_pSDLTexture);
-	m_pSDLTexture = SDL_CreateTextureFromSurface(m_pSDLRenderer, m_pSDLSurface);
+		m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, lineText.c_str(), color);
 
-	SDL_FreeSurface(m_pSDLSurface);
+		m_textLines.emplace_back(SDL_CreateTextureFromSurface(m_pSDLRenderer, m_pSDLSurface), rect);
+
+		SDL_FreeSurface(m_pSDLSurface);
+
+		++line;
+	}
 }

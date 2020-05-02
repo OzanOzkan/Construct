@@ -1,12 +1,14 @@
 #pragma once
 
 #include <System/ISystem.h>
+#include <ILog.h>
+
 #include "../ILevel.h"
 
-class CMainMenu : public ILevel
+class CPhysica : public ILevel
 {
 public:
-	CMainMenu(ISystem* systemContext);
+	CPhysica(ISystem* systemContext);
 
 	// ILevel
 	void loadLevel() override;

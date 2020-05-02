@@ -4,6 +4,5 @@
 
 class IGame : public IModule
 {
-public:
-	virtual ~IGame() {}
+
 };

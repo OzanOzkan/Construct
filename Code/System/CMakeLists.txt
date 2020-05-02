@@ -32,6 +32,8 @@ set(WINDOW
 set(ENTITYSYSTEM
 	"EntitySystem/EntitySystem.h"
 	"EntitySystem/EntitySystem.cpp"
+	"EntitySystem/EntityComponentFactory.h"
+	"EntitySystem/EntityComponentFactory.cpp"
 	"EntitySystem/Entity.h"
 	"EntitySystem/Entity.cpp"
 )

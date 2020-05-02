@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <System/EntitySystem/IEntityComponent.h>
@@ -24,3 +20,5 @@ private:
 private:
 	int tempCounter;
 };
+
+REGISTER_ENTITY_COMPONENT(CWeapon);

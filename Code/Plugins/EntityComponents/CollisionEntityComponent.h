@@ -16,6 +16,8 @@ public:
 	// ~IEntityComponent
 
 	void SetSize(const int& w, const int& h);
+	void getSize(int& w, int& h);
+	Vector2 getCenter();
 	void setDebugDraw(const bool& isActive);
 
 private:
@@ -28,3 +30,5 @@ private:
 	int m_width = -1;
 	int m_height = -1;
 };
+
+REGISTER_ENTITY_COMPONENT(CollisionEntityComponent);

@@ -10,7 +10,9 @@
 
 /////////////////////////////////////////////////
 CSDLRenderer::CSDLRenderer(ISystem * systemContext)
-	: m_pSystem(systemContext)
+	: m_defaultRenderWidth(800)
+	, m_defaultRenderHeight(600)
+	, m_pSystem(systemContext)
 	, m_pTextureManager(nullptr)
 	, m_pSDLWindow(nullptr)
 	, m_pSDLRenderer(nullptr)
@@ -31,11 +33,11 @@ void CSDLRenderer::InitializeModule()
 		GetSystem()->GetLogger()->Log("CSDLRenderer::InitializeModule(): SDL Renderer creation failed!");
     }
 
-	//SDL_RenderSetLogicalSize(m_pSDLRenderer, 720, 1280);
-
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
 
+	//SDL_RenderSetLogicalSize(m_pSDLRenderer, m_defaultRenderWidth, m_defaultRenderHeight);
+	SDL_SetRenderDrawBlendMode(m_pSDLRenderer, SDL_BLENDMODE_BLEND);
 	//LoadTextures();
 
 	GetSystem()->GetLogger()->Log("Renderer Initialized: SDL2");
@@ -53,6 +55,20 @@ void CSDLRenderer::InitializeModule()
 void CSDLRenderer::onUpdate()
 {
 	doRender();
+}
+
+/////////////////////////////////////////////////
+void CSDLRenderer::setResolution(const int& width, const int& height)
+{
+	if(m_pSDLRenderer)
+		SDL_RenderSetLogicalSize(m_pSDLRenderer, width, height);
+}
+
+/////////////////////////////////////////////////
+void CSDLRenderer::getResolution(int& width, int& height)
+{
+	if (m_pSDLRenderer)
+		SDL_RenderGetLogicalSize(m_pSDLRenderer, &width, &height);
 }
 
 /////////////////////////////////////////////////
@@ -116,6 +132,9 @@ void CSDLRenderer::RemoveRenderObject(IRendererObject* pRenderObject)
 /////////////////////////////////////////////////
 void CSDLRenderer::doRender()
 {
+	// Set background to black.
+	SDL_SetRenderDrawColor(m_pSDLRenderer, 0, 0, 0, 0);
+
 	// Clear SDL renderer.
 	SDL_RenderClear(m_pSDLRenderer);
 

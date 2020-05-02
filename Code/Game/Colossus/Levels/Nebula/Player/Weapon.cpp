@@ -1,9 +1,6 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "Weapon.h"
 
+#include <System/EntitySystem/IEntity.h>
 #include <ILog.h>
 #include <System/EntitySystem/IEntitySystem.h>
 #include "Missile.h"
@@ -47,7 +44,7 @@ void CWeapon::updateEvent()
 		SEntitySpawnParams params;
 		params.entityName = "Missile";
 		params.position = getEntity()->getPosition() + getPosition();
-		CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>();
+		const CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>();
 
 		tempCounter = 0;
 	}

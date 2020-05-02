@@ -15,8 +15,15 @@ CollisionEntityComponent::CollisionEntityComponent()
 /////////////////////////////////////////////////
 void CollisionEntityComponent::Init()
 {
+	float width, height;
+	getEntity()->getSize(width, height);
+	m_width = width;
+	m_height = height;
+
 	SCollisionListenerParams params;
 	params.pEntity = getEntity();
+	params.w = m_width;
+	params.h = m_height;
 
 	GetSystem()->GetPhysics()->AddCollisionListener(params);
 }
@@ -67,6 +74,20 @@ void CollisionEntityComponent::SetSize(const int & w, const int & h)
 {
 	m_width = w;
 	m_height = h;
+}
+
+/////////////////////////////////////////////////
+void CollisionEntityComponent::getSize(int & w, int & h)
+{
+	w = m_width;
+	h = m_height;
+}
+
+/////////////////////////////////////////////////
+Vector2 CollisionEntityComponent::getCenter()
+{
+	Vector2 pos = getEntity()->getPosition() + getPosition();
+	return Vector2(pos.x + (m_width / 2), pos.y + (m_height / 2));
 }
 
 /////////////////////////////////////////////////
