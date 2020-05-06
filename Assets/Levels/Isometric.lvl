@@ -1,0 +1,148 @@
+{
+  "levelName": "Isometric",
+  "entityList": [
+    {
+      "name": "playerEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "player",
+      "components": [
+        {
+          "componentType": "CPlayerView",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "isometricBuilding1",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/Isometric/house_01.png"
+          }
+        }
+      ]
+    },
+    {
+      "name": "isometricBuilding2",
+      "isActive": true,
+      "position": {
+        "x": 800,
+        "y": 1200
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/Isometric/house_02.png"
+          }
+        }
+      ]
+    },
+    {
+      "name": "isometricBuilding3",
+      "isActive": true,
+      "position": {
+        "x": 1600,
+        "y": 500
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/Isometric/house_03.png"
+          }
+        }
+      ]
+    },
+    {
+      "name": "isometricBuilding4",
+      "isActive": true,
+      "position": {
+        "x": 2400,
+        "y": 3800
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/Isometric/house_04.png"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -20,6 +20,7 @@ class IPhysics;
 class IGame;
 class IWindowEventListener;
 class IEntitySystem;
+class ILevelSystem;
 
 class ISystem : public IModule
 {
@@ -48,4 +49,5 @@ public:
 	virtual IInput* GetInput() = 0;
 	virtual IPhysics* GetPhysics() = 0;
 	virtual IEntitySystem* GetEntitySystem() = 0;
+	virtual ILevelSystem* GetLevelSystem() = 0;
 };

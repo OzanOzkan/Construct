@@ -60,7 +60,7 @@ void CEnvironmentController::ConfigureBackground()
 	IEntity* pScrollingBackground = GetSystem()->GetEntitySystem()->spawnEntity(scrollingBackgroundParams);
 
 	m_pScrollingBgComponent = pScrollingBackground->addEntityComponent<SpriteRendererEntityComponent>();
-	m_pScrollingBgComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/background/NebulaRed.png");
+	m_pScrollingBgComponent->setFile("Sprites/background/NebulaRed.png");
 	m_pScrollingBgComponent->setLayerId(-1);
 
 	SSpriteParams::SSpriteScrollParams scrollParams;

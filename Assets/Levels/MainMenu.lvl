@@ -1,0 +1,140 @@
+{
+  "levelName": "MainMenu",
+  "entityList": [
+    {
+      "name": "btnNebula",
+      "isActive": true,
+      "position": {
+        "x": 500,
+        "y": 500
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "mainMenuButtons",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "buttonText": "Nebula",
+            "fontSize": 36,
+            "width": 500,
+            "height": 150
+          }
+        },
+        {
+          "componentType": "MainMenuButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "levelToLoad": "Nebula"
+          }
+        }
+      ]
+    },
+    {
+      "name": "btnIsometric",
+      "isActive": true,
+      "position": {
+        "x": 500,
+        "y": 700
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "mainMenuButtons",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "buttonText": "Isometric",
+            "fontSize": 36,
+            "width": 500,
+            "height": 150
+          }
+        },
+        {
+          "componentType": "MainMenuButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "levelToLoad": "Isometric"
+          }
+        }
+      ]
+    },
+    {
+      "name": "btnPhysics",
+      "isActive": true,
+      "position": {
+        "x": 500,
+        "y": 900
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "mainMenuButtons",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "buttonText": "Physics",
+            "fontSize": 36,
+            "width": 500,
+            "height": 150
+          }
+        },
+        {
+          "componentType": "MainMenuButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "levelToLoad": "Physics"
+          }
+        }
+      ]
+    }
+  ]
+}

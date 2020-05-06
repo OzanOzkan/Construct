@@ -17,6 +17,8 @@ LOCAL_C_INCLUDES += $(ENGINE_CODE_PATH)/Common
 LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/EntitySystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/EventSystem/*.cpp) \
+	$(wildcard $(MODULE_DIR)/FileSystem/*.cpp) \
+	$(wildcard $(MODULE_DIR)/LevelSystem/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Window/*.cpp) \
 	$(wildcard $(MODULE_DIR)/UI/*.cpp)\
 	$(wildcard $(MODULE_DIR)/*.cpp)

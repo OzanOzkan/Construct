@@ -9,8 +9,6 @@ set(ROOT_SRC
 	"Log.cpp"
 	"System.h"
 	"System.cpp"
-	"FileManager.h"
-	"FileManager.cpp"
 )
 
 set(EVENTSYSTEM
@@ -38,14 +36,28 @@ set(ENTITYSYSTEM
 	"EntitySystem/Entity.cpp"
 )
 
+set(FILESYSTEM
+	"FileSystem/FileManager.h"
+	"FileSystem/FileManager.cpp"
+	"FileSystem/SDLFileOps.h"
+	"FileSystem/SDLFileOps.cpp"
+)
+
+set(LEVELSYSTEM
+	"LevelSystem/LevelSystem.h"
+	"LevelSystem/LevelSystem.cpp"
+)
+
 source_group(" " FILES ${ROOT_SRC})
 source_group("EventSystem" FILES ${EVENTSYSTEM})
 source_group("Window" FILES ${WINDOW})
 source_group("EntitySystem" FILES ${ENTITYSYSTEM})
+source_group("FileSystem" FILES ${FILESYSTEM})
+source_group("LevelSystem" FILES ${LEVELSYSTEM})
 
 find_package(SDL2 REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${SDK_DIR})
 
 add_library (${PROJECT_NAME} 
 	SHARED 
@@ -53,6 +65,8 @@ add_library (${PROJECT_NAME}
 		${EVENTSYSTEM} 
 		${WINDOW} 
 		${ENTITYSYSTEM}
+		${FILESYSTEM}
+		${LEVELSYSTEM}
 )
 
 target_link_libraries(${PROJECT_NAME} 

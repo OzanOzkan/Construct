@@ -3,7 +3,7 @@
 #include "IEntitySystem.h"
 #include "IEntityComponent.h"
 #include "../../Math/Math.h"
-#include "../../Utility.h"
+#include "../../Utility/Utility.h"
 
 #include <string>
 #include <map>
@@ -46,6 +46,17 @@ public:
 	IEntityComponent* addEntityComponent(const std::string& componentName)
 	{
 		return findAndAddEntityComponent(componentName);
+	}
+
+	IEntityComponent* addEntityComponent(const std::string& componentName, IEntityComponent* component)
+	{
+		std::unique_ptr<IEntityComponent> comp = std::unique_ptr<IEntityComponent>(component);
+		IEntityComponent* retVal = comp.get();
+
+		comp->initComponent(m_pSystem, this);
+		this->addEntityComponentInternal(componentName, std::move(comp));
+
+		return retVal;
 	}
 
 	template <typename ComponentType>

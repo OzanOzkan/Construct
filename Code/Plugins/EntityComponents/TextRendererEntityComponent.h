@@ -13,6 +13,13 @@ public:
 	void updateComponent() override;
 	// ~IEntityComponent
 
+	void getClassDesc(std::map<std::string, void*>& desc) {
+		desc.emplace("text", &m_text);
+		desc.emplace("fontSize", &m_fontSize);
+		desc.emplace("layerId", &m_layerId);
+		desc.emplace("color", &m_color);
+	}
+
 	void setText(const std::string& text) { m_text = text; }
 	void setFont(const std::string& font) { m_font = font; }
 	void setFontSize(const int& size) noexcept { m_fontSize = size; }
@@ -29,7 +36,7 @@ private:
 	int m_fontSize = -1;
 	IText* m_pText = nullptr;
 	int m_layerId = -1;
-	RGBAColor m_color = { 0,0,0,1 };
+	RGBAColor m_color = { 255,255,255,1 };
 };
 
 REGISTER_ENTITY_COMPONENT(TextRendererEntityComponent);

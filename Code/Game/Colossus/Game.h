@@ -19,7 +19,6 @@ public:
 
 private:
 	ISystem * GetSystem() noexcept { return m_pSystem; }
-	void loadLevel();
 
 private:
 	ISystem * m_pSystem = nullptr;

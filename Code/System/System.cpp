@@ -7,8 +7,9 @@
 #include <IGame.h>
 
 #include "EntitySystem/EntitySystem.h"
+#include "LevelSystem/LevelSystem.h"
 #include "Log.h"
-#include "FileManager.h"
+#include "FileSystem/FileManager.h"
 
 #include <string>
 #include <memory>
@@ -37,6 +38,7 @@ CSystem::CSystem()
 	, m_pFileManager(nullptr)
 	, m_pWindowManager(nullptr)
 	, m_pEntitySystem(nullptr)
+	, m_pLevelSystem(nullptr)
 	, m_pRenderer(nullptr)
 	, m_pLogger(nullptr)
 	, m_pInput(nullptr)
@@ -60,6 +62,7 @@ void CSystem::InitializeModule()
 	m_pWindowManager->registerWindowEvents(this);
 
 	m_pEntitySystem = std::make_unique<CEntitySystem>(this);
+	m_pLevelSystem = std::make_unique<CLevelSystem>(this);
 
 	m_pRenderer = std::unique_ptr<IRenderer>(LoadModule<IRenderer>(SCreateModuleParams<ERenderer>{ ERenderer::SDL2 }));
 	m_pInput = std::unique_ptr<IInput>(LoadModule<IInput>(SCreateModuleParams<EInput>{ EInput::SDL2 }));
@@ -137,7 +140,8 @@ void CSystem::updateSystemInfo()
 	std::string systemText = std::to_string(static_cast<int>(m_avgFps)) + " FPS \n"
 		+ "Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount()) + "\n"
 		+ "Loaded Textures: " + std::to_string(GetRenderer()->GetTextureManager()->getLoadedTextureCount()) + "\n"
-		+ "CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) + "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y);
+		+ "CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) + "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y) + "\n"
+		+ "Current Level: " + GetLevelSystem()->getCurrentLevelName();
 
 	if (!m_systemText)
 	{

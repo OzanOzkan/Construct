@@ -16,13 +16,11 @@ set(LEVELS_SRC
 )
 
 set(MAINMENU_SRC
-	"Levels/MainMenu/MainMenu.h"
-	"Levels/MainMenu/MainMenu.cpp"
+	"Levels/MainMenu/MainMenuButtonController.h"
+	"Levels/MainMenu/MainMenuButtonController.cpp"
 )
 
 set(NEBULA_ROOT_SRC
-	"Levels/Nebula/Nebula.h"
-	"Levels/Nebula/Nebula.cpp"
 	"Levels/Nebula/EnemyShip.h"
 	"Levels/Nebula/EnemyShip.cpp"
 )
@@ -36,6 +34,11 @@ set(NEBULA_PLAYER_SRC
 	"Levels/Nebula/Player/Missile.cpp"
 )
 
+set(NEBULA_UI_SRC
+	"Levels/Nebula/UI/DirectionButtonController.h"
+	"Levels/Nebula/UI/DirectionButtonController.cpp"
+)
+
 set(NEBULA_ENVIRONMENT_SRC
 	"Levels/Nebula/Environment/EnvironmentController.h"
 	"Levels/Nebula/Environment/EnvironmentController.cpp"
@@ -44,18 +47,12 @@ set(NEBULA_ENVIRONMENT_SRC
 	)
 
 set(ISOMETRICA_ROOT_SRC
-	"Levels/Isometrica/Isometrica.h"
-	"Levels/Isometrica/Isometrica.cpp"
+
 )
 
 set(ISOMETRICA_PLAYER_SRC
 	"Levels/Isometrica/Player/PlayerView.h"
 	"Levels/Isometrica/Player/PlayerView.cpp"
-)
-
-set(ISOMETRICA_ENVIRONMENT_SRC
-	"Levels/Isometrica/Environment/IsometricaEnvironmentController.h"
-	"Levels/Isometrica/Environment/IsometricaEnvironmentController.cpp"
 )
 
 set(PHYSICA
@@ -70,9 +67,9 @@ source_group("Levels\\MainMenu" FILES ${MAINMENU_SRC})
 source_group("Levels\\Nebula" FILES ${NEBULA_ROOT_SRC})
 source_group("Levels\\Nebula\\Player" FILES ${NEBULA_PLAYER_SRC})
 source_group("Levels\\Nebula\\Environment" FILES ${NEBULA_ENVIRONMENT_SRC})
+source_group("Levels\\Nebula\\UI" FILES ${NEBULA_UI_SRC})
 source_group("Levels\\Isometrica" FILES ${ISOMETRICA_ROOT_SRC})
 source_group("Levels\\Isometrica\\Player" FILES ${ISOMETRICA_PLAYER_SRC})
-source_group("Levels\\Isometrica\\Environment" FILES ${ISOMETRICA_ENVIRONMENT_SRC})
 source_group("Levels\\Physica" FILES ${PHYSICA})
 
 include_directories("${SRC_DIR}/Plugins")
@@ -85,9 +82,9 @@ add_library (${PROJECT_NAME}
 	${NEBULA_ROOT_SRC}
 	${NEBULA_PLAYER_SRC}
 	${NEBULA_ENVIRONMENT_SRC}
+	${NEBULA_UI_SRC}
 	${ISOMETRICA_ROOT_SRC}
 	${ISOMETRICA_PLAYER_SRC}
-	${ISOMETRICA_ENVIRONMENT_SRC}
 	${PHYSICA}
 )
 

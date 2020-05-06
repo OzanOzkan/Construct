@@ -18,11 +18,11 @@ LOCAL_C_INCLUDES += \
 LOCAL_SRC_FILES := \
   $(wildcard $(MODULE_DIR)/Colossus/Levels/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/*.cpp) \
-	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/Environment/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/Player/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/MainMenu/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Physica/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/UI/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Environment/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Player/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/*.cpp)

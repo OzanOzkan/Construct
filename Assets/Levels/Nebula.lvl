@@ -1,0 +1,120 @@
+{
+  "levelName": "Nebula",
+  "entityList": [
+    {
+      "name": "environmentControllerEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "environmentController",
+      "components": [
+        {
+          "componentType": "CEnvironmentController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "playerEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "environmentController",
+      "components": [
+        {
+          "componentType": "CPlayerShip",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "uiCanvasEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "uiCanvas",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 165,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "btnRight",
+          "componentProperties": {
+            "width": 150,
+            "height": 150,
+            "backgroundImage": "UI/arrow.png",
+            "backgroundOnPressedImage": "UI/arrow.png",
+            "buttonText": ""
+          }
+        },
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 180,
+          "tag": "btnLeft",
+          "componentProperties": {
+            "width": 150,
+            "height": 150,
+            "backgroundImage": "UI/arrow.png",
+            "backgroundOnPressedImage": "UI/arrow.png",
+            "buttonText": ""
+          }
+        },
+        {
+          "componentType": "CDirectionButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    }
+  ]
+}

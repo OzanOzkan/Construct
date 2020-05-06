@@ -28,6 +28,7 @@ public:
 	IEntitySystem* GetEntitySystem() override { return m_pEntitySystem.get(); }
 	IWindowManager* GetWindowManager() override { return m_pWindowManager.get(); }
 	IFileManager* getFileManager() override { return m_pFileManager.get(); }
+	ILevelSystem* GetLevelSystem() override { return m_pLevelSystem.get(); }
 	
 	// !Subject to change
 	void registerWindowEvents(IWindowEventListener* listener) override;
@@ -59,6 +60,7 @@ private:
 	std::unique_ptr<IPhysics> m_pPhysics = nullptr;
 	std::unique_ptr<IGame> m_pGame = nullptr;
 	std::unique_ptr<IEntitySystem> m_pEntitySystem = nullptr;
+	std::unique_ptr<ILevelSystem> m_pLevelSystem = nullptr;
 
 	int m_nrOfFrames = 0;
 	int m_beginSec = 0.f;

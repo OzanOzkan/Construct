@@ -3,6 +3,7 @@
 #include <System/EntitySystem/IEntitySystem.h>
 #include <System/EntitySystem/IEntity.h>
 #include <System/EntitySystem/IEntityComponent.h>
+#include <System/LevelSystem/ILevelSystem.h>
 #include <ILog.h>
 #include <UI/UIButton.h>
 

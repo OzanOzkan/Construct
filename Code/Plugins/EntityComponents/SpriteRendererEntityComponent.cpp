@@ -58,7 +58,7 @@ void SpriteRendererEntityComponent::updateComponent()
 
 	SSpriteParams params;
 	params.layerId = m_layerId;
-	params.spriteFile = m_spriteFile;
+	params.spriteFile = GetSystem()->getFileManager()->getAssetsDirectory() + m_spriteFile;
 	params.position = getEntity()->getPosition() + getPosition();
 	params.width = m_width;
 	params.height = m_height;

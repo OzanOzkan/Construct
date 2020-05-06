@@ -16,7 +16,7 @@ void CEnemyShip::Init()
 {
 	// Initialize components.
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/EnemyShip.png");
+	m_pSpriteRendererComponent->setFile("Sprites/EnemyShip.png");
 	m_pSpriteRendererComponent->setSize(222, 135);
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
@@ -77,7 +77,7 @@ void CEnemyShip::onCollisionEvent()
 /////////////////////////////////////////////////
 void CEnemyShip::explodeShip()
 {
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/Explosion.png");
+	m_pSpriteRendererComponent->setFile("Sprites/Explosion.png");
 	m_pSpriteRendererComponent->setSize(128, 500);
 	m_pSpriteRendererComponent->updateComponent();
 	
