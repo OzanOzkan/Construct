@@ -20,6 +20,12 @@ public:
 	virtual void updateComponent() override;
 	// ~IEntityComponent
 
+	void getClassDesc(std::map<std::string, void*>& desc) {
+		desc.emplace("width", &m_boundingBox.w);
+		desc.emplace("height", &m_boundingBox.h);
+		desc.emplace("debugDraw", &m_debugDraw);
+	}
+
 	void subscribeOnSelection(TSelectionEventCallbackFn fn);
 	void unsubscribeOnSelection(TSelectionEventCallbackFn fn);
 	void setSize(const float& w, const float& h);

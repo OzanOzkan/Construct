@@ -17,7 +17,7 @@ public:
 		desc.emplace("text", &m_text);
 		desc.emplace("fontSize", &m_fontSize);
 		desc.emplace("layerId", &m_layerId);
-		desc.emplace("color", &m_color);
+		desc.emplace("color", &m_color.r);
 	}
 
 	void setText(const std::string& text) { m_text = text; }

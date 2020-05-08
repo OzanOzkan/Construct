@@ -13,6 +13,10 @@ public:
 	void onEvent(const SEntityEvent & event) override;
 	void updateComponent() override;
 
+	void getClassDesc(std::map<std::string, void*>& desc) {
+		desc.emplace("mass", &mass);
+	}
+
 	void applyForce(const float& force);
 
 private:

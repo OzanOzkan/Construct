@@ -10,9 +10,7 @@ set(ROOT_SRC
 )
 
 set(LEVELS_SRC
-	"Levels/ILevel.h"
-	"Levels/LevelController.h"
-	"Levels/LevelController.cpp"
+
 )
 
 set(MAINMENU_SRC
@@ -46,18 +44,20 @@ set(NEBULA_ENVIRONMENT_SRC
 	"Levels/Nebula/Environment/EnvironmentObject.cpp"
 	)
 
-set(ISOMETRICA_ROOT_SRC
+set(ISOMETRIC_ROOT_SRC
 
 )
 
-set(ISOMETRICA_PLAYER_SRC
-	"Levels/Isometrica/Player/PlayerView.h"
-	"Levels/Isometrica/Player/PlayerView.cpp"
+set(ISOMETRIC_PLAYER_SRC
+	"Levels/Isometric/Player/PlayerView.h"
+	"Levels/Isometric/Player/PlayerView.cpp"
 )
 
-set(PHYSICA
-	"Levels/Physica/Physica.h"
-	"Levels/Physica/Physica.cpp"
+set(PHYSICS
+	"Levels/Physics/PhysicsLevelController.h"
+	"Levels/Physics/PhysicsLevelController.cpp"
+	"Levels/Physics/PhysicalizedObjectController.h"
+	"Levels/Physics/PhysicalizedObjectController.cpp"
 )
 
 source_group(" " FILES ${ROOT_SRC})
@@ -68,9 +68,9 @@ source_group("Levels\\Nebula" FILES ${NEBULA_ROOT_SRC})
 source_group("Levels\\Nebula\\Player" FILES ${NEBULA_PLAYER_SRC})
 source_group("Levels\\Nebula\\Environment" FILES ${NEBULA_ENVIRONMENT_SRC})
 source_group("Levels\\Nebula\\UI" FILES ${NEBULA_UI_SRC})
-source_group("Levels\\Isometrica" FILES ${ISOMETRICA_ROOT_SRC})
-source_group("Levels\\Isometrica\\Player" FILES ${ISOMETRICA_PLAYER_SRC})
-source_group("Levels\\Physica" FILES ${PHYSICA})
+source_group("Levels\\Isometric" FILES ${ISOMETRIC_ROOT_SRC})
+source_group("Levels\\Isometric\\Player" FILES ${ISOMETRIC_PLAYER_SRC})
+source_group("Levels\\Physics" FILES ${PHYSICS})
 
 include_directories("${SRC_DIR}/Plugins")
 
@@ -83,9 +83,9 @@ add_library (${PROJECT_NAME}
 	${NEBULA_PLAYER_SRC}
 	${NEBULA_ENVIRONMENT_SRC}
 	${NEBULA_UI_SRC}
-	${ISOMETRICA_ROOT_SRC}
-	${ISOMETRICA_PLAYER_SRC}
-	${PHYSICA}
+	${ISOMETRIC_ROOT_SRC}
+	${ISOMETRIC_PLAYER_SRC}
+	${PHYSICS}
 )
 
 # System link is mandatory due to singleton EntityComponent factory.
