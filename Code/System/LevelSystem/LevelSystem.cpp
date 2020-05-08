@@ -64,8 +64,12 @@ void CLevelSystem::loadLevel(const std::string& levelName)
 					auto componentProperty = desc.find(it.key());
 					if (componentProperty != desc.end()) {
 						if (it.value().is_number()) {
-							// TODO: float, int etc. check.
-							*((int*)componentProperty->second) = it.value().get<int>();
+							if (it.value().is_number_integer()) {
+								*((int*)componentProperty->second) = it.value().get<int>();
+							}
+							else if (it.value().is_number_float()) {
+								*((float*)componentProperty->second) = it.value().get<float>();
+							}
 						}
 						else if (it.value().is_boolean()) {
 							*((bool*)componentProperty->second) = it.value().get<bool>();
@@ -85,6 +89,8 @@ void CLevelSystem::loadLevel(const std::string& levelName)
 		}
 
 		m_currentLevelName = levelName;
+
+		publishLevelLoadEvent();
 
 		getSystem()->GetLogger()->Log("Level loaded.");
 	}
@@ -117,4 +123,14 @@ void CLevelSystem::resetLevel()
 std::string CLevelSystem::getCurrentLevelName()
 {
 	return m_currentLevelName;
+}
+
+/////////////////////////////////////////////////
+void CLevelSystem::publishLevelLoadEvent()
+{
+	auto entityList = getSystem()->GetEntitySystem()->getEntities();
+	for (auto entity : entityList)
+	{
+		entity->sendEvent(ENTITY_LEVEL_LOAD_END);
+	}
 }

@@ -15,6 +15,7 @@ public:
 
 protected:
     ISystem* getSystem() { return m_pSystem; }
+    void publishLevelLoadEvent();
 
 private:
     ISystem* m_pSystem;

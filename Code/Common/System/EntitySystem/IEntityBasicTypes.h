@@ -8,7 +8,8 @@ enum EEntityEvent
 	ENTITY_EVENT_UPDATE = (1u << 1),
 	ENTITY_EVENT_DESTROY = (1u << 2),
 	ENTITY_EVENT_TIMER_TICK = (1u << 3),
-	ENTITY_EVENT_COLLISION = (1u << 4)
+	ENTITY_EVENT_COLLISION = (1u << 4),
+	ENTITY_LEVEL_LOAD_END = (1u << 5)
 };
 
 struct SEntityEvent
