@@ -3,6 +3,7 @@
 #include <System/EntitySystem/IEntity.h>
 #include <System/LevelSystem/ILevelSystem.h>
 #include <UI/UIButton.h>
+#include <Renderer/IRenderer.h>
 
 /////////////////////////////////////////////////
 void MainMenuButtonController::Init()

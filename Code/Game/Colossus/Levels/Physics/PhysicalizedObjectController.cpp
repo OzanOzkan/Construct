@@ -37,7 +37,7 @@ void CPhysicalizedObjectController::setupOnSelectionAction()
 		pSelectionComponent->subscribeOnSelection([this](const bool& isSelected, const Vector2& selectionPos) {
 			if (isSelected) {
 				if (Rigidbody2D* pRigidbodyComponent = getEntity()->getEntityComponent<Rigidbody2D>()) {
-					pRigidbodyComponent->applyForce(-0.1f);
+					pRigidbodyComponent->applyLinearImpulse(Vector2(0, -0.1f));
 				}
 			}
 			});

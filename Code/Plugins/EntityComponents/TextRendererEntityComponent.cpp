@@ -52,6 +52,30 @@ void TextRendererEntityComponent::updateComponent()
 }
 
 /////////////////////////////////////////////////
+float TextRendererEntityComponent::getTextWidth()
+{
+	float textWidth = -1;
+
+	if (m_pText) {
+		textWidth = m_pText->getWidth();
+	}
+
+	return textWidth;
+}
+
+/////////////////////////////////////////////////
+float TextRendererEntityComponent::getTextHeight()
+{
+	float textHeight = -1;
+
+	if (m_pText) {
+		textHeight = m_pText->getHeight();
+	}
+
+	return textHeight;
+}
+
+/////////////////////////////////////////////////
 void TextRendererEntityComponent::onEntityUpdateEvent()
 {
 	m_pText->setPosition(getEntity()->getPosition() + getPosition());

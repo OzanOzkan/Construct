@@ -36,15 +36,15 @@ void CDirectionButtonController::setupButton()
 		auto buttons = getEntity()->getEntityComponents<UIButton>();
 		for (auto button : buttons) {
 			if (button->getComponentTag().compare("btnRight") == 0) {
-				button->subscribeToPressEvent([pPlayerEntity](const bool& isPressed, const Vector2& selectionPos) {
+				button->subscribeToPressEvent([pPlayerEntity, this](const bool& isPressed, const Vector2& selectionPos) {
 					Vector2 currentPlayerPos = pPlayerEntity->getPosition();
-					pPlayerEntity->setPosition(currentPlayerPos + Vector2(10, 0));
+					pPlayerEntity->setPosition(currentPlayerPos + (Vector2(800, 0) * GetSystem()->GetTime()->GetDeltaTime()));
 				});
 			}
 			else if (button->getComponentTag().compare("btnLeft") == 0) {
-				button->subscribeToPressEvent([pPlayerEntity](const bool& isPressed, const Vector2& selectionPos) {
+				button->subscribeToPressEvent([pPlayerEntity, this](const bool& isPressed, const Vector2& selectionPos) {
 					Vector2 currentPlayerPos = pPlayerEntity->getPosition();
-					pPlayerEntity->setPosition(currentPlayerPos - Vector2(10, 0));
+					pPlayerEntity->setPosition(currentPlayerPos - Vector2(800, 0) * GetSystem()->GetTime()->GetDeltaTime());
 				});
 			}
 		}

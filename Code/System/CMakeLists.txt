@@ -5,10 +5,12 @@ project (System VERSION 1.0 LANGUAGES CXX)
 set(ROOT_SRC
 	"StdAfx.h"
 	"StdAfx.cpp"
-	"Log.h"
-	"Log.cpp"
 	"System.h"
 	"System.cpp"
+	"Log.h"
+	"Log.cpp"
+	"Time.h"
+	"Time.cpp"
 )
 
 set(EVENTSYSTEM

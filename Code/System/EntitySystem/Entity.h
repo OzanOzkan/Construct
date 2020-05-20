@@ -4,6 +4,8 @@
 #include <System/EntitySystem/IEntityBasicTypes.h>
 #include <System/EntitySystem/IEntityComponent.h>
 
+#include <queue>
+
 class CEntity final : public IEntity
 {
 public:
@@ -33,6 +35,8 @@ public:
 	void MarkToDelete() { m_isMarkedToDelete = true; }
 	const bool& IsMarkedToDelete() const { return m_isMarkedToDelete; }
 
+	void removeEntityComponent(IEntityComponent* pEntityComponent) override;
+
 protected:
 	void addEntityComponentInternal(const std::string& componentName, std::unique_ptr<IEntityComponent> entityComponent) override;
 	IEntityComponent* getEntityComponentInternal(const std::string& componentName) override;
@@ -41,6 +45,7 @@ protected:
 private:
 	ISystem * GetSystem() { return m_pSystem; }
 	void HandleEntityEventInternal(const SEntityEvent& event);
+	void removeEntityComponentInternal();
 
 private:
 	int m_entityID;
@@ -48,6 +53,7 @@ private:
 	bool m_isActive;
 	std::string m_tag;
 	std::multimap<std::string, std::unique_ptr<IEntityComponent>> m_entityComponents;
+	std::queue<IEntityComponent*> m_componentsToDelete;
 	Vector2 m_entityPosition;
 	float m_width;
 	float m_height;

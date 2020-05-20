@@ -1,5 +1,5 @@
 #include <Physics/IPhysics.h>
-#include "SDLPhysics/SDLPhysics.h"
+#include "B2DPhysics/B2DPhysics.h"
 
 extern "C"
 {
@@ -9,9 +9,9 @@ extern "C"
 
 		switch(createParams.implType)
 		{
-		case EPhysics::SDL2:
+		case EPhysics::BOX2D:
 		{
-			pPhysics = new CSDLPhysics(systemContext);
+			pPhysics = new CB2DPhysics(systemContext);
 		}
 		break;
 		}

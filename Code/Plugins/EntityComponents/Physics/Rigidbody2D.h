@@ -1,7 +1,7 @@
 #pragma once
 
-#include <System/EntitySystem/IEntity.h>
 #include <System/EntitySystem/IEntityComponent.h>
+#include <Physics/IPhysics.h>
 
 class Rigidbody2D : public IEntityComponent
 {
@@ -10,28 +10,35 @@ public:
 
 	void Init() override;
 	unsigned int getEventMask() const override;
-	void onEvent(const SEntityEvent & event) override;
+	void onEvent(const SEntityEvent& event) override;
 	void updateComponent() override;
 
 	void getClassDesc(std::map<std::string, void*>& desc) {
-		desc.emplace("mass", &mass);
+		desc.emplace("width", &m_boundingBox.x);
+		desc.emplace("height", &m_boundingBox.y);
+		desc.emplace("density", &m_density);
+		desc.emplace("friction", &m_friction);
+		desc.emplace("isDynamic", &m_isDynamic);
 	}
 
-	void applyForce(const float& force);
+	void setBoundingBox(const Vector2& boundingBox) { m_boundingBox = boundingBox; }
+	void setDensity(const float& density) { m_density = density; }
+	void setFriction(const float& friction) { m_friction = friction; }
+	void setDynamic(const bool& isDynamic) { m_isDynamic = isDynamic; }
+	
+	void applyForce(const Vector2& force);
+	void applyLinearImpulse(const Vector2& impulse);
 
 private:
-	void processUpdateEvent();
+	void createPhysicalizedObject();
+	void removePhysicalizedObject();
 
 private:
-	bool m_isCollided = false;
-
-	double t = 0.0;
-	float dt = 0.1f;
-
-	float velocity = 0.0f;
-	float position = 0.0f;
-	float force = 0.1f;
-	float mass = 0.1f;
+	IPhysicalObject* m_pPhysicalObject;
+	Vector2 m_boundingBox;
+	float m_density;
+	float m_friction;
+	bool m_isDynamic;
 };
 
 REGISTER_ENTITY_COMPONENT(Rigidbody2D);

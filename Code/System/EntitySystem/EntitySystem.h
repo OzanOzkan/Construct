@@ -23,7 +23,9 @@ public:
 	IEntity* findEntity(const int& entityId) override;
 	// ~IEntitySystem
 
-	void onUpdate() override;
+	void onPreUpdate();
+	void onUpdate();
+	void onPostUpdate();
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }

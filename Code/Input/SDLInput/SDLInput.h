@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <IInput.h>
@@ -16,7 +12,9 @@ public:
 
 	// IInput
 	void InitializeModule() override;
+	void onPreUpdate() override {}
 	void onUpdate() override;
+	void onPostUpdate() override {}
 	bool IsKeyPressed(const EKey& key) override;
 	Vector2 GetMousePosition() override;
 	STouchEventList GetTouchEvents() override;

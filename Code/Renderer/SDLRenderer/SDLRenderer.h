@@ -21,7 +21,9 @@ public:
 
 	// IRenderer
 	void InitializeModule() override;
+	void onPreUpdate() override {}
 	void onUpdate() override;
+	void onPostUpdate() override {}
 	void setResolution(const int& width, const int& height) override;
 	void getResolution(int& width, int& height) override;
 

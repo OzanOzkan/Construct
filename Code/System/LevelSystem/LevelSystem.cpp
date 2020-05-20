@@ -2,6 +2,7 @@
 
 #include <System/EntitySystem/IEntitySystem.h>
 #include <System/EntitySystem/IEntity.h>
+#include <Renderer/IRenderer.h>
 #include <System/IFileManager.h>
 #include <Utility/Json.h>
 #include <ILog.h>
@@ -75,7 +76,14 @@ void CLevelSystem::loadLevel(const std::string& levelName)
 							*((bool*)componentProperty->second) = it.value().get<bool>();
 						}
 						else if (it.value().is_string()) {
-							*((std::string*)componentProperty->second) = it.value().get<std::string>();
+							std::string value = it.value().get<std::string>();
+							*((std::string*)componentProperty->second) = value;
+
+							// If it is a texture, load it
+							if (value.find(".png") != std::string::npos) {
+								getSystem()->GetRenderer()->GetTextureManager()->LoadTexture(
+									getSystem()->getFileManager()->getAssetsDirectory() + value);
+							}
 						}
 						else if (it.value().is_object()) {
 							// TODO: Handle nested JSON objects.

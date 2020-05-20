@@ -34,9 +34,6 @@ public:
 
     // Singleton Abstract Factory for EntityComponents
     static IEntityComponentFactory& getEntityComponentFactory();
-
-	// Will be removed.
-	virtual void onUpdate() = 0;
 };
 
 class IEntityComponentFactory

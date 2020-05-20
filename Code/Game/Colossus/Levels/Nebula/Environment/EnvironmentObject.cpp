@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "EnvironmentObject.h"
 
 #include <ILog.h>
@@ -22,8 +18,6 @@ void CEnvironmentObject::Init()
 	m_pSpriteComponent->setLayerId(9);
 	m_pSpriteComponent->setSize(200, 200);
 	m_pSpriteComponent->updateComponent();
-
-	//m_pSpriteComponent->setDebugDraw(true);
 }
 
 /////////////////////////////////////////////////
@@ -39,7 +33,7 @@ void CEnvironmentObject::onEvent(const SEntityEvent & event)
 	{
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
-		getEntity()->setPosition(getEntity()->getPosition() + Vector2(0, 0.5f));
+		getEntity()->setPosition(getEntity()->getPosition() + (Vector2(0, 100.f) * GetSystem()->GetTime()->GetDeltaTime()));
 	}
 	break;
 	case EEntityEvent::ENTITY_EVENT_TIMER_TICK:

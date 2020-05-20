@@ -48,6 +48,7 @@ void CPhysicsLevelController::setupLevel()
 	}
 }
 
+/////////////////////////////////////////////////
 void CPhysicsLevelController::physicalizedObjectSpawner()
 {
 	static int spawnTime = 0;

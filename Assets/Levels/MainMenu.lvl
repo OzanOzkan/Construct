@@ -135,6 +135,96 @@
           }
         }
       ]
+    },
+    {
+      "name": "btnSideScroller",
+      "isActive": true,
+      "position": {
+        "x": 500,
+        "y": 1100
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "mainMenuButtons",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "buttonText": "SideScroller",
+            "fontSize": 36,
+            "width": 500,
+            "height": 150
+          }
+        },
+        {
+          "componentType": "MainMenuButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "levelToLoad": "SideScroller"
+          }
+        }
+      ]
+    },
+    {
+      "name": "btnBox2DTest",
+      "isActive": true,
+      "position": {
+        "x": 500,
+        "y": 1300
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "mainMenuButtons",
+      "components": [
+        {
+          "componentType": "UIButton",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "buttonText": "Box2D Test",
+            "fontSize": 36,
+            "width": 500,
+            "height": 150
+          }
+        },
+        {
+          "componentType": "MainMenuButtonController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "levelToLoad": "Box2DTest"
+          }
+        }
+      ]
     }
   ]
 }

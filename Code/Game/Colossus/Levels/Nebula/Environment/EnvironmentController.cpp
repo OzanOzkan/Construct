@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #include "EnvironmentController.h"
 
 #include "EnvironmentObject.h"
@@ -14,6 +10,10 @@ CEnvironmentController::CEnvironmentController()
 	: m_pScrollingBgComponent(nullptr)
 	, m_resW(0)
 	, m_resH(0)
+	, m_enemySpawnTime(1.0f)
+	, m_envObjectSpawnTime(10.f)
+	, m_previousEnemySpawnTime(0.f)
+	, m_previousEnvObjectSpawnTime(0.f)
 {
 }
 
@@ -64,7 +64,7 @@ void CEnvironmentController::ConfigureBackground()
 	m_pScrollingBgComponent->setLayerId(-1);
 
 	SSpriteParams::SSpriteScrollParams scrollParams;
-	scrollParams.scrollSpeed = 1.f;
+	scrollParams.scrollSpeed = 100.f;
 	scrollParams.scrollDirection = SSpriteParams::SSpriteScrollParams::ESpriteScrollDirection::eSPD_DOWN;
 	m_pScrollingBgComponent->setScrollParams(scrollParams);
 
@@ -74,27 +74,10 @@ void CEnvironmentController::ConfigureBackground()
 /////////////////////////////////////////////////
 void CEnvironmentController::ProcessUpdateEvent()
 {
-	static int delay = 2000;
-	++delay;
+	float currentTime = GetSystem()->GetTime()->GetSystemTime();
 
-	if (delay >= 2000)
-	{
-		SEntitySpawnParams environmentObjectSpawnParams;
-		environmentObjectSpawnParams.entityName = "EnvironmentObject";
-		environmentObjectSpawnParams.position = Vector2(m_resW / 2, -200.f);
-		
-		GetSystem()->GetEntitySystem()->spawnEntity(environmentObjectSpawnParams)
-			->addEntityComponent<CEnvironmentObject>();
-
-		delay = 0;
-	}
-
-	static int enemyDelay = 1000;
-	++enemyDelay;
-
-	if (enemyDelay >= 50)
-	{
-		int randPos = rand()% (m_resW - 0 + 1);
+	if (currentTime - m_previousEnemySpawnTime > m_enemySpawnTime) {
+		int randPos = rand() % (m_resW - 0 + 1);
 
 		SEntitySpawnParams enemySpawnParams;
 		enemySpawnParams.entityName = "EnemyShip";
@@ -102,6 +85,17 @@ void CEnvironmentController::ProcessUpdateEvent()
 
 		GetSystem()->GetEntitySystem()->spawnEntity(enemySpawnParams)->addEntityComponent<CEnemyShip>();
 
-		enemyDelay = 0;
+		m_previousEnemySpawnTime = currentTime;
+	}
+
+	if (currentTime - m_previousEnvObjectSpawnTime > m_envObjectSpawnTime) {
+		SEntitySpawnParams environmentObjectSpawnParams;
+		environmentObjectSpawnParams.entityName = "EnvironmentObject";
+		environmentObjectSpawnParams.position = Vector2(m_resW / 2, -200.f);
+
+		GetSystem()->GetEntitySystem()->spawnEntity(environmentObjectSpawnParams)
+			->addEntityComponent<CEnvironmentObject>();
+
+		m_previousEnvObjectSpawnTime = currentTime;
 	}
 }

@@ -1,0 +1,81 @@
+{
+  "levelName": "Box2DTest",
+  "entityList": [
+    {
+      "name": "levelController",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "CBox2DTestLevelController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "groundEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 1700,
+        "height": 300
+      },
+      "tag": "ground",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/ground.png",
+            "width": 1700,
+            "height": 300,
+            "layerId": 10
+          }
+        },
+        {
+          "componentType": "Rigidbody2D",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "width": 1700.0,
+            "height": 300.0,
+            "density": 1.0,
+            "friction": 0.1,
+            "isDynamic": false
+          }
+        }
+      ]
+    }
+  ]
+}

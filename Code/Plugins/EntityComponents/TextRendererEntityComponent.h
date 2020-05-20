@@ -25,6 +25,8 @@ public:
 	void setFontSize(const int& size) noexcept { m_fontSize = size; }
 	void setLayerId(const int& layerId) noexcept { m_layerId = layerId; }
 	void setColor(const RGBAColor& color) noexcept { m_color = color; }
+	float getTextWidth();
+	float getTextHeight();
 
 private:
 	void onEntityUpdateEvent();

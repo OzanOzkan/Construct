@@ -4,10 +4,6 @@
 #include <System/ISystem.h>
 #include <ILog.h>
 
-/*
-	SUBJECT TO CHANGE: All of the Game module implementation is temporary.
-*/
-
 class CGame : public IGame
 {
 public:
@@ -15,7 +11,10 @@ public:
 	~CGame() {}
 
 	void InitializeModule() override;
+
+	void onPreUpdate() override {}
 	void onUpdate() override;
+	void onPostUpdate() override {}
 
 private:
 	ISystem * GetSystem() noexcept { return m_pSystem; }

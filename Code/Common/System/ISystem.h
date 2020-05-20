@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include "../Core.h"
@@ -9,6 +5,7 @@
 #include "IWindowManager.h"
 #include "IWindowEventListener.h"
 #include "IFileManager.h"
+#include "ITime.h"
 
 #include <memory>
 
@@ -25,11 +22,6 @@ class ILevelSystem;
 class ISystem : public IModule
 {
 public:
-	// ISystemInterface
-	virtual void InitializeModule() = 0;
-	virtual void onUpdate() = 0;
-	// ~ISystemInterface
-
 	virtual void setRenderTarget(void* renderTarget) = 0;
 
 	// Window
@@ -38,7 +30,7 @@ public:
 	virtual IWindowManager* GetWindowManager() = 0;
 	// ~Window
 
-	virtual float getTime() const = 0;
+	virtual ITime* GetTime() = 0;
 
 	// File Manager
 	virtual IFileManager* getFileManager() = 0;

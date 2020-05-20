@@ -60,6 +60,18 @@ set(PHYSICS
 	"Levels/Physics/PhysicalizedObjectController.cpp"
 )
 
+set(SIDESCROLLER_SRC
+	"Levels/SideScroller/SideScrollerLevelController.h"
+	"Levels/SideScroller/SideScrollerLevelController.cpp"
+	"Levels/SideScroller/SideScrollerPlayerController.h"
+	"Levels/SideScroller/SideScrollerPlayerController.cpp"
+)
+
+set(Box2D_SRC
+	"Levels/Box2DTest/Box2DTestLevelController.h"
+	"Levels/Box2DTest/Box2DTestLevelController.cpp"
+)
+
 source_group(" " FILES ${ROOT_SRC})
 source_group("UI" FILES ${UI_SRC})
 source_group("Levels" FILES ${LEVELS_SRC})
@@ -71,6 +83,8 @@ source_group("Levels\\Nebula\\UI" FILES ${NEBULA_UI_SRC})
 source_group("Levels\\Isometric" FILES ${ISOMETRIC_ROOT_SRC})
 source_group("Levels\\Isometric\\Player" FILES ${ISOMETRIC_PLAYER_SRC})
 source_group("Levels\\Physics" FILES ${PHYSICS})
+source_group("Levels\\SideScroller" FILES ${SIDESCROLLER_SRC})
+source_group("Levels\\Box2DTest" FILES ${Box2D_SRC})
 
 include_directories("${SRC_DIR}/Plugins")
 
@@ -86,6 +100,8 @@ add_library (${PROJECT_NAME}
 	${ISOMETRIC_ROOT_SRC}
 	${ISOMETRIC_PLAYER_SRC}
 	${PHYSICS}
+	${SIDESCROLLER_SRC}
+	${Box2D_SRC}
 )
 
 # System link is mandatory due to singleton EntityComponent factory.

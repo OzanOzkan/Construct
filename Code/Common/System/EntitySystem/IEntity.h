@@ -76,6 +76,8 @@ public:
 		return retVec;
 	}
 
+	virtual void removeEntityComponent(IEntityComponent* pEntityComponent) = 0;
+
 private:
 	IEntityComponent* findAndAddEntityComponent(const std::string& componentName)
 	{

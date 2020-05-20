@@ -6,14 +6,8 @@
 #include <Renderer/IRenderer.h>
 #include <IGame.h>
 
-#include "EntitySystem/EntitySystem.h"
-#include "LevelSystem/LevelSystem.h"
-#include "Log.h"
-#include "FileSystem/FileManager.h"
-
 #include <string>
 #include <memory>
-#include <chrono>
 #include <future>
 
 #ifdef _WIN32
@@ -56,6 +50,7 @@ void CSystem::InitializeModule()
 {
 	m_pLogger = std::make_unique<CLog>();
 	m_pFileManager = std::make_unique<CFileManager>(this);
+	m_pTime = std::make_unique<CTime>();
 
 	m_pWindowManager = std::make_unique<CWindowManager>(this);
 	m_pWindowManager->initWindow(EWindowType::eWT_SDL2, m_pRenderTarget);
@@ -66,15 +61,36 @@ void CSystem::InitializeModule()
 
 	m_pRenderer = std::unique_ptr<IRenderer>(LoadModule<IRenderer>(SCreateModuleParams<ERenderer>{ ERenderer::SDL2 }));
 	m_pInput = std::unique_ptr<IInput>(LoadModule<IInput>(SCreateModuleParams<EInput>{ EInput::SDL2 }));
-	m_pPhysics = std::unique_ptr<IPhysics>(LoadModule<IPhysics>(SCreateModuleParams<EPhysics>{ EPhysics::SDL2 }));
+	m_pPhysics = std::unique_ptr<IPhysics>(LoadModule<IPhysics>(SCreateModuleParams<EPhysics>{ EPhysics::BOX2D }));
 	m_pGame = std::unique_ptr<IGame>(LoadModule<IGame>());
 
-	m_beginSec = getTime();
+	m_beginSec = m_pTime->GetSystemTime();
 
 	while (!m_isQuit)
 	{
+		onPreUpdate();
 		onUpdate();
+		onPostUpdate();
 	}
+}
+
+/////////////////////////////////////////
+void CSystem::onPreUpdate()
+{
+	m_pTime->onPreUpdate();
+
+	m_pWindowManager->onPreUpdate();
+
+	m_pInput->onPreUpdate();
+
+	m_pPhysics->onPreUpdate();
+
+	m_pEntitySystem->onPreUpdate();
+
+	m_pRenderer->onPreUpdate();
+
+	m_pGame->onPreUpdate();
+
 }
 
 /////////////////////////////////////////////////
@@ -84,18 +100,18 @@ void CSystem::onUpdate()
 	m_pWindowManager->onUpdate();
 
 	// Update Input
-	GetInput()->onUpdate();
+	m_pInput->onUpdate();
 
 	// Update Physics
-	GetPhysics()->onUpdate();
+	m_pPhysics->onUpdate();
 
 	// Update Entity System
-	GetEntitySystem()->onUpdate();
+	m_pEntitySystem->onUpdate();
 
-	m_avgFps = m_nrOfFrames / ((getTime() - m_beginSec));
+	m_avgFps = m_nrOfFrames / ((m_pTime->GetSystemTime() - m_beginSec));
 
 	// Update Renderer
-	GetRenderer()->onUpdate();
+	m_pRenderer->onUpdate();
 
 	// Update Game
 	m_pGame->onUpdate();
@@ -106,16 +122,25 @@ void CSystem::onUpdate()
 }
 
 /////////////////////////////////////////
+void CSystem::onPostUpdate()
+{
+	m_pWindowManager->onPostUpdate();
+
+	m_pInput->onPostUpdate();
+
+	m_pPhysics->onPostUpdate();
+
+	m_pEntitySystem->onPostUpdate();
+
+	m_pRenderer->onPostUpdate();
+
+	m_pGame->onPostUpdate();
+}
+
+/////////////////////////////////////////
 void CSystem::unregisterWindowEvents(IWindowEventListener * listener)
 {
 	m_pWindowManager->unregisterWindowEvents(listener);
-}
-
-/////////////////////////////////////////////////
-float CSystem::getTime() const
-{
-	return std::chrono::duration_cast<std::chrono::duration<float>>
-		(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
 }
 
 /////////////////////////////////////////////////
@@ -138,6 +163,7 @@ void CSystem::onWindowEvent(const SWindowEvent & event)
 void CSystem::updateSystemInfo()
 {
 	std::string systemText = std::to_string(static_cast<int>(m_avgFps)) + " FPS \n"
+		+ "Delta Time: " + std::to_string(m_pTime->GetDeltaTime()) + " secs \n"
 		+ "Active Entities: " + std::to_string(GetEntitySystem()->getEntityCount()) + "\n"
 		+ "Loaded Textures: " + std::to_string(GetRenderer()->GetTextureManager()->getLoadedTextureCount()) + "\n"
 		+ "CamPos: " + std::to_string(GetRenderer()->GetCamera()->GetPosition().x) + "," + std::to_string(GetRenderer()->GetCamera()->GetPosition().y) + "\n"

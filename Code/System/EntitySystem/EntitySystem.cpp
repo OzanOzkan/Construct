@@ -93,21 +93,37 @@ IEntity* CEntitySystem::findEntity(const int& entityId)
 }
 
 /////////////////////////////////////////////////
-void CEntitySystem::onUpdate()
+void CEntitySystem::onPreUpdate()
 {
 	auto itr = m_entityList.begin();
-	while (itr != m_entityList.end())
-	{
-		if (itr->second->IsMarkedToDelete())
-		{
+	while (itr != m_entityList.end()){
+		if (itr->second->IsMarkedToDelete()){
 			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_DESTROY });
 			itr = m_entityList.erase(itr);
 		}
-		else
-		{
-			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_UPDATE });
+		else {
+			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_PREUPDATE });
 			++itr;
 		}
-			
+	}
+}
+
+/////////////////////////////////////////////////
+void CEntitySystem::onUpdate()
+{
+	auto itr = m_entityList.begin();
+	while (itr != m_entityList.end()){
+		itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_UPDATE });
+		++itr;			
+	}
+}
+
+/////////////////////////////////////////////////
+void CEntitySystem::onPostUpdate()
+{
+	auto itr = m_entityList.begin();
+	while (itr != m_entityList.end()) {
+		itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_POSTUPDATE });
+		++itr;
 	}
 }

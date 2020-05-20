@@ -78,7 +78,7 @@ void CMissile::updateComponent()
 void CMissile::updateEvent()
 {
 	// Move the missile as an entity at each update.
-	getEntity()->setPosition(getEntity()->getPosition() - Vector2(0, 30));
+	getEntity()->setPosition(getEntity()->getPosition() - (Vector2(0, 1500.f) * GetSystem()->GetTime()->GetDeltaTime()));
 }
 
 /////////////////////////////////////////////////

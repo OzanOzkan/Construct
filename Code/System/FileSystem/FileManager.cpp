@@ -55,7 +55,7 @@ std::string CFileManager::getAssetsDirectory()
 	// Temporary implementation.
 
 #ifdef _WIN32
-	return "F:/Development/ProjectO01/Assets/";
+	return "E:/Development/ProjectO01/Assets/";
 #else
 	return "";
 #endif

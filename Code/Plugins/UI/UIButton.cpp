@@ -80,10 +80,12 @@ void UIButton::updateComponent()
 	m_pBackgroundRenderer->setSize(m_height, m_width);
 	m_pBackgroundRenderer->updateComponent();
 
-	m_pTextRenderer->setPosition(Vector2(getPosition().x + (m_width / 2), getPosition().y + (m_height / 2)));
 	m_pTextRenderer->setFontSize(m_fontSize);
 	m_pTextRenderer->setText(m_buttonText);
 	m_pTextRenderer->updateComponent();
+	m_pTextRenderer->setPosition(
+		Vector2(getPosition().x + (m_width / 2) - (m_pTextRenderer->getTextWidth() / 2), 
+			getPosition().y + (m_height / 2) - (m_pTextRenderer->getTextHeight() / 2)));
 
 	m_pOnClickListener->setPosition(getPosition());
 	m_pOnClickListener->setSize(m_width, m_height);

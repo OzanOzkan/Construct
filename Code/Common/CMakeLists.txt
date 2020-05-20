@@ -16,6 +16,7 @@ set(SYSTEM_SRC
 	"System/IWindowManager.h"
 	"System/IWindowEventListener.h"
 	"System/IFileManager.h"
+	"System/ITime.h"
 )
 
 set(SYSTEM_ENTITY_SYSTEM_SRC

@@ -66,10 +66,8 @@ void SpriteRendererEntityComponent::updateComponent()
 	params.renderObjectClass = ERenderObjectClass::WORLD;
 
 	m_pSprite = static_cast<ISprite*>(GetSystem()->GetRenderer()->CreateRenderObject(params));
-	//m_pSprite->setRenderActive(true);
 
-	if (m_width == 0.f && m_height == 0.f)
-	{
+	if (m_width == 0.f && m_height == 0.f) {
 		getEntity()->setSize(m_pSprite->getWidth(), m_pSprite->getHeight());
 	}
 }
@@ -125,7 +123,7 @@ void SpriteRendererEntityComponent::onEntityUpdateEvent()
 	if (m_pSprite)
 	{
 		m_pSprite->setPosition(getEntity()->getPosition() + getPosition());
-		m_pSprite->setRotation(getRotation());
+		m_pSprite->setRotation(getEntity()->getRotation() + getRotation());
 		m_pSprite->setRenderActive(m_isActive);
 	}
 

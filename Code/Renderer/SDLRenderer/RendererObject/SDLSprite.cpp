@@ -73,7 +73,7 @@ void CSDLSprite::RenderCopy()
 	}
 	else
 	{
-		m_scrollOffset += m_scrollSpeed;
+		m_scrollOffset += m_scrollSpeed * m_pRendererContext->GetSystem()->GetTime()->GetDeltaTime();
 		if (m_scrollOffset >= m_height)
 			m_scrollOffset = 0.f;
 

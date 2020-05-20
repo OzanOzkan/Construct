@@ -73,6 +73,9 @@ void CSDLText::PrepareText()
 		TTF_SizeText(m_pSDLFont, lineText.c_str(), &rect.w, &rect.h);
 		rect.x = m_position.x;
 		rect.y = m_position.y + (line * m_fontSize);
+		
+		m_width = m_width < rect.w ? rect.w : m_width;
+		m_height += rect.h;
 
 		m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, lineText.c_str(), color);
 
