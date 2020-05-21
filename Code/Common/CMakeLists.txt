@@ -12,7 +12,6 @@ set(ROOT_SRC
 
 set(SYSTEM_SRC
 	"System/ISystem.h"
-	"System/IEventSystem.h"
 	"System/IWindowManager.h"
 	"System/IWindowEventListener.h"
 	"System/IFileManager.h"

@@ -13,11 +13,6 @@ set(ROOT_SRC
 	"Time.cpp"
 )
 
-set(EVENTSYSTEM
-	"EventSystem/EventSystem.h"
-	"EventSystem/EventSystem.cpp"
-)
-
 set(WINDOW
 	"Window/WindowManager.h"
 	"Window/WindowManager.cpp"
@@ -51,7 +46,6 @@ set(LEVELSYSTEM
 )
 
 source_group(" " FILES ${ROOT_SRC})
-source_group("EventSystem" FILES ${EVENTSYSTEM})
 source_group("Window" FILES ${WINDOW})
 source_group("EntitySystem" FILES ${ENTITYSYSTEM})
 source_group("FileSystem" FILES ${FILESYSTEM})
@@ -64,7 +58,6 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDK_DIR})
 add_library (${PROJECT_NAME} 
 	SHARED 
 		${ROOT_SRC} 
-		${EVENTSYSTEM} 
 		${WINDOW} 
 		${ENTITYSYSTEM}
 		${FILESYSTEM}
