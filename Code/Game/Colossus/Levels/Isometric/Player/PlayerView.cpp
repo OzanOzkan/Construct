@@ -39,24 +39,20 @@ void CPlayerView::onEvent(const SEntityEvent & event)
 	Vector2 inputPos = !touchEvents.empty() ? touchEvents.front().position
 		: GetSystem()->GetInput()->GetMousePosition();
 
-	if (!touchEvents.empty() || GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_LEFT))
-	{		
-		if (firstTouch)
-		{
+	if (!touchEvents.empty() || GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_LEFT)) {		
+		if (firstTouch)	{
 			lastPos = inputPos;
 			firstTouch = false;
 		}
-		else
-		{
+		else {
 			Vector2 offset = lastPos - inputPos;
-			Vector2 movePos = Vector2(offset.x * -1.2, offset.y * -1.2);
+			Vector2 movePos = Vector2(offset.x * 1.2, offset.y * 1.2);
 			pCamera->SetPosition(pCamera->GetPosition() + movePos);
 
 			lastPos = inputPos;
 		}
 	}
-	else
-	{
+	else {
 		firstTouch = true;
 	}
 
@@ -69,6 +65,12 @@ void CPlayerView::onEvent(const SEntityEvent & event)
 		pCamera->SetPosition(pCamera->GetPosition() + Vector2(0, 50));
 	if (GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_S))
 		pCamera->SetPosition(pCamera->GetPosition() + Vector2(0, -50));
+
+	// Camera zoom in-out
+	if (GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_Q))
+		pCamera->SetZoomLevel(pCamera->GetZoomLevel() + 0.001f);
+	if (GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_E))
+		pCamera->SetZoomLevel(pCamera->GetZoomLevel() - 0.001f);
 
 }
 

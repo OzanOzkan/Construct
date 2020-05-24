@@ -66,8 +66,13 @@ void CBox2DTestLevelController::configureLevel()
 /////////////////////////////////////////////////
 void CBox2DTestLevelController::processUpdateEvent()
 {
+	STouchEventList touchEvents = GetSystem()->GetInput()->GetTouchEvents();
+
 	if (GetSystem()->GetInput()->IsKeyPressed(EKey::eKID_MOUSE_RIGHT)) {
 		spawnDynamicPhysicalEntity(GetSystem()->GetInput()->GetMousePosition());
+	}
+	else if (touchEvents.size() > 1) {
+		spawnDynamicPhysicalEntity(touchEvents.front().position);
 	}
 }
 
