@@ -1,20 +1,22 @@
 #include "Time.h"
 
-#include <chrono>
+#include <SDL.h>
 
 /////////////////////////////////////////////////
 CTime::CTime()
-	: m_currentTime(0.f)
-	, m_previousTime(0.f)
-	, m_deltaTime(0.f)
+	: m_deltaTime(0.f)
 {
 }
 
 /////////////////////////////////////////////////
 float CTime::GetSystemTime()
 {
-	return std::chrono::duration_cast<std::chrono::duration<float>>
-		(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+	// Removed due to insufficient implementation of chrono.
+	/*return std::chrono::duration_cast<std::chrono::duration<float>>
+		(std::chrono::high_resolution_clock::now().time_since_epoch()).count();*/
+	
+	// TODO: Create platform specific implementation.
+	return SDL_GetTicks() / 1000.0f; // uint32_t milliseconds to float milliseconds.
 }
 
 /////////////////////////////////////////////////
@@ -26,7 +28,9 @@ float CTime::GetDeltaTime()
 /////////////////////////////////////////////////
 void CTime::onPreUpdate()
 {
-	m_currentTime = GetSystemTime();
-	m_deltaTime = m_currentTime - m_previousTime;
-	m_previousTime = m_currentTime - 00000.0003;
+	float currentTime = GetSystemTime();
+	static float previousTime = 0.f;
+
+	m_deltaTime = currentTime - previousTime;
+	previousTime = currentTime;
 }

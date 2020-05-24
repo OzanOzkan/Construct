@@ -13,7 +13,5 @@ public:
 	void onPreUpdate();
 
 private:
-	float m_currentTime;
-	float m_previousTime;
 	float m_deltaTime;
 };
