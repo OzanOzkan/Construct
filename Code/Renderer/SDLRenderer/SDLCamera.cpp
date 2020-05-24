@@ -3,7 +3,8 @@
 /////////////////////////////////////////////////
 CSDLCamera::CSDLCamera(ISystem * systemContext)
 	: m_pSystem(systemContext)
-	, m_position()
+	, m_position({})
+	, m_zoomLevel(1.f)
 	, m_width(0)
 	, m_height(0)
 {
@@ -19,6 +20,18 @@ void CSDLCamera::SetPosition(const Vector2 & position)
 const Vector2 & CSDLCamera::GetPosition()
 {
 	return m_position;
+}
+
+/////////////////////////////////////////////////
+void CSDLCamera::SetZoomLevel(const float& zoomLevel)
+{
+	m_zoomLevel = zoomLevel < 0.1f ? 0.1f : zoomLevel;
+}
+
+/////////////////////////////////////////////////
+float CSDLCamera::GetZoomLevel()
+{
+	return m_zoomLevel;
 }
 
 /////////////////////////////////////////////////
