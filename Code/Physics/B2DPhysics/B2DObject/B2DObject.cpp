@@ -13,7 +13,7 @@ CB2DObject::CB2DObject(ISystem* systemContext, IEntity* pEntity, const Vector2& 
 	, m_pB2Body(pB2Body)
 	, m_M2P(40)
 	, m_P2M(1 / m_M2P)
-	, m_isDebugDrawEnabled(true)
+	, m_isDebugDrawEnabled(false)
 	, m_pDebugDrawRect(nullptr)
 {
 }

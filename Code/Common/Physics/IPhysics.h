@@ -56,6 +56,7 @@ public:
 	virtual void ApplyLinearImpulse(const Vector2& impulse) = 0;
 	virtual void SetRotationLock(const float& isEnabled) = 0;
 	virtual void SetDynamic(const float& isDynamic) = 0;
+	virtual void SetDebugDraw(const bool& isEnabled) = 0;
 };
 
 class IPhysics : public IModule

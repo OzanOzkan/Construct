@@ -20,7 +20,7 @@ public:
 	void ApplyLinearImpulse(const Vector2& impulse) override {}
 	void SetRotationLock(const float& isLocked) override { m_isRotationLocked = isLocked; }
 	void SetDynamic(const float& isDynamic) override { m_isDynamic = isDynamic; }
-	void SetDebugDraw(const bool& isEnabled) { m_isDebugDrawEnabled = isEnabled; }
+	void SetDebugDraw(const bool& isEnabled) override { m_isDebugDrawEnabled = isEnabled; }
 
 	IEntity* GetEntity() { return m_pEntity; }
 	b2Body* GetB2Body() { return m_pB2Body; }
