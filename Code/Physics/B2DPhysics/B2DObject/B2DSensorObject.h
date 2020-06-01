@@ -5,7 +5,7 @@
 class CB2DSensorObject final : public CB2DObject
 {
 public:
-	CB2DSensorObject(const SCollisionListenerParams& params, b2Body* pB2Body);
+	CB2DSensorObject(ISystem* systemContext, const SCollisionListenerParams& params, b2Body* pB2Body);
 
 	void PrePhysicsUpdate();
 

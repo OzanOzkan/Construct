@@ -141,7 +141,7 @@ std::unique_ptr<CB2DPhysicalObject> CB2DPhysics::createPhysicalObject(const S2DP
 	b2Body* body = m_b2World->CreateBody(&bodyDef);
 	body->CreateFixture(&fixtureDef)->SetUserData((void*)params.pEntity);
 
-	return std::make_unique<CB2DPhysicalObject>(params, body);
+	return std::make_unique<CB2DPhysicalObject>(m_pSystem, params, body);
 }
 
 /////////////////////////////////////////////////
@@ -164,7 +164,7 @@ std::unique_ptr<CB2DSensorObject> CB2DPhysics::createSensorObject(const SCollisi
 	b2Body* sensorBody = m_b2World->CreateBody(&bodyDef);
 	sensorBody->CreateFixture(&fixtureDef)->SetUserData((void*)params.pEntity);
 
-	return std::make_unique<CB2DSensorObject>(params, sensorBody);
+	return std::make_unique<CB2DSensorObject>(m_pSystem, params, sensorBody);
 }
 
 /////////////////////////////////////////////////
