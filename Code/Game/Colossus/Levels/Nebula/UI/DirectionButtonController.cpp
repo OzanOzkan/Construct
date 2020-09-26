@@ -12,12 +12,15 @@ void CDirectionButtonController::Init()
 /////////////////////////////////////////////////
 unsigned int CDirectionButtonController::getEventMask() const
 {
-	return 0;
+	return ENTITY_EVENT_UPDATE;
 }
 
 /////////////////////////////////////////////////
 void CDirectionButtonController::onEvent(const SEntityEvent& event)
 {
+	int resolutionW, resolutionH;
+	GetSystem()->GetRenderer()->getResolution(resolutionW, resolutionH);
+	getEntity()->setPosition(Vector2(resolutionW - 350, resolutionH - 200));
 }
 
 /////////////////////////////////////////////////
@@ -28,10 +31,6 @@ void CDirectionButtonController::updateComponent()
 /////////////////////////////////////////////////
 void CDirectionButtonController::setupButton()
 {
-	int resolutionW, resolutionH;
-	GetSystem()->GetRenderer()->getResolution(resolutionW, resolutionH);
-	getEntity()->setPosition(Vector2(resolutionW - 350, resolutionH - 200));
-
 	if (IEntity* pPlayerEntity = GetSystem()->GetEntitySystem()->findEntity("playerEntity")) {
 		auto buttons = getEntity()->getEntityComponents<UIButton>();
 		for (auto button : buttons) {

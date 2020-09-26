@@ -40,9 +40,9 @@ void CBox2DTestLevelController::configureLevel()
 	int resW, resH;
 	GetSystem()->GetRenderer()->getResolution(resW, resH);
 
-	if (IEntity* pGroundEntity = GetSystem()->GetEntitySystem()->findEntity("groundEntity")) {
-		pGroundEntity->setPosition(Vector2(0, resH - 250));
-	}
+	//if (IEntity* pGroundEntity = GetSystem()->GetEntitySystem()->findEntity("groundEntity")) {
+	//	pGroundEntity->setPosition(Vector2(0, resH - 250));
+	//}
 
 	SEntitySpawnParams leftWall;
 	leftWall.entityName = "leftWall";
@@ -61,6 +61,22 @@ void CBox2DTestLevelController::configureLevel()
 	pRightWallPhysicsComponent->setBoundingBox(Vector2(10, resH*2));
 	pRightWallPhysicsComponent->setDynamic(false);
 	pRightWallPhysicsComponent->updateComponent();
+
+	SEntitySpawnParams polygonObj;
+	polygonObj.entityName = "polygonObject";
+	polygonObj.position = Vector2(10, 500);
+	IEntity* pPolygonObj = GetSystem()->GetEntitySystem()->spawnEntity(polygonObj);
+
+	S2DPhysicalizeParams params;
+	params.pEntity = pPolygonObj;
+	params.points.push_back(polygonObj.position);
+	params.points.push_back(polygonObj.position + Vector2(200, 10));
+	params.points.push_back(polygonObj.position + Vector2(500, 100));
+	params.points.push_back(polygonObj.position + Vector2(800, 100));
+	params.isDynamic = false;
+	params.isRotationLocked = true;
+	IPhysicalObject* pPhysicalObj = GetSystem()->GetPhysics()->EnablePhysics2D(params);
+	pPhysicalObj->SetDebugDraw(true);
 }
 
 /////////////////////////////////////////////////
