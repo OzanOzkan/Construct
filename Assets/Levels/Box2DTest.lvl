@@ -29,18 +29,18 @@
       ]
     },
     {
-      "name": "groundEntity",
+      "name": "backgroundEntity",
       "isActive": true,
       "position": {
-        "x": 0,
+        "x": -2300,
         "y": 0
       },
       "rotation": 0,
       "size": {
-        "width": 1700,
-        "height": 300
+        "width": 3920,
+        "height": 2220
       },
-      "tag": "ground",
+      "tag": "bground",
       "components": [
         {
           "componentType": "SpriteRendererEntityComponent",
@@ -52,27 +52,10 @@
           "rotation": 0,
           "tag": "",
           "componentProperties": {
-            "spriteFile": "Sprites/ground.png",
-            "width": 1700,
-            "height": 300,
+            "spriteFile": "Sprites/background/physics_test.png",
+            "width": 3920,
+            "height": 2220,
             "layerId": 10
-          }
-        },
-        {
-          "componentType": "Rigidbody2D",
-          "isActive": true,
-          "position": {
-            "x": 0,
-            "y": 0
-          },
-          "rotation": 0,
-          "tag": "",
-          "componentProperties": {
-            "width": 1700.0,
-            "height": 300.0,
-            "density": 1.0,
-            "friction": 0.1,
-            "isDynamic": false
           }
         }
       ]
