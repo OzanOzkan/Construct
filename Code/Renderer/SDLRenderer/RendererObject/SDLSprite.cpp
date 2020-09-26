@@ -60,12 +60,28 @@ void CSDLSprite::RenderCopy()
 	originalPosition.w = m_width;
 	originalPosition.h = m_height;
 
-	if (m_class == ERenderObjectClass::WORLD)
-	{
+	if (m_class == ERenderObjectClass::WORLD) {
 		Vector2 currentCameraPos = m_pRendererContext->GetCamera()->GetPosition();
-		originalPosition.x += currentCameraPos.x;
-		originalPosition.y += currentCameraPos.y;
+		originalPosition.x -= currentCameraPos.x;
+		originalPosition.y -= currentCameraPos.y;
 	}
+
+	// TODO: Zoom implementation. Needs refactoring and adaptation.
+	//if (m_class == ERenderObjectClass::WORLD) {
+	//	Vector2 currentCameraPos = m_pRendererContext->GetCamera()->GetPosition();
+	//	float currentZoomLevel = m_pRendererContext->GetCamera()->GetZoomLevel();
+	//	
+	//	originalPosition.x = ((m_position.x - (m_width / 2)) * currentZoomLevel) - currentCameraPos.x;
+	//	originalPosition.y = ((m_position.y - (m_height / 2)) * currentZoomLevel) - currentCameraPos.y;
+	//	originalPosition.w = m_width * currentZoomLevel;
+	//	originalPosition.h = m_height * currentZoomLevel;
+	//}
+	//else {
+	//	originalPosition.x = m_position.x;
+	//	originalPosition.y = m_position.y;
+	//	originalPosition.w = m_width;
+	//	originalPosition.h = m_height;
+	//}
 
 	if (!m_scrollingSprite)
 	{

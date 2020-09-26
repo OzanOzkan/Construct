@@ -7,6 +7,7 @@
 #include "RendererObject/SDLAnimatedSprite.h"
 #include "RendererObject/SDLText.h"
 #include "RendererObject/SDLRect.h"
+#include "RendererObject/SDLPolygon.h"
 
 /////////////////////////////////////////////////
 CSDLRenderer::CSDLRenderer(ISystem * systemContext)
@@ -26,6 +27,10 @@ void CSDLRenderer::InitializeModule()
 	m_pSDLWindow = SDL_GetWindowFromID(GetSystem()->GetWindowManager()->GetWindowId());
 	if(!m_pSDLWindow) GetSystem()->GetLogger()->Log("CSDLRenderer::InitializeModule(): Window Failure!");
 
+	int windowWidth;
+	int windowHeight;
+	SDL_GetWindowSize(m_pSDLWindow, &windowWidth, &windowHeight);
+
 	SDL_DestroyRenderer(SDL_GetRenderer(m_pSDLWindow));
 	m_pSDLRenderer = SDL_CreateRenderer(m_pSDLWindow, -1, SDL_RENDERER_ACCELERATED /*| SDL_RENDERER_PRESENTVSYNC*/);
 
@@ -36,8 +41,9 @@ void CSDLRenderer::InitializeModule()
 	if (TTF_Init() == -1)
 		GetSystem()->GetLogger()->Log("Renderer [SDL2]: TTF initialization failed!");
 
-	//SDL_RenderSetLogicalSize(m_pSDLRenderer, m_defaultRenderWidth, m_defaultRenderHeight);
 	SDL_SetRenderDrawBlendMode(m_pSDLRenderer, SDL_BLENDMODE_BLEND);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
 	//LoadTextures();
 
 	GetSystem()->GetLogger()->Log("Renderer Initialized: SDL2");
@@ -98,6 +104,11 @@ IRendererObject * CSDLRenderer::CreateRenderObject(const SRenderObjectParams & p
 		pRenderObject = std::make_unique<CSDLRect>(this, m_pSDLRenderer);
 	}
 	break;
+	case ERendererObjectType::eRT_POLYGON:
+	{
+		pRenderObject = std::make_unique<CSDLPolygon>(this, m_pSDLRenderer);
+	}
+	break;
 	}
 		
 	pRenderObject->setId(m_renderObjectList.size() > 0 ? m_renderObjectList.rbegin()->first + 1 : 0);
@@ -137,6 +148,9 @@ void CSDLRenderer::doRender()
 
 	// Clear SDL renderer.
 	SDL_RenderClear(m_pSDLRenderer);
+
+	//auto windowSize = GetSystem()->GetWindowManager()->GetWindowSize();
+	//setResolution(windowSize.width, windowSize.height);
 
 	for (auto& pRenderLayerEntry : m_renderLayerMap)
 	{
