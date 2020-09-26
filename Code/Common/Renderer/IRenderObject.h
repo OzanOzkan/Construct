@@ -21,6 +21,7 @@ enum class ERendererObjectType
 {
 	eRT_NONE = 0,
 	eRT_RECT,
+	eRT_POLYGON,
 	eRT_SPRITE,
 	eRT_ANIMATED_SPRITE,
 	eRT_TEXT
@@ -97,6 +98,23 @@ class IRect : public IRendererObject
 	
 };
 /////////// ~Rect
+
+/////////// Polygon
+struct SPolygonParams : public SRenderObjectParams
+{
+	SPolygonParams() noexcept { type = ERendererObjectType::eRT_POLYGON; }
+};
+
+class IPolygon : public IRendererObject
+{
+public:
+	virtual void AddVertice(const Vector2& point) { m_vertices.push_back(point); }
+
+protected:
+	std::vector<Vector2> m_vertices;
+};
+
+/////////// ~Polygon
 
 /////////// Sprite
 struct SSpriteParams : public SRenderObjectParams

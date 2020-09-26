@@ -5,7 +5,7 @@
 
 /////////////////////////////////////////////////
 CB2DPhysicalObject::CB2DPhysicalObject(ISystem* systemContext, const S2DPhysicalizeParams& params, b2Body* pB2Body)
-	: CB2DObject(systemContext, params.pEntity, params.bbox, params.isRotationLocked, params.isDynamic, pB2Body)
+	: CB2DObject(systemContext, params.pEntity, params.bbox, params.points, params.isRotationLocked, params.isDynamic, pB2Body)
 	, m_density(params.density)
 	, m_friction(params.friction)
 {

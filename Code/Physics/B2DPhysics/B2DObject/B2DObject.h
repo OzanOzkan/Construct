@@ -10,8 +10,9 @@
 class CB2DObject : public IPhysicalObject
 {
 public:
-	CB2DObject(ISystem* systemContext, IEntity* pEntity, const Vector2& bbox,
-		const bool& isRotationLocked, const bool& isDynamic, b2Body* pB2Body);
+	CB2DObject(ISystem* systemContext, IEntity* pEntity, const Vector2& bbox, 
+		const std::vector<Vector2>& vertices, const bool& isRotationLocked, 
+		const bool& isDynamic, b2Body* pB2Body);
 
 	void PrePhysicsUpdate() {}
 	void PostPhysicsUpdate();
@@ -35,6 +36,7 @@ protected:
 	ISystem* m_pSystem;
 	IEntity* m_pEntity;
 	Vector2 m_bbox;
+	std::vector<Vector2> m_vertices;
 	bool m_isDynamic;
 	bool m_isRotationLocked;
 	b2Body* m_pB2Body;
@@ -42,4 +44,5 @@ protected:
 	const float m_P2M;
 	bool m_isDebugDrawEnabled;
 	IRect* m_pDebugDrawRect;
+	IPolygon* m_pDebugPolygon;
 };

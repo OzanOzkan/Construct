@@ -2,7 +2,7 @@
 
 /////////////////////////////////////////////////
 CB2DSensorObject::CB2DSensorObject(ISystem* systemContext, const SCollisionListenerParams& params, b2Body* pB2Body)
-	: CB2DObject(systemContext, params.pEntity, Vector2(params.w, params.h), false, true, pB2Body)
+	: CB2DObject(systemContext, params.pEntity, Vector2(params.w, params.h), {}, false, true, pB2Body)
 	, m_relativePositionToEntity(params.relativePosToEntity)
 {
 }

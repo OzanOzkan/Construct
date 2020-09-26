@@ -6,6 +6,7 @@
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
 #include <box2d/b2_contact.h>
+#include <box2d/b2_chain_shape.h>
 
 /////////////////////////////////////////////////
 CB2DPhysics::CB2DPhysics(ISystem* systemContext)
@@ -126,17 +127,35 @@ std::unique_ptr<CB2DPhysicalObject> CB2DPhysics::createPhysicalObject(const S2DP
 	b2BodyDef bodyDef;
 	bodyDef.type = params.isDynamic ? b2_dynamicBody : b2_staticBody;
 
-	// Box2D uses center point as a position. Convert top left corner pos to center pos
-	bodyDef.position.Set((params.pEntity->getPosition().x + params.bbox.x / 2) * m_P2M, 
-		(params.pEntity->getPosition().y + params.bbox.y / 2) * m_P2M);
-
-	b2PolygonShape bbox;
-	bbox.SetAsBox((params.bbox.x / 2) * m_P2M, (params.bbox.y / 2) * m_P2M);
-
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &bbox;
 	fixtureDef.density = params.density;
 	fixtureDef.friction = params.friction;
+
+	b2PolygonShape bbox;
+	b2ChainShape chain;
+
+	if (params.points.empty()) {
+		// Box2D uses center point as a position. Convert top left corner pos to center pos
+		bodyDef.position.Set((params.pEntity->getPosition().x + params.bbox.x / 2) * m_P2M,
+			(params.pEntity->getPosition().y + params.bbox.y / 2) * m_P2M);
+
+		bbox.SetAsBox((params.bbox.x / 2) * m_P2M, (params.bbox.y / 2) * m_P2M);
+		fixtureDef.shape = &bbox;
+	}
+	else {
+		bodyDef.position.Set(params.pEntity->getPosition().x * m_P2M, params.pEntity->getPosition().y * m_P2M);
+
+		b2Vec2* vertices = new b2Vec2[params.points.size()];
+		
+		for (int i = 0; i < params.points.size(); ++i) {
+			vertices[i].Set(params.points[i].x * m_P2M, params.points[i].y * m_P2M);
+		}
+
+		chain.CreateChain(vertices, params.points.size());
+		fixtureDef.shape = &chain;
+
+		delete[] vertices;
+	}
 
 	b2Body* body = m_b2World->CreateBody(&bodyDef);
 	body->CreateFixture(&fixtureDef)->SetUserData((void*)params.pEntity);

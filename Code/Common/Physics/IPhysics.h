@@ -4,6 +4,8 @@
 #include "../IModule.h"
 #include "../System/EntitySystem/IEntity.h"
 
+#include <vector>
+
 enum class EPhysics : int
 {
 	NONE = 0,
@@ -23,6 +25,7 @@ struct S2DPhysicalizeParams
 	float density = 1.0f;
 	float friction = 0.1f;
 	Vector2 bbox{ 1.f, 1.f };
+	std::vector<Vector2> points;
 	bool isDynamic = true;
 	bool isRotationLocked = false;
 };
