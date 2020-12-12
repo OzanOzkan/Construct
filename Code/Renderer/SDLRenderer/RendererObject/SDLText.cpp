@@ -28,10 +28,10 @@ void CSDLText::Load(const SRenderObjectParams& params)
 
 	if (m_font.empty())
 	{
-		m_font = m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + "Fonts/ARIAL.TTF";
+		m_font = "Fonts/ARIAL.TTF";
 	}
 
-	m_pSDLFont = TTF_OpenFont(getFont().c_str(), m_fontSize);
+	m_pSDLFont = TTF_OpenFont(std::string(m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + getFont()).c_str(), m_fontSize);
 
 	PrepareText();
 }
