@@ -50,12 +50,24 @@ void CFileManager::writeFile(const std::string & file, const std::string & data)
 }
 
 /////////////////////////////////////////////////
+std::string CFileManager::findFileRecursiveSearchToUpperDirs(const std::string& searchPath, const std::string& fileName)
+{
+	auto files = getFilesInDirectory(searchPath);
+	if (std::find(files.begin(), files.end(), fileName) != files.end()) {
+		return searchPath;
+	}
+	else {
+		return findFileRecursiveSearchToUpperDirs(searchPath + "\\..\\", fileName);
+	}
+}
+
+/////////////////////////////////////////////////
 std::string CFileManager::getAssetsDirectory()
 {
-	// Temporary implementation.
+	std::string assetsDirName = "Assets";
 
 #ifdef _WIN32
-	return "E:/Development/ProjectO01/Assets/";
+	return findFileRecursiveSearchToUpperDirs(getWorkingDir(), assetsDirName) + "/" + assetsDirName + "/";
 #else
 	return "";
 #endif
@@ -94,5 +106,8 @@ TDirectoryFileList CFileManager::getFilesInDirectory(const std::string& director
 /////////////////////////////////////////////////
 TDirectoryFileList CFileManager::getFilesInDirectory(const std::string& directory, const std::string& extension)
 {
+	// Not implemented yet.
 	return TDirectoryFileList();
 }
+
+

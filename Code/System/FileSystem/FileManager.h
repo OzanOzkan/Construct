@@ -14,6 +14,7 @@ public:
 	TDirectoryFileList getFilesInDirectory(const std::string& directory, const std::string& extension) override;
 	std::string readFile(const std::string& file) override;
 	void writeFile(const std::string& file, const std::string& data) override;
+	std::string findFileRecursiveSearchToUpperDirs(const std::string& searchPath, const std::string& fileName);
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }
