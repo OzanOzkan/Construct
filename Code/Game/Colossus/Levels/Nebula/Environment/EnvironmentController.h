@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <System/EntitySystem/IEntity.h>
@@ -25,6 +21,10 @@ private:
 
 private:
 	int m_resW, m_resH;
+	float m_enemySpawnTime;
+	float m_previousEnemySpawnTime;
+	float m_envObjectSpawnTime;
+	float m_previousEnvObjectSpawnTime;
 	SpriteRendererEntityComponent* m_pScrollingBgComponent;
 };
 

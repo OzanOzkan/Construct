@@ -10,19 +10,15 @@ set(ROOT_SRC
 )
 
 set(LEVELS_SRC
-	"Levels/ILevel.h"
-	"Levels/LevelController.h"
-	"Levels/LevelController.cpp"
+
 )
 
 set(MAINMENU_SRC
-	"Levels/MainMenu/MainMenu.h"
-	"Levels/MainMenu/MainMenu.cpp"
+	"Levels/MainMenu/MainMenuButtonController.h"
+	"Levels/MainMenu/MainMenuButtonController.cpp"
 )
 
 set(NEBULA_ROOT_SRC
-	"Levels/Nebula/Nebula.h"
-	"Levels/Nebula/Nebula.cpp"
 	"Levels/Nebula/EnemyShip.h"
 	"Levels/Nebula/EnemyShip.cpp"
 )
@@ -36,6 +32,11 @@ set(NEBULA_PLAYER_SRC
 	"Levels/Nebula/Player/Missile.cpp"
 )
 
+set(NEBULA_UI_SRC
+	"Levels/Nebula/UI/DirectionButtonController.h"
+	"Levels/Nebula/UI/DirectionButtonController.cpp"
+)
+
 set(NEBULA_ENVIRONMENT_SRC
 	"Levels/Nebula/Environment/EnvironmentController.h"
 	"Levels/Nebula/Environment/EnvironmentController.cpp"
@@ -43,24 +44,32 @@ set(NEBULA_ENVIRONMENT_SRC
 	"Levels/Nebula/Environment/EnvironmentObject.cpp"
 	)
 
-set(ISOMETRICA_ROOT_SRC
-	"Levels/Isometrica/Isometrica.h"
-	"Levels/Isometrica/Isometrica.cpp"
+set(ISOMETRIC_ROOT_SRC
+
 )
 
-set(ISOMETRICA_PLAYER_SRC
-	"Levels/Isometrica/Player/PlayerView.h"
-	"Levels/Isometrica/Player/PlayerView.cpp"
+set(ISOMETRIC_PLAYER_SRC
+	"Levels/Isometric/Player/PlayerView.h"
+	"Levels/Isometric/Player/PlayerView.cpp"
 )
 
-set(ISOMETRICA_ENVIRONMENT_SRC
-	"Levels/Isometrica/Environment/IsometricaEnvironmentController.h"
-	"Levels/Isometrica/Environment/IsometricaEnvironmentController.cpp"
+set(PHYSICS
+	"Levels/Physics/PhysicsLevelController.h"
+	"Levels/Physics/PhysicsLevelController.cpp"
+	"Levels/Physics/PhysicalizedObjectController.h"
+	"Levels/Physics/PhysicalizedObjectController.cpp"
 )
 
-set(PHYSICA
-	"Levels/Physica/Physica.h"
-	"Levels/Physica/Physica.cpp"
+set(SIDESCROLLER_SRC
+	"Levels/SideScroller/SideScrollerLevelController.h"
+	"Levels/SideScroller/SideScrollerLevelController.cpp"
+	"Levels/SideScroller/SideScrollerPlayerController.h"
+	"Levels/SideScroller/SideScrollerPlayerController.cpp"
+)
+
+set(Box2D_SRC
+	"Levels/Box2DTest/Box2DTestLevelController.h"
+	"Levels/Box2DTest/Box2DTestLevelController.cpp"
 )
 
 source_group(" " FILES ${ROOT_SRC})
@@ -70,10 +79,12 @@ source_group("Levels\\MainMenu" FILES ${MAINMENU_SRC})
 source_group("Levels\\Nebula" FILES ${NEBULA_ROOT_SRC})
 source_group("Levels\\Nebula\\Player" FILES ${NEBULA_PLAYER_SRC})
 source_group("Levels\\Nebula\\Environment" FILES ${NEBULA_ENVIRONMENT_SRC})
-source_group("Levels\\Isometrica" FILES ${ISOMETRICA_ROOT_SRC})
-source_group("Levels\\Isometrica\\Player" FILES ${ISOMETRICA_PLAYER_SRC})
-source_group("Levels\\Isometrica\\Environment" FILES ${ISOMETRICA_ENVIRONMENT_SRC})
-source_group("Levels\\Physica" FILES ${PHYSICA})
+source_group("Levels\\Nebula\\UI" FILES ${NEBULA_UI_SRC})
+source_group("Levels\\Isometric" FILES ${ISOMETRIC_ROOT_SRC})
+source_group("Levels\\Isometric\\Player" FILES ${ISOMETRIC_PLAYER_SRC})
+source_group("Levels\\Physics" FILES ${PHYSICS})
+source_group("Levels\\SideScroller" FILES ${SIDESCROLLER_SRC})
+source_group("Levels\\Box2DTest" FILES ${Box2D_SRC})
 
 include_directories("${SRC_DIR}/Plugins")
 
@@ -85,10 +96,12 @@ add_library (${PROJECT_NAME}
 	${NEBULA_ROOT_SRC}
 	${NEBULA_PLAYER_SRC}
 	${NEBULA_ENVIRONMENT_SRC}
-	${ISOMETRICA_ROOT_SRC}
-	${ISOMETRICA_PLAYER_SRC}
-	${ISOMETRICA_ENVIRONMENT_SRC}
-	${PHYSICA}
+	${NEBULA_UI_SRC}
+	${ISOMETRIC_ROOT_SRC}
+	${ISOMETRIC_PLAYER_SRC}
+	${PHYSICS}
+	${SIDESCROLLER_SRC}
+	${Box2D_SRC}
 )
 
 # System link is mandatory due to singleton EntityComponent factory.

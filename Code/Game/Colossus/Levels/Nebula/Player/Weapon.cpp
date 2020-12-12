@@ -6,26 +6,27 @@
 #include "Missile.h"
 
 CWeapon::CWeapon()
-	:tempCounter(0)
+	: m_missleSpawnSpeed(0.1f)
 {
 }
 
 void CWeapon::Init()
 {
+	getEntity()->setTimer(m_missleSpawnSpeed);
 }
 
 unsigned int CWeapon::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE;
+	return EEntityEvent::ENTITY_EVENT_TIMER_TICK;
 }
 
 void CWeapon::onEvent(const SEntityEvent & event)
 {
 	switch (event.GetEvent())
 	{
-	case EEntityEvent::ENTITY_EVENT_UPDATE:
+	case EEntityEvent::ENTITY_EVENT_TIMER_TICK:
 	{
-		updateEvent();
+		spawnMissile();
 	}
 	break;
 	}
@@ -35,17 +36,11 @@ void CWeapon::updateComponent()
 {
 }
 
-void CWeapon::updateEvent()
+void CWeapon::spawnMissile()
 {
-	++tempCounter;
-
-	if (tempCounter > 5)
-	{
-		SEntitySpawnParams params;
-		params.entityName = "Missile";
-		params.position = getEntity()->getPosition() + getPosition();
-		const CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>();
-
-		tempCounter = 0;
-	}
+	SEntitySpawnParams params;
+	params.entityName = "Missile";
+	params.position = getEntity()->getPosition() + getPosition();
+	const CMissile* pMissileEntity = GetSystem()->GetEntitySystem()->spawnEntity(params)->addEntityComponent<CMissile>();
+	getEntity()->setTimer(m_missleSpawnSpeed);
 }

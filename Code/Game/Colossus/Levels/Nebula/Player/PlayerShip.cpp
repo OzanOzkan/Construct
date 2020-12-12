@@ -19,7 +19,7 @@ CPlayerShip::CPlayerShip()
 void CPlayerShip::Init()
 {
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/PlayerShip.png");
+	m_pSpriteRendererComponent->setFile("Sprites/PlayerShip.png");
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 

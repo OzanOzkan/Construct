@@ -1,0 +1,159 @@
+{
+  "levelName": "Physics",
+  "entityList": [
+    {
+      "name": "levelController",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "CPhysicsLevelController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "groundEntity",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 1700,
+        "height": 300
+      },
+      "tag": "ground",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/ground.png",
+            "width": 1700,
+            "height": 300,
+            "layerId": 10
+          }
+        },
+        {
+          "componentType": "CollisionEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "width": 1700,
+            "height": 300,
+            "debugDraw": false
+          }
+        }
+      ]
+    },
+    {
+      "name": "PhysicalizedObjectEntity",
+      "isActive": true,
+      "position": {
+        "x": 300,
+        "y": 50
+      },
+      "rotation": 0,
+      "size": {
+        "width": 140,
+        "height": 140
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/tntbox.png",
+            "layerId": 10
+          }
+        },
+        {
+          "componentType": "CollisionEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "width": 140,
+            "height": 140,
+            "debugDraw": false
+          }
+        },
+        {
+          "componentType": "Rigidbody2D",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "mass": 0.1
+          }
+        },
+        {
+          "componentType": "OnSelectionListenerEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        },
+        {
+          "componentType": "CPhysicalizedObjectController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    }
+  ]
+}

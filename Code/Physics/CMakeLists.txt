@@ -6,28 +6,40 @@ set(ROOT_SRC
   "Physics.cpp"
 )
 
-set(SDLPHYSICS_SRC
-	"SDLPhysics/SDLPhysics.h"
-	"SDLPhysics/SDLPhysics.cpp"
+set(BOX2DPHYSICS_SRC
+	"B2DPhysics/B2DPhysics.h"
+	"B2DPhysics/B2DPhysics.cpp"
+)
+
+set(BOX2DOBJECT_SRC
+	"B2DPhysics/B2DObject/B2DObject.h"
+	"B2DPhysics/B2DObject/B2DObject.cpp"
+	"B2DPhysics/B2DObject/B2DPhysicalObject.h"
+	"B2DPhysics/B2DObject/B2DPhysicalObject.cpp"
+	"B2DPhysics/B2DObject/B2DSensorObject.h"
+	"B2DPhysics/B2DObject/B2DSensorObject.cpp"
 )
 
 source_group(" " FILES ${ROOT_SRC})
-source_group("SDLPhysics" FILES ${SDLPHYSICS_SRC})
+source_group("B2DPhysics" FILES ${BOX2DPHYSICS_SRC})
+source_group("B2DPhysics" FILES ${BOX2DPHYSICS_SRC})
+source_group("B2DPhysics\\B2DObject" FILES ${BOX2DOBJECT_SRC})
 
-find_package(SDL2 REQUIRED)
+find_package(Box2D REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${BOX2D_INCLUDE_DIR})
 
 add_library (${PROJECT_NAME} 
 	SHARED 
 		${ROOT_SRC} 
-		${SDLPHYSICS_SRC}
+		${BOX2DPHYSICS_SRC}
+		${BOX2DOBJECT_SRC}
 )
 
 target_link_libraries(${PROJECT_NAME} 
 	PUBLIC 
 		Common
-		${SDL2_LIBRARIES}
+		${BOX2D_LIBRARY}
 )
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

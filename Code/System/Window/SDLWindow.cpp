@@ -24,7 +24,7 @@ void CSDLWindow::openWindow(const int & height, const int & width, TEventCallbac
 	if(renderTarget)
 		m_pSDLWindow = SDL_CreateWindowFrom(renderTarget);
 	else
-		m_pSDLWindow = SDL_CreateWindow("Construct (SDL2)", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+		m_pSDLWindow = SDL_CreateWindow("Construct (SDL2)", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, /*SDL_WINDOW_FULLSCREEN*/ SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 #else
 	//Get device display mode
 	SDL_Rect gScreenRect = { 0, 0, 320, 240 };
@@ -90,6 +90,14 @@ void CSDLWindow::handleEvent(const SDL_Event & SDLEvent)
 	case SDL_QUIT:
 	{
 		m_quit = true;
+	}
+	break;
+	case SDL_WINDOWEVENT:
+	{
+		if (SDLEvent.window.event == SDL_WINDOWEVENT_RESIZED) {
+			m_width = SDLEvent.window.data1;
+			m_height = SDLEvent.window.data2;
+		}
 	}
 	break;
 	}

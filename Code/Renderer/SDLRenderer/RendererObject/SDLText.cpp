@@ -28,10 +28,10 @@ void CSDLText::Load(const SRenderObjectParams& params)
 
 	if (m_font.empty())
 	{
-		m_font = m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + "Fonts/ARIAL.TTF";
+		m_font = "Fonts/ARIAL.TTF";
 	}
 
-	m_pSDLFont = TTF_OpenFont(getFont().c_str(), m_fontSize);
+	m_pSDLFont = TTF_OpenFont(std::string(m_pRendererContext->GetSystem()->getFileManager()->getAssetsDirectory() + getFont()).c_str(), m_fontSize);
 
 	PrepareText();
 }
@@ -73,6 +73,9 @@ void CSDLText::PrepareText()
 		TTF_SizeText(m_pSDLFont, lineText.c_str(), &rect.w, &rect.h);
 		rect.x = m_position.x;
 		rect.y = m_position.y + (line * m_fontSize);
+		
+		m_width = m_width < rect.w ? rect.w : m_width;
+		m_height += rect.h;
 
 		m_pSDLSurface = TTF_RenderText_Solid(m_pSDLFont, lineText.c_str(), color);
 

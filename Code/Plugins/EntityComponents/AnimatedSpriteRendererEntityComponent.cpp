@@ -56,7 +56,7 @@ void AnimatedSpriteRendererEntityComponent::updateComponent()
 
 	for (auto frameFile : m_frameFiles)
 	{
-		animatedSpriteParams.addFrameFile(frameFile);
+		animatedSpriteParams.addFrameFile(GetSystem()->getFileManager()->getAssetsDirectory() + frameFile);
 	}
 
 	m_pAnimatedSprite = static_cast<IAnimatedSprite*>(GetSystem()->GetRenderer()->CreateRenderObject(animatedSpriteParams));

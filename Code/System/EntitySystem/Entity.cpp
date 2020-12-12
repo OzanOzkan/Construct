@@ -1,22 +1,25 @@
 #include "Entity.h"
 
+#include <System/ITime.h>
 #include <ILog.h>
 
 #include <functional>
 
 /////////////////////////////////////////////////
-CEntity::CEntity(ISystem * systemContext)
-	: m_entityID (-1)
+CEntity::CEntity(ISystem* systemContext)
+	: m_entityID(-1)
 	, m_entityName("")
 	, m_isActive(true)
 	, m_tag("")
 	, m_entityComponents()
 	, m_entityPosition(0.f, 0.f)
+	, m_entityRotation(0)
 	, m_width(0.f)
 	, m_height(0.f)
 	, m_isMarkedToDelete(false)
+	, m_timerSec(0.f)
 	, m_timerSet(false)
-	, m_timerSetTime(-1)
+	, m_timerSetTime(0.f)
 {
 	m_pSystem = systemContext;
 }
@@ -58,20 +61,49 @@ void CEntity::HandleEntityEventInternal(const SEntityEvent& event)
 {
 	switch (event.GetEvent())
 	{
+	case EEntityEvent::ENTITY_EVENT_PREUPDATE:
+	{
+		// Swipe entity components marked to delete.
+		removeEntityComponentInternal();
+	}
+	break;
 	case EEntityEvent::ENTITY_EVENT_UPDATE:
 	{
 		// Entity timer
 		if (m_timerSet)
 		{
-			if (GetSystem()->getTime() - m_timerSetTime >= m_timerSec)
+			if (GetSystem()->GetTime()->GetSystemTime() - m_timerSetTime >= m_timerSec)
 			{
-				sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_TIMER_TICK });
 				m_timerSet = false;
+				sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_TIMER_TICK });
 			}
 		}
 	}
 	break;
 	}
+}
+
+/////////////////////////////////////////////////
+void CEntity::removeEntityComponentInternal()
+{
+	while (!m_componentsToDelete.empty()) {
+		IEntityComponent* pComponentToRemove = m_componentsToDelete.front();
+		for (auto itr = m_entityComponents.begin(); itr != m_entityComponents.end(); ++itr) {
+			if (itr->second.get() == pComponentToRemove) {
+				itr->second->onEvent(EEntityEvent::ENTITY_COMPONENT_REMOVED);
+				m_entityComponents.erase(itr);
+				break;
+			}
+		}
+
+		m_componentsToDelete.pop();
+	}
+}
+
+/////////////////////////////////////////////////
+void CEntity::removeEntityComponent(IEntityComponent* pEntityComponent)
+{
+	m_componentsToDelete.push(pEntityComponent);
 }
 
 /////////////////////////////////////////////////
@@ -104,6 +136,6 @@ std::vector<IEntityComponent*> CEntity::getEntityComponentsInternal(const std::s
 void CEntity::setTimer(const float& seconds)
 {
 	m_timerSet = true;
-	m_timerSetTime = GetSystem()->getTime();
+	m_timerSetTime = GetSystem()->GetTime()->GetSystemTime();
 	m_timerSec = seconds;
 }

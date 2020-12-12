@@ -18,9 +18,14 @@ public:
 	int getEntityCount() const override;
 	void addEntityEventListener(IEntity* pEntity) override;
 	void removeEntityEventListener(IEntity* pEntity) override;
+	std::vector<IEntity*> getEntities() override;
+	IEntity* findEntity(const std::string& entityName) override;
+	IEntity* findEntity(const int& entityId) override;
 	// ~IEntitySystem
 
-	void onUpdate() override;
+	void onPreUpdate();
+	void onUpdate();
+	void onPostUpdate();
 
 private:
 	ISystem * GetSystem() { return m_pSystem; }

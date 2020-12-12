@@ -12,10 +12,13 @@ LOCAL_CPPFLAGS += -std=c++17
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_C_INCLUDES := $(ENGINE_CODE_PATH)/Common
+LOCAL_C_INCLUDES += $(SDL_PATH)/include
 
 LOCAL_SRC_FILES := \
 	$(wildcard $(MODULE_DIR)/*.cpp) \
 	$(wildcard $(MODULE_DIR)/SDLInput/*.cpp)
+
+LOCAL_SHARED_LIBRARIES := SDL2
 
 LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES
 LOCAL_CFLAGS += \

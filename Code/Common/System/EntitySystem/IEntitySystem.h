@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <vector>
 
 class IEntity;
 class IEntityComponent;
@@ -27,12 +28,12 @@ public:
 	virtual int getEntityCount() const = 0;
 	virtual void addEntityEventListener(IEntity* pEntity) = 0;
 	virtual void removeEntityEventListener(IEntity* pEntity) = 0;
+    virtual std::vector<IEntity*> getEntities() = 0;
+    virtual IEntity* findEntity(const std::string& entityName) = 0;
+    virtual IEntity* findEntity(const int& entityId) = 0;
 
     // Singleton Abstract Factory for EntityComponents
     static IEntityComponentFactory& getEntityComponentFactory();
-
-	// Will be removed.
-	virtual void onUpdate() = 0;
 };
 
 class IEntityComponentFactory

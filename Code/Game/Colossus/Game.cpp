@@ -1,10 +1,7 @@
 #include "Game.h"
 
-#include "Levels/LevelController.h"
 #include <Renderer/IRenderer.h>
-
-#include <System/EntitySystem/IEntitySystem.h>
-#include <System/EntitySystem/IEntityComponent.h>
+#include <System/LevelSystem/ILevelSystem.h>
 
 extern "C"
 {
@@ -20,7 +17,6 @@ extern "C"
 CGame::CGame(ISystem* systemContext) noexcept
 	: m_pSystem(systemContext)
 {
-
 }
 
 /////////////////////////////////////////////////
@@ -30,17 +26,11 @@ void CGame::InitializeModule()
 	constexpr int height = 2220;
 	GetSystem()->GetRenderer()->setResolution(width, height);
 
-	loadLevel();
+	GetSystem()->GetLevelSystem()->loadLevel("MainMenu");
 }
 
 /////////////////////////////////////////////////
 void CGame::onUpdate()
 {
-	CLevelController::getInstance(m_pSystem).onUpdate();
-}
 
-/////////////////////////////////////////////////
-void CGame::loadLevel()
-{
-	CLevelController::getInstance(m_pSystem).loadLevel(ELevel::MAIN_MENU);
 }

@@ -15,6 +15,12 @@ public:
 	void updateComponent() override;
 	// ~IEntityComponent
 
+	void getClassDesc(std::map<std::string, void*>& desc) {
+		desc.emplace("width", &m_width);
+		desc.emplace("height", &m_height);
+		desc.emplace("debugDraw", &m_isDebugDraw);
+	}
+
 	void SetSize(const int& w, const int& h);
 	void getSize(int& w, int& h);
 	Vector2 getCenter();

@@ -17,14 +17,16 @@ LOCAL_C_INCLUDES += \
 
 LOCAL_SRC_FILES := \
   $(wildcard $(MODULE_DIR)/Colossus/Levels/*.cpp) \
-	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/*.cpp) \
-	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/Environment/*.cpp) \
-	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometrica/Player/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometric/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Isometric/Player/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/MainMenu/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/*.cpp) \
-	$(wildcard $(MODULE_DIR)/Colossus/Levels/Physica/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Physics/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/UI/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Environment/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/Levels/Nebula/Player/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/SideScroller/*.cpp) \
+	$(wildcard $(MODULE_DIR)/Colossus/Levels/Box2DTest/*.cpp) \
 	$(wildcard $(MODULE_DIR)/Colossus/*.cpp)
 
 LOCAL_SHARED_LIBRARIES := BokPlugins BokSystem

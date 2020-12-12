@@ -1,0 +1,64 @@
+{
+  "levelName": "Box2DTest",
+  "entityList": [
+    {
+      "name": "levelController",
+      "isActive": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 0,
+        "height": 0
+      },
+      "tag": "",
+      "components": [
+        {
+          "componentType": "CBox2DTestLevelController",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {}
+        }
+      ]
+    },
+    {
+      "name": "backgroundEntity",
+      "isActive": true,
+      "position": {
+        "x": -2300,
+        "y": 0
+      },
+      "rotation": 0,
+      "size": {
+        "width": 3920,
+        "height": 2220
+      },
+      "tag": "bground",
+      "components": [
+        {
+          "componentType": "SpriteRendererEntityComponent",
+          "isActive": true,
+          "position": {
+            "x": 0,
+            "y": 0
+          },
+          "rotation": 0,
+          "tag": "",
+          "componentProperties": {
+            "spriteFile": "Sprites/background/physics_test.png",
+            "width": 3920,
+            "height": 2220,
+            "layerId": 10
+          }
+        }
+      ]
+    }
+  ]
+}

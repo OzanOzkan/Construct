@@ -21,7 +21,7 @@ CMissile::CMissile()
 void CMissile::Init()
 {
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/Missile1.png");
+	m_pSpriteRendererComponent->setFile("Sprites/Missile1.png");
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
 
@@ -78,7 +78,7 @@ void CMissile::updateComponent()
 void CMissile::updateEvent()
 {
 	// Move the missile as an entity at each update.
-	getEntity()->setPosition(getEntity()->getPosition() - Vector2(0, 30));
+	getEntity()->setPosition(getEntity()->getPosition() - (Vector2(0, 1500.f) * GetSystem()->GetTime()->GetDeltaTime()));
 }
 
 /////////////////////////////////////////////////

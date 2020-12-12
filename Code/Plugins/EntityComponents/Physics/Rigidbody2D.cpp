@@ -1,97 +1,78 @@
 #include "Rigidbody2D.h"
 
-#include "../CollisionEntityComponent.h"
-#include <Physics/IPhysics.h>
-#include "ILog.h"
+#include <System/EntitySystem/IEntity.h>
 
 /////////////////////////////////////////////////
 Rigidbody2D::Rigidbody2D()
-	: m_isCollided(false)
+	: m_pPhysicalObject(nullptr)
+	, m_boundingBox({1.f,1.0f})
+	, m_density(1.f)
+	, m_friction(0.1f)
+	, m_isDynamic(true)
 {
 }
 
 /////////////////////////////////////////////////
 void Rigidbody2D::Init()
 {
+
 }
 
 /////////////////////////////////////////////////
 unsigned int Rigidbody2D::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_COLLISION;
+	return ENTITY_EVENT_UPDATE | ENTITY_LEVEL_LOAD_END;
 }
 
 /////////////////////////////////////////////////
-void Rigidbody2D::onEvent(const SEntityEvent & event)
+void Rigidbody2D::onEvent(const SEntityEvent& event)
 {
-	switch (event.GetEvent())
-	{
-	case EEntityEvent::ENTITY_EVENT_UPDATE:
-	{
-		processUpdateEvent();
-		m_isCollided = false;
-	}
-	break;
-	case EEntityEvent::ENTITY_EVENT_COLLISION:
-	{
-		if (CollisionEntityComponent* pCollisionEntityComponent = getEntity()->getEntityComponent<CollisionEntityComponent>())
-		{
-			Vector2 collisionPoint = event.GetData<SPhysicsEventData>()->collisionPoint;
-			Vector2 centerPoint = pCollisionEntityComponent->getCenter();
-
-			if (collisionPoint.y > centerPoint.y)
-				m_isCollided = true;
-		}
-	}
-	break;
+	if (event.GetEvent() == ENTITY_LEVEL_LOAD_END) {
+		createPhysicalizedObject();
 	}
 }
 
 /////////////////////////////////////////////////
 void Rigidbody2D::updateComponent()
 {
+	createPhysicalizedObject();
 }
 
 /////////////////////////////////////////////////
-void Rigidbody2D::applyForce(const float & force)
+void Rigidbody2D::applyForce(const Vector2& force)
 {
-	this->force = force;
-	this->velocity = force;
-	m_isCollided = false;
+	if (m_pPhysicalObject) {
+		m_pPhysicalObject->ApplyForce(force);
+	}
 }
 
 /////////////////////////////////////////////////
-void Rigidbody2D::processUpdateEvent()
+void Rigidbody2D::applyLinearImpulse(const Vector2& impulse)
 {
-	if (force < 0.1f)
-		m_isCollided = false;
-
-	if (m_isCollided)
-	{
-		t = 0.0;
-		dt = 0.1f;
-		velocity = 0.0f;
-		position = 0.0f;
-		force = 0.1f;
-		return;
+	if (m_pPhysicalObject) {
+		m_pPhysicalObject->ApplyLinearImpulse(impulse);
 	}
+}
 
-	if(t <= 10.0)
-	{
-		if (force < 0.1f)
-		{
-			force += 0.005f;
-		}
+/////////////////////////////////////////////////
+void Rigidbody2D::createPhysicalizedObject()
+{
+	removePhysicalizedObject();
 
-		if (velocity > 0.0f)
-		{
-			velocity += 0.005f;
-		}
+	S2DPhysicalizeParams params;
+	params.pEntity = getEntity();
+	params.density = m_density;
+	params.friction = m_friction;
+	params.bbox = m_boundingBox;
+	params.isDynamic = m_isDynamic;
 
-		position = position + velocity * dt;
-		velocity = velocity + (force / mass) * dt;
-		t += dt;
+	m_pPhysicalObject = GetSystem()->GetPhysics()->EnablePhysics2D(params);
+}
+
+/////////////////////////////////////////////////
+void Rigidbody2D::removePhysicalizedObject()
+{
+	if (m_pPhysicalObject) {
+		GetSystem()->GetPhysics()->RemovePhysicalObject(getEntity());
 	}
-
-	getEntity()->setPosition(Vector2(getEntity()->getPosition().x, getEntity()->getPosition().y + position));
 }

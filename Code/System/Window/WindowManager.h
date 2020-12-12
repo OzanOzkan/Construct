@@ -1,7 +1,3 @@
-/* Copyright (C) 2019 Ozan Ozkan
-* All of the implementations are experimental and subject to change.
-*/
-
 #pragma once
 
 #include <memory>
@@ -11,12 +7,9 @@
 #include <System/ISystem.h>
 #include "Window.h"
 
-//#include "GLFWWindow.h"
-
 enum class EWindowType
 {
 	eWT_NONE = 0,
-	//eWT_GLFW,
 	eWT_SDL2
 };
 
@@ -32,7 +25,9 @@ public:
 	// ~IWindowManager
 
 	void initWindow(const EWindowType& windowType, void* renderTarget);
+	void onPreUpdate() {}
 	void onUpdate();
+	void onPostUpdate() {}
 
 	void registerWindowEvents(IWindowEventListener* listener);
 	void unregisterWindowEvents(IWindowEventListener* listener);

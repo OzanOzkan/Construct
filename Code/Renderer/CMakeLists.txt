@@ -28,6 +28,8 @@ set(RENDEREROBJECT
 	"SDLRenderer/RendererObject/SDLText.cpp"
 	"SDLRenderer/RendererObject/SDLRect.h"
 	"SDLRenderer/RendererObject/SDLRect.cpp"
+	"SDLRenderer/RendererObject/SDLPolygon.h"
+	"SDLRenderer/RendererObject/SDLPolygon.cpp"
 )
 
 source_group(" " FILES ${ROOT_SRC})

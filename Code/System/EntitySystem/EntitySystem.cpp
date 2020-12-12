@@ -52,58 +52,78 @@ void CEntitySystem::removeEntityEventListener(IEntity * pEntity)
 }
 
 /////////////////////////////////////////////////
-void CEntitySystem::onUpdate()
+std::vector<IEntity*> CEntitySystem::getEntities()
+{
+	std::vector<IEntity*> retList;
+
+	for (auto& entityMapEntry : m_entityList)
+	{
+		retList.push_back(entityMapEntry.second.get());
+	}
+
+	return retList;
+}
+
+/////////////////////////////////////////////////
+IEntity* CEntitySystem::findEntity(const std::string& entityName)
+{
+	IEntity* pRetEntity = nullptr;
+
+	for (auto& entity : m_entityList) {
+		if (entity.second.get()->getName().compare(entityName) == 0) {
+			pRetEntity = entity.second.get();
+			break;
+		}
+	}
+
+	return pRetEntity;
+}
+
+/////////////////////////////////////////////////
+IEntity* CEntitySystem::findEntity(const int& entityId)
+{
+	IEntity* pRetEntity = nullptr;
+
+	auto itFoundEntity = m_entityList.find(entityId);
+	if (itFoundEntity != m_entityList.end()) {
+		pRetEntity = itFoundEntity->second.get();
+	}
+	
+	return pRetEntity;
+}
+
+/////////////////////////////////////////////////
+void CEntitySystem::onPreUpdate()
 {
 	auto itr = m_entityList.begin();
-	while (itr != m_entityList.end())
-	{
-		if (itr->second->IsMarkedToDelete())
-		{
+	while (itr != m_entityList.end()){
+		if (itr->second->IsMarkedToDelete()){
 			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_DESTROY });
 			itr = m_entityList.erase(itr);
 		}
-		else
-		{
-			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_UPDATE });
+		else {
+			itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_PREUPDATE });
 			++itr;
 		}
-			
 	}
 }
 
-//std::map<std::string, EntityComponentFactory::TCreateMethod> EntityComponentFactory::s_methods;
-//std::map<std::string, EntityComponentFactory::EntityComponentDescriptor> m_descriptors;
-//
-//bool EntityComponentFactory::Register(const std::string name, EntityComponentFactory::TCreateMethod funcCreate)
-//{
-//	if (auto it = s_methods.find(name); it == s_methods.end())
-//	{ // C++17 init-if ^^
-//		s_methods[name] = funcCreate;
-//		return true;
-//	}
-//	return false;
-//}
-//
-//std::unique_ptr<IEntityComponent> EntityComponentFactory::Create(const std::string& name)
-//{
-//	std::unique_ptr<IEntityComponent> retComponent = nullptr;
-//
-//	if (auto it = s_methods.find(name); it != s_methods.end()) {
-//		retComponent = it->second(); // call the createFunc
-//		
-//		EntityComponentFactory::EntityComponentDescriptor desc;
-//		retComponent->getDescriptor(desc);
-//		m_descriptors.emplace(name, desc);
-//
-//		return std::move(retComponent);
-//	}
-//	return nullptr;
-//}
-//
-//EntityComponentFactory::EntityComponentDescriptor EntityComponentFactory::getDescriptor(const std::string& name)
-//{
-//	if (auto it = m_descriptors.find(name); it != m_descriptors.end())
-//		return it->second; // call the createFunc
-//
-//	return EntityComponentFactory::EntityComponentDescriptor{};
-//}
+/////////////////////////////////////////////////
+void CEntitySystem::onUpdate()
+{
+	auto itr = m_entityList.begin();
+	while (itr != m_entityList.end()){
+		itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_UPDATE });
+		++itr;			
+	}
+}
+
+/////////////////////////////////////////////////
+void CEntitySystem::onPostUpdate()
+{
+	auto itr = m_entityList.begin();
+	while (itr != m_entityList.end()) {
+		itr->second->sendEvent(SEntityEvent{ EEntityEvent::ENTITY_EVENT_POSTUPDATE });
+		++itr;
+	}
+}

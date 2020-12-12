@@ -15,10 +15,10 @@ public:
 	// ~IEntityComponent
 
 private:
-	void updateEvent();
+	void spawnMissile();
 
 private:
-	int tempCounter;
+	float m_missleSpawnSpeed;
 };
 
 REGISTER_ENTITY_COMPONENT(CWeapon);

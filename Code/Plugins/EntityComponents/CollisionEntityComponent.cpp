@@ -31,7 +31,8 @@ void CollisionEntityComponent::Init()
 /////////////////////////////////////////////////
 unsigned int CollisionEntityComponent::getEventMask() const
 {
-	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_COLLISION | EEntityEvent::ENTITY_EVENT_DESTROY;
+	return EEntityEvent::ENTITY_EVENT_UPDATE | EEntityEvent::ENTITY_EVENT_COLLISION 
+		| EEntityEvent::ENTITY_EVENT_DESTROY | EEntityEvent::ENTITY_COMPONENT_REMOVED;
 }
 
 /////////////////////////////////////////////////
@@ -46,6 +47,7 @@ void CollisionEntityComponent::onEvent(const SEntityEvent & event)
 	}
 	break;
 	case EEntityEvent::ENTITY_EVENT_DESTROY:
+	case EEntityEvent::ENTITY_COMPONENT_REMOVED:
 	{
 		onEntityDestroyEvent();
 	}

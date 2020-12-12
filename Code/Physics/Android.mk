@@ -12,10 +12,14 @@ LOCAL_CPPFLAGS += -std=c++17
 LOCAL_CPP_FEATURES := rtti exceptions
 
 LOCAL_C_INCLUDES := $(ENGINE_CODE_PATH)/Common
+LOCAL_C_INCLUDES += $(BOX2D_INCLUDE_PATH)
 
 LOCAL_SRC_FILES := \
-  $(wildcard $(MODULE_DIR)/SDLPhysics/*.cpp) \
-	$(wildcard $(MODULE_DIR)/*.cpp)
+  $(wildcard $(MODULE_DIR)/*.cpp) \
+  $(wildcard $(MODULE_DIR)/B2DPhysics/*.cpp) \
+	$(wildcard $(MODULE_DIR)/B2DPhysics/B2DObject/*.cpp)
+
+LOCAL_SHARED_LIBRARIES := Box2D
 
 LOCAL_CFLAGS += -DGL_GLEXT_PROTOTYPES
 

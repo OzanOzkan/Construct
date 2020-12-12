@@ -16,7 +16,7 @@ void CEnemyShip::Init()
 {
 	// Initialize components.
 	m_pSpriteRendererComponent = getEntity()->addEntityComponent<SpriteRendererEntityComponent>();
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/EnemyShip.png");
+	m_pSpriteRendererComponent->setFile("Sprites/EnemyShip.png");
 	m_pSpriteRendererComponent->setSize(222, 135);
 	m_pSpriteRendererComponent->setLayerId(10);
 	m_pSpriteRendererComponent->updateComponent();
@@ -25,7 +25,6 @@ void CEnemyShip::Init()
 	m_pCollisionComponent->SetSize(111, 67);
 	m_pCollisionComponent->updateComponent();
 
-	getEntity()->setTimer(50.f);
 	getEntity()->setTag("EnemyShip");
 }
 
@@ -61,27 +60,29 @@ void CEnemyShip::onEvent(const SEntityEvent & event)
 /////////////////////////////////////////////////
 void CEnemyShip::onUpdateEvent()
 {
-	if (m_Health <= 0)
-		explodeShip();
-
 	// Move the enemy ship down on each update.
-	getEntity()->setPosition(getEntity()->getPosition() - Vector2(0, -2));
+	getEntity()->setPosition(getEntity()->getPosition() + (Vector2(0, 300.f) * GetSystem()->GetTime()->GetDeltaTime()));
 }
 
 /////////////////////////////////////////////////
 void CEnemyShip::onCollisionEvent()
 {
 	m_Health -= 10;
+
+	if (m_Health <= 0)
+		explodeShip();
 }
 
 /////////////////////////////////////////////////
 void CEnemyShip::explodeShip()
 {
-	m_pSpriteRendererComponent->setFile(GetSystem()->getFileManager()->getAssetsDirectory() + "Sprites/Explosion.png");
+	getEntity()->removeEntityComponent(m_pCollisionComponent);
+
+	m_pSpriteRendererComponent->setFile("Sprites/Explosion.png");
 	m_pSpriteRendererComponent->setSize(128, 500);
 	m_pSpriteRendererComponent->updateComponent();
 	
-	getEntity()->setTimer(0.01f);
+	getEntity()->setTimer(0.1);
 }
 
 /////////////////////////////////////////////////
