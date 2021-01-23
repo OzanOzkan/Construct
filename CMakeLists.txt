@@ -101,9 +101,9 @@ FetchContent_Declare(${BOX2D_PROJECT_NAME}
 
 set(BOX2D_INCLUDE_DIR "${box2d-2.4.0_SOURCE_DIR}/include")
 set(BOX2D_LIBRARY box2d)
-FetchContent_MakeAvailable(${BOX2D_PROJECT_NAME})
 set(BOX2D_BUILD_TESTBED OFF CACHE BOOL "Build the Box2D unit tests" FORCE)
 set(BOX2D_BUILD_UNIT_TESTS OFF CACHE BOOL "Build the Box2D unit tests" FORCE)
+FetchContent_MakeAvailable(${BOX2D_PROJECT_NAME})
 
 if(INCLUDE_EDITOR)
   ## QT
