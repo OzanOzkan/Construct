@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project (Physics VERSION 1.0 LANGUAGES CXX)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 set(ROOT_SRC
   "Physics.cpp"
 )
@@ -25,7 +27,7 @@ source_group("B2DPhysics" FILES ${BOX2DPHYSICS_SRC})
 source_group("B2DPhysics" FILES ${BOX2DPHYSICS_SRC})
 source_group("B2DPhysics\\B2DObject" FILES ${BOX2DOBJECT_SRC})
 
-find_package(Box2D REQUIRED)
+#find_package(Box2D REQUIRED)
 
 include_directories(${BOX2D_INCLUDE_DIR})
 

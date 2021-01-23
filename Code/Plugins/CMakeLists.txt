@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project (Plugins VERSION 1.0 LANGUAGES CXX)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 set(ROOT_SRC
 )
 

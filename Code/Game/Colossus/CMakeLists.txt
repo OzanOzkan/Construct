@@ -86,7 +86,7 @@ source_group("Levels\\Physics" FILES ${PHYSICS})
 source_group("Levels\\SideScroller" FILES ${SIDESCROLLER_SRC})
 source_group("Levels\\Box2DTest" FILES ${Box2D_SRC})
 
-include_directories("${SRC_DIR}/Plugins")
+include_directories("${PROJECT_SRC_DIR}/Plugins")
 
 add_library (${PROJECT_NAME}
 	SHARED

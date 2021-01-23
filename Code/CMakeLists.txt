@@ -8,4 +8,7 @@ add_subdirectory(System)
 add_subdirectory(Physics)
 add_subdirectory(Plugins)
 add_subdirectory(Game)
-add_subdirectory(Editor)
+
+if(PROJECT_INCLUDE_EDITOR)
+  add_subdirectory(Editor)
+endif()
