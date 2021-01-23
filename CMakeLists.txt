@@ -55,7 +55,11 @@ FetchContent_Declare(${FREETYPE_PROJECT_NAME}
 )
 FetchContent_MakeAvailable(${FREETYPE_PROJECT_NAME})
 set(FREETYPE_INCLUDE_DIRS "${freetype-2.9.1_SOURCE_DIR}/include")
-set(FREETYPE_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/freetyped.lib) # TODO
+if(WIN32)
+  set(FREETYPE_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Debug/freetyped.lib) # TODO
+else()
+  set(FREETYPE_LIBRARY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libfreetype.a)
+endif()
 
 # Do not build the static version of SDL
 set(BUILD_SHARED_LIBS ON)
