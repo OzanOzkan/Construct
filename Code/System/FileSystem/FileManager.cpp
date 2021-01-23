@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #ifdef _WIN32
-#include <dirent/dirent.h>
+#include "dirent/dirent.h"
 #include <direct.h>
 #define GetCurrentDir _getcwd
 #else

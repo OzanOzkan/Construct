@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project (System VERSION 1.0 LANGUAGES CXX)
 
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+
 set(ROOT_SRC
 	"StdAfx.h"
 	"StdAfx.cpp"
@@ -51,9 +53,9 @@ source_group("EntitySystem" FILES ${ENTITYSYSTEM})
 source_group("FileSystem" FILES ${FILESYSTEM})
 source_group("LevelSystem" FILES ${LEVELSYSTEM})
 
-find_package(SDL2 REQUIRED)
+#find_package(SDL2 REQUIRED)
 
-include_directories(${SDL2_INCLUDE_DIRS} ${SDK_DIR})
+include_directories(${SDL2_INCLUDE_DIR})
 
 add_library (${PROJECT_NAME} 
 	SHARED 
@@ -67,7 +69,7 @@ add_library (${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME} 
 	PUBLIC 
 		Common
-		${SDL2_LIBRARIES}
+		${SDL2_LIBRARY}
 )
 
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
